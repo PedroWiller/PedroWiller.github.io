@@ -2,55 +2,93 @@
 <html lang="en">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
-  <title>Pedro Figueredo</title>
-  <!-- CSS  -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>Pedro Figueredo</title>
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="js/materialize.js"></script>
+    <script src="js/init.js"></script>
 </head>
 
 <body>
-  <nav class="grey darken-3 z-depth-3" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
+    <nav class="grey darken-3 z-depth-3" role="navigation">
+    </nav>
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br><br>
+            <h1 class="header center orange-text"></h1>
+            <div class="row center">
 
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            </div>
+        </div>
     </div>
-  </nav>
-  <div class="section no-pad-bot" id="index-banner">
     <div class="container">
-      <br><br>
-      <h1 class="header center orange-text"></h1>
-      <div class="row center">
-
-      </div>
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s2">
+                    </div>
+                    <div class="input-field col s4">
+                        <input id="nome" type="text" class="validate">
+                        <label for="nome" data-error="wrong" data-success="right">Nome</label>
+                    </div>
+                    <div class="col s12 m6">
+                        <label>Browser Select</label>
+                        <select class="browser-default" id="selectGist">
+                          <option value=""  selected="">Selecione</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
 
+    <ul id="staggered-test">
+        <li class="" style="transform: translateX(0px); opacity: 0;">
+            <div class="container">
+                <div class="section">
+                    <div class="card-panel hoverable">
 
-  <div class="container">
-    <div class="section">
-      <div class="card-panel hoverable"> Hoverable Card Panel</div>
-    </div>
-    <br><br>
+                    </div>
+                </div>
+                <br><br>
 
-    <div class="section">
+                <div class="section">
 
-    </div>
-  </div>
-
-  <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="js/materialize.js"></script>
-  <script src="js/init.js"></script>
+                </div>
+            </div>
+        </li>
+    </ul>
 
 </body>
 
 </html>
+
+<script>
+    var url = "https://gist.githubusercontent.com/PedroWiller/52f7c2e8da810557682a22e499f834be/raw/a41cb5ab2cb84169e13b9d5a38f7fdaa99e7c347/Regular%20expressions%20base"
+
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+    var teste;
+    $("#nome").blur(function() {
+        $("#selectGist").html("<option>Carregando...</option>");
+        $.get('https://api.github.com/users/' + $(this).val() + '/gists').done(function(data) {
+
+            var dadosDropDown = "";
+            var posicao;
+            for (var i = 0; i < data.length; i++) {
+                posicao = '' + Object.keys(data[i].files) + '';
+                teste = data[i];
+                dadosDropDown += '<option value=' + Object.keys(data[i].files) + ' data-url>' + Object.keys(data[i].files) + '</option>';
+            }
+            $("#selectGist").html(dadosDropDown);
+        }).fail(function(xhr) {
+            console.log(xhr.responseText);
+        });
+    });
+</script>
