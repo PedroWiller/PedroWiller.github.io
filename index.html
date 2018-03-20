@@ -2,93 +2,120 @@
 <html lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
-    <title>Pedro Figueredo</title>
-    <!-- CSS  -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="js/materialize.js"></script>
-    <script src="js/init.js"></script>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="./assets/img/kit/free/apple-icon.png">
+    <link rel="icon" href="./assets/img/kit/free/favicon.png">
+    <title>
+        Grinder
+    </title>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="./assets/css/material-kit.css?v=2.0.2">
+    <!-- Documentation extras -->
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="./assets/assets-for-demo/demo.css" rel="stylesheet" />
+    <!-- iframe removal -->
 </head>
 
-<body>
-    <nav class="grey darken-3 z-depth-3" role="navigation">
-    </nav>
-    <div class="section no-pad-bot" id="index-banner">
+<body class="index-page bg-dark text-white">
+    <nav class="navbar navbar-color-on-scroll navbar-transparent    fixed-top  navbar-expand-lg bg-dark text-white" color-on-scroll="100" id="sectionsNav">
         <div class="container">
-            <br><br>
-            <h1 class="header center orange-text"></h1>
-            <div class="row center">
-
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)" onclick="scrollToDownload()">
+                            <i class="material-icons">cloud_download</i> Download
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://www.youtube.com/user/BandaGrinder/" target="_blank" data-original-title="Follow us on Youtube">
+                            <i class="fa fa-youtube"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://www.facebook.com/grinderheavymetal/" target="_blank" data-original-title="Like us on Facebook">
+                            <i class="fa fa-facebook-square"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://www.instagram.com/grinder_heavy_metal/" target="_blank" data-original-title="Follow us on Instagram">
+                            <i class="fa fa-instagram"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="page-header header-filter " data-parallax="true" style="background-image: url('./image/Dark.jpg');">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 ml-auto mr-auto">
+                    <div class="brand">
+                        <h1><img src="" alt="">Grinder</h1>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <form class="col s12">
-                <div class="row">
-                    <div class="input-field col s2">
-                    </div>
-                    <div class="input-field col s4">
-                        <input id="nome" type="text" class="validate">
-                        <label for="nome" data-error="wrong" data-success="right">Nome</label>
-                    </div>
-                    <div class="col s12 m6">
-                        <label>Browser Select</label>
-                        <select class="browser-default" id="selectGist">
-                          <option value=""  selected="">Selecione</option>
-                        </select>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <ul id="staggered-test">
-        <li class="" style="transform: translateX(0px); opacity: 0;">
+    <div class="main main-raised bordaPrincipal bg-dark text-white">
+        <div class="section section-download bordaPrincipal bg-dark text-white" id="downloadSection">
             <div class="container">
-                <div class="section">
-                    <div class="card-panel hoverable">
+                <div class="row text-center">
 
-                    </div>
                 </div>
-                <br><br>
 
-                <div class="section">
+                <div class="sharing-area text-center">
 
                 </div>
             </div>
-        </li>
-    </ul>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <nav class="pull-left">
+                <ul>
 
+                </ul>
+            </nav>
+            <div class="copyright pull-right">
+                <a href="" target="_blank"><label id="labelAno"></label></a> Grinder - Heavy Metal
+            </div>
+        </div>
+    </footer>
+    <!--   Core JS Files   -->
+    <script src="./assets/js/core/jquery.min.js"></script>
+    <script src="./assets/js/core/popper.min.js"></script>
+    <script src="./assets/js/bootstrap-material-design.js"></script>
+    <!--  Plugin for Date Time Picker and Full Calendar Plugin  -->
+    <script src="./assets/js/plugins/moment.min.js"></script>
+    <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
+    <script src="./assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
+    <!--	Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+    <script src="./assets/js/plugins/nouislider.min.js"></script>
+    <!-- Material Kit Core initialisations of plugins and Bootstrap Material Design Library -->
+    <script src="./assets/js/material-kit.js?v=2.0.2"></script>
+    <!-- Fixed Sidebar Nav - js With initialisations For Demo Purpose, Don't Include it in your project -->
+    <script src="./assets/assets-for-demo/js/material-kit-demo.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            //init DateTimePickers
+            materialKit.initFormExtendedDatetimepickers();
+
+            // Sliders Init
+            materialKit.initSliders();
+        });
+    </script>
 </body>
 
 </html>
 
-<script>
-    var url = "https://gist.githubusercontent.com/PedroWiller/52f7c2e8da810557682a22e499f834be/raw/a41cb5ab2cb84169e13b9d5a38f7fdaa99e7c347/Regular%20expressions%20base"
-
-    $(document).ready(function() {
-        $('select').material_select();
-    });
-    var teste;
-    $("#nome").blur(function() {
-        $("#selectGist").html("<option>Carregando...</option>");
-        $.get('https://api.github.com/users/' + $(this).val() + '/gists').done(function(data) {
-
-            var dadosDropDown = "";
-            var posicao;
-            for (var i = 0; i < data.length; i++) {
-                posicao = '' + Object.keys(data[i].files) + '';
-                teste = data[i];
-                dadosDropDown += '<option value=' + Object.keys(data[i].files) + ' data-url>' + Object.keys(data[i].files) + '</option>';
-            }
-            $("#selectGist").html(dadosDropDown);
-        }).fail(function(xhr) {
-            console.log(xhr.responseText);
-        });
-    });
-</script>
+<style>
+    .bordaPrincipal {
+        border-radius: 10px;
+    }
+</style>
