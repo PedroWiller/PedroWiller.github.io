@@ -23,9 +23,9 @@
         <div class="nav-wrapper">
             <ul class="right hide-on-med-and-down" style="margin-right: 30px;">
                 <li>
-                    <i class="fa fa-facebook" style="margin-right: 30px;"></i>
-                    <i class="fa fa-instagram" style="margin-right: 30px;"></i>
-                    <i class="fa fa-youtube" style="margin-right: 30px;"></i>
+                    <i class="tiny fa fa-facebook tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Facebook" style="margin-right: 30px;"></i>
+                    <i class="tiny fa fa-instagram tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Instagram" style="margin-right: 30px;"></i>
+                    <i class="tiny fa fa-youtube tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on YouTube" style="margin-right: 30px;"></i>
                 </li>
             </ul>
             <ul id="nav-mobile" class="side-nav">
@@ -146,6 +146,12 @@
     }
     
     #logoPrincipal:hover {
-        transform: scale(1.5);
+        -moz-transform: scale(1.1);
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+    
+    .follow:hover {
+        cursor: pointer;
     }
 </style>
