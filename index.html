@@ -47,10 +47,13 @@
                 </div>
             </div>
         </div>
-        <div class="parallax"><img src="background1.jpg" alt="Unsplashed background img 1"></div>
+        <div class="parallax">
+            <!-- <video src="./video/video.mp4" alt="Unsplashed background img 1"> -->
+            <video autoplay loop id="video-background" muted plays-inline>
+                        <source src="./video/video.mp4" type="video/mp4">
+            </video>
+        </div>
     </div>
-
-
     <div class="container">
         <div class="section">
 
@@ -99,24 +102,15 @@
         </div>
         <div class="parallax"><img src="background2.jpg" alt="Unsplashed background img 2"></div>
     </div>
-
     <div class="container">
-        <div class="section">
-
+        <div class="section infoarea">
             <div class="row">
-                <div class="col s12 center">
-                    <h3><i class="mdi-content-send brown-text"></i></h3>
-                    <h4>Contact Us</h4>
-                    <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien
-                        id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed
-                        ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+                <div class="col s4 fotos">
+                    <img class="materialboxed z-depth-5" width="200" height="300" src="background3.jpg">
                 </div>
             </div>
-
         </div>
     </div>
-
-
     <div class="parallax-container valign-wrapper">
         <div class="section no-pad-bot">
             <div class="container">
@@ -139,13 +133,13 @@
 </html>
 
 <style>
-    #logoPrincipal {
+    .fotos {
         padding: 50px;
         transition: transform .2s;
         margin: 0 auto;
     }
     
-    #logoPrincipal:hover {
+    .fotos:hover {
         -moz-transform: scale(1.1);
         -webkit-transform: scale(1.1);
         transform: scale(1.1);
@@ -153,5 +147,19 @@
     
     .follow:hover {
         cursor: pointer;
+    }
+    
+    .infoarea {
+        margin-top: 15px;
+    }
+    
+    #video-background {
+        /*  making the video fullscreen  */
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
     }
 </style>
