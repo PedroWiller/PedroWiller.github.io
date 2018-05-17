@@ -1,294 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Grinder</title>
-
-    <!-- CSS  -->
+    <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
-    <link href="css/fa-svg-with-js.css" type="text/css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="js/materialize.js"></script>
-    <script src="js/init.js"></script>
+    <!--Import materialize.css-->
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 </head>
 
-<body class="grey darken-3">
-    <nav class="grey darken-3" role="navigation">
-        <div>
-            <ul class="left hide-on-med-and-down" style="margin-right: 30px;">
-                <li>
-                    <img src="./image/logo.png" class="col s12 m16 follow" style="height: 60px; margin-top: 5px;margin-left: 15px;" data-delay="50" data-tooltip="Home">
-                </li>
-            </ul>
-            <ul class="right hide-on-med-and-down" style="margin-right: 30px;">
-                <li>
-                    <i class="tiny fa fa-facebook tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Facebook" style="margin-right: 30px;"></i>
-                    <i class="tiny fa fa-instagram tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Instagram" style="margin-right: 30px;"></i>
-                    <i class="tiny fa fa-youtube tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on YouTube" style="margin-right: 30px;"></i>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <!-- <div id="index-banner" class="parallax-container">
-        <div class="section no-pad-bot">
-            <div class="container">
-                <div class="row">
-                    <div class="col s12 m16">
-                        <div class="icon-block">
-                            <img id="logoPrincipal" src="./image/logo.png" class="col s12 m16" style="margin-top: 65px;">
+<body>
+    <div class="row"></div>
+    <div class="row">
+        <div class="col s2"></div>
+        <div class="col s8">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col s12">
+                            <form class="row">
+                                <div class="input-field col s3">
+                                    <input placeholder="Placeholder" id="nota" type="text" class="validate" style="text-transform: uppercase">
+                                    <label for="first_name">Nota</label>
+                                </div>
+                                <div class="input-field col s2">
+                                    <button class="btn waves-effect waves-light" type="submit" id="btnCriarEscala">Criar Escala
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                                <div class="input-field col s7">
+                                    <p>
+                                        <label>
+                                            <input  class="with-gap" name="Modo" type="radio" value="1" id="maior" checked/>
+                                            <span>Maior</span>
+                                        </label>
+                                        <label>
+                                            <input class="with-gap" name="Modo" type="radio" value="1"/>
+                                            <span>Menor</span>
+                                        </label>
+                                    </p>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
 
-    <div id="overlay">
-        <video class="visible-desktop" id="hero-vid" autoplay loop muted>
-                    <source type="video/mp4" src="./video/video.mp4"></source>
-                </video>
-        <!-- <video id="hero-pic" class="hidden-desktop" autoplay loop muted>
-                        <source type="video/mp4" src="./video/video.mp4"></source>
-                    </video> -->
-        <img id="hero-pic" class="hidden-desktop" src="./image/back.png" alt="">
-    </div>
-    <div class="content grey darken-3">
-        <div class="section">
-
-            <!--   Icon Section   -->
-            <div class="row">
-                <div class="col s12 m4">
-                    <div class="icon-block">
-                        <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
-                        <h5 class="center">Speeds up development</h5>
-
-                        <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
-                    </div>
-                </div>
-
-                <div class="col s12 m4">
-                    <div class="icon-block">
-                        <h2 class="center brown-text"><i class="material-icons">group</i></h2>
-                        <h5 class="center">User Experience Focused</h5>
-
-                        <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across
-                            all platforms allow for a more unified user experience.</p>
-                    </div>
-                </div>
-
-                <div class="col s12 m4">
-                    <div class="icon-block">
-                        <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
-                        <h5 class="center">Easy to work with</h5>
-
-                        <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="parallax-container valign-wrapper content">
-        <div class="section no-pad-bot">
-            <div class="container">
-                <div class="row center">
-                    <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-                </div>
-            </div>
-        </div>
-        <div class="parallax"><img src="background2.jpg" alt="Unsplashed background img 2"></div>
-    </div>
-    <div class="content grey darken-3">
-        <div class="section infoarea">
-            <div class="row">
-                <div class="col s4 fotos">
-                    <img class="materialboxed z-depth-5" width="200" height="300" src="background3.jpg">
+                    <table class="striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 20px;">1</th>
+                                <th style="width: 20px;">2</th>
+                                <th style="width: 20px;">3</th>
+                                <th style="width: 20px;">4</th>
+                                <th style="width: 20px;">5</th>
+                                <th style="width: 20px;">6</th>
+                                <th style="width: 20px;">7</th>
+                                <th style="width: 20px;">8</th>
+                            </tr>
+                        </thead>
+                        <tbody id="escala">
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-    <div class="parallax-container valign-wrapper content">
-        <div class="section no-pad-bot">
-            <div class="container">
-                <div class="row center">
-                    <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-                </div>
-            </div>
-        </div>
-        <div class="parallax"><img src="background3.jpg" alt="Unsplashed background img 3"></div>
-    </div>
-    <footer class="page-footer grey darken-3 content">
-        <div class="footer-copyright">
-            <div class="container right-align">
-                <a class="grey-text text-lighten-4 right">&copy; 2018 - Grinder </a>
-            </div>
-        </div>
-    </footer>
 
 </body>
 
+
 </html>
 
+<script>
+    var notas = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    document.getElementById("btnCriarEscala").onclick = (function(e) {
+        e.preventDefault();
+
+        var tom = 2,
+            semiTom = 1;
+
+        var escalaMaior;
+
+        if (document.getElementById("maior").checked)
+            escalaMaior = [tom, tom, semiTom, tom, tom, tom, semiTom];
+        else
+            escalaMaior = [tom, semiTom, tom, tom, semiTom, tom, tom];
+
+        var tudo = ["C", "D", "E", "F", "G", "A", "B", "C"];
+
+        var nota = document.getElementById("nota").value,
+            body = document.getElementById("escala");
+        nota = nota.toUpperCase();
+        if (nota != "")
+            tudo = [nota];
+
+        if (nota != "" && notas.findIndex(x => x == nota) == -1) {
+            M.toast({
+                html: 'Nota informada não existente!'
+            });
+            return;
+        }
+        var tbody = "";
+        for (var nota in tudo) {
+            tbody += "<tr>";
+            nota = tudo[nota];
+            tbody += "<td><p style='color: red'>" + nota + "</p></td>";
+            for (var i in escalaMaior) {
+                nota = buscaNotaEscala(nota, escalaMaior[i]);
+                console.log(i);
+                if (i == 1 || i == 3 || i == 5)
+                    tbody += "<td><p style='color: red'>" + nota + "</p></td>";
+                else
+                    tbody += "<td>" + nota + "</td>";
+            }
+            tbody += "</tr>";
+        }
+
+        body.innerHTML = tbody;
+
+        return;
+    });
+
+    function buscaNotaEscala(nota, tom) {
+        var batataStrikesBack = notas.findIndex(x => x == nota);
+
+        tom += batataStrikesBack;
+        if (tom >= notas.length)
+            tom = (tom - (notas.length));
+
+        return notas[tom];
+    }
+</script>
+
 <style>
-    .fotos {
-        padding: 50px;
-        transition: transform .2s;
-        margin: 0 auto;
-    }
-    
-    .fotos:hover {
-        -moz-transform: scale(1.1);
-        -webkit-transform: scale(1.1);
-        transform: scale(1.1);
-    }
-    
-    .follow:hover {
-        cursor: pointer;
-        -moz-transform: scale(1.1);
-        -webkit-transform: scale(1.1);
-        transform: scale(1.1);
-    }
-    
-    .infoarea {
-        margin-top: 15px;
-    }
-    
-    #video-background {
-        /*  making the video fullscreen  */
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
-    }
-    
-    #logoPrincipal {
-        filter: alpha(opacity=70);
-        opacity: 1;
-        -moz-opacity: 0.7;
-        -webkit-opacity: 0.7;
-    }
-    /* Global Styles */
-    
-    @import url("//fonts.googleapis.com/css?family=Poiret+One|Josefin+Sans");
-    html,
-    body {
-        font-family: "Josefin Sans", sans-serif;
-        font-size: 100%;
-        height: 100%;
-        line-height: 1.45;
-    }
-    /* Video Overlay */
-    
-    #overlay {
-        height: 100%;
-        left: 0;
-        position: relative;
-        top: 0;
-        transition: background-color 300ms ease;
-        width: 100%;
-    }
-    
-    .fade {
-        background-color: rgba(0, 0, 0, .85) !important;
-    }
-    /* Hero Video + Fallback */
-    
-    #hero-vid {
-        backface-visibility: hidden;
-        background-size: cover;
-        bottom: 0;
-        height: auto;
-        min-height: 100%;
-        min-width: 100%;
-        perspective: 1000;
-        position: fixed;
-        right: 0;
-        width: auto;
-        z-index: -1;
-    }
-    
-    #hero-pic {
-        display: block;
-        height: auto;
-        width: 100%;
-    }
-    
-    #state {
-        bottom: 0;
-        cursor: pointer;
-        font-size: 2.25rem;
-        left: 0;
-        line-height: 1;
-        padding: 2rem 2.5rem 1.65rem;
-        position: absolute;
-    }
-    /* Content Styles */
-    
-    #title {
-        backface-visibility: hidden;
-        left: 0;
-        perspective: 1000;
-        position: fixed;
-        width: 100%;
-    }
-    
-    #title h1 {
-        background-color: rgba(0, 0, 0, .5);
-        font-family: "Poiret One", sans-serif;
-        font-size: 2.5rem;
-        padding: 1rem 1.75rem;
-    }
-    
-    .content {
-        padding: 2.5rem;
-        position: relative;
-        z-index: 1;
-    }
-    
-    #content p {
-        font-size: 1.25rem;
-        letter-spacing: .02rem;
-        margin-bottom: 1.3rem;
-    }
-    /* Media Queries */
-    
-    @media only screen and (max-width:768px) {
-        #overlay {
-            height: auto;
-        }
-    }
-    /* Visibility Helpers */
-    
-    @media only screen and (min-width:769px) {
-        .visible-mobile,
-        .visible-tablet,
-        .hidden-desktop {
-            display: none !important;
-        }
-    }
-    
-    @media only screen and (min-width:480px) and (max-width:768px) {
-        .visible-mobile,
-        .hidden-tablet,
-        .visible-desktop {
-            display: none !important;
-        }
-    }
-    
-    @media only screen and (max-width:479px) {
-        .hidden-mobile,
-        .visible-tablet,
-        .visible-desktop {
-            display: none !important;
-        }
+    td {
+        width: 100px;
     }
 </style>
