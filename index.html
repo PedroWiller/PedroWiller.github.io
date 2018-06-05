@@ -1,21 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
-    <title>Starter Template - Materialize</title>
+    <title>Grinder - Heavy Metal</title>
 
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="css/fa-svg-with-js.css" type="text/css" rel="stylesheet" />
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="css/grinder.css" type="text/css" rel="stylesheet" media="screen,projection" />
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js "></script>
+    <script src="js/materialize.min.js "></script>
+    <script src="js/init.js "></script>
+
 </head>
 
 <body class="grey darken-4">
     <nav class="black" role="navigation">
         <div class="nav-wrapper container">
-            <a id="logo-container" href="#" class="brand-logo"> <img src="./image/logo2.png" class="col s12 m16 follow" style="height: 50px; margin-top: 5px; border-radius: 400px;" data-delay="50" data-tooltip="Home"></a>
+            <a id="logo-container" href="#" class="brand-logo"> <img src="./image/logo3.png" class="col s12 m16 follow" style="height: 50px; margin-top: 5px; border-radius: 400px;" data-delay="50" data-tooltip="Home"></a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="#"><b>HOME</b></a></li>
                 <li><a href="#"><b>BAND</b></a></li>
@@ -41,100 +49,106 @@
         <div class="slider">
             <ul class="slides">
                 <li>
-                    <img src="./image/1.jpg" class="headPhoto" style="width: 100%; height: 100%;">
+                    <img src="./image/fotos/1.jpeg" class="headPhoto" style="width: 100%; height: 100%;">
                 </li>
                 <li>
-                    <img src="./image/2.jpg" class="headPhoto">
+                    <img src="./image/fotos/2.jpeg" class="headPhoto">
                 </li>
                 <li>
-                    <img src="./image/3.jpg" class="headPhoto">
+                    <img src="./image/fotos/3.jpg" class="headPhoto">
                 </li>
                 <li>
-                    <img src="./image/4.jpg" class="headPhoto">
+                    <img src="./image/fotos/4.jpg" class="headPhoto">
                 </li>
             </ul>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col s5 m4">
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="./image/3.jpg">
-                        </div>
-                        <div class=" card-content ">
-                            <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-                        </div>
-                        <div class="card-action ">
-                            <a href="# ">This is a link</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col s5 m4">
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="./image/2.jpg">
-                        </div>
-                        <div class=" card-content ">
-                            <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-                        </div>
-                        <div class="card-action ">
-                            <a href="# ">This is a link</a>
+        <div class="section white containerGrinder">
+            <div class="container containerGrinder2">
+                <div class="row">
+                    <h6><b>Lasted news</b></h6>
+                    <div class="col s5 m4">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="./image/fotos/3.jpg">
+                            </div>
+                            <div class=" card-content ">
+                                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                            </div>
+                            <div class="card-action ">
+                                <a href="# ">This is a link</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col s5 m4">
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="./image/2.jpg">
-                        </div>
-                        <div class=" card-content ">
-                            <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-                        </div>
-                        <div class="card-action ">
-                            <a href="# ">This is a link</a>
+                    <div class="col s5 m4">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="./image/fotos/2.jpeg">
+                            </div>
+                            <div class=" card-content ">
+                                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                            </div>
+                            <div class="card-action ">
+                                <a href="# ">This is a link</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <div class="container ">
-        <div class="section ">
-
-            <!--   Icon Section   -->
-            <div class="row ">
-                <div class="col s12 m4 ">
+                    <div class="col s5 m4">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="./image/fotos/1.jpeg">
+                            </div>
+                            <div class=" card-content ">
+                                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                            </div>
+                            <div class="card-action ">
+                                <a href="# ">This is a link</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
-
         </div>
-        <br><br>
-    </div>
-
-    <footer class="page-footer black ">
         <div class="container ">
-            <div class="row ">
-                <div class="col l6 s12 ">
-                    <img src="./image/logo2.png " class="col s12 m16 follow " style="border-radius: 400px; " data-delay="50 " data-tooltip="Home ">
+            <div class="section ">
+                <div class="row ">
+                    <div class="col s12 m4 ">
+
+                    </div>
                 </div>
+
             </div>
+            <br><br>
         </div>
-        <div class="footer-copyright ">
-            <div class="container right-align ">
-                © 2018 - Grinder - Website Designed & Developed by <a class="text-lighten-3 " href="https://www.linkedin.com/in/pedro-figueredo-36451a8b/ ">Pedro Figueredo.</a>
-            </div>
-        </div>
-    </footer>
 
+        <footer class="page-footer black">
+            <div class="container">
+                <div class="row">
+                    <div class="col l5 s12">
+                        <img src="./image/logo3.png " class="col s12 m16" style="border-radius: 200px; " data-delay="50 " data-tooltip="Home ">
+                    </div>
+                    <div class="col l6 s12 footerGrinder">
+                        <div class="row"></div>
+                        <h6>Social</h6>
+                        <i class="tiny fa fa-facebook tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Facebook" style="margin-right: 30px;" target="_blank"></i>
+                        <i class="tiny fa fa-instagram tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Instagram" style="margin-right: 30px;" target="_blank"></i>
+                        <i class="tiny fa fa-youtube tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on YouTube" style="margin-right: 30px;" target="_blank"></i>
+                        <i class="tiny fa fa-envelope tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on YouTube" style="margin-right: 30px;" target="_blank"></i>
+                        <a href="#"><b>HOME</b></a>
+                        <a href="#"><b>BAND</b></a>
+                        <a href="#"><b>MEDIA</b></a>
+                        <a href="#"><b>NEWS</b></a>
+                        <a href="#"><b>TOUR</b></a>
+                        <a href="#"><b>SHOP</b></a>
+                    </div>
+                </div>
 
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js "></script>
-    <script src="js/materialize.min.js "></script>
-    <script src="js/init.js "></script>
-
+                <div class="footer-copyright">
+                    <div class="container">
+                        © 2018 - Grinder - Website Designed & Developed by <a class="text-lighten-3 " href="https://github.com/PedroWiller" target="_blank">Pedro Figueredo.</a>
+                    </div>
+                </div>
+        </footer>
 </body>
 
 <script>
@@ -142,7 +156,3 @@
         $('.slider').slider();
     });
 </script>
-
-<style>
-
-</style>
