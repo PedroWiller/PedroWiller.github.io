@@ -52,7 +52,7 @@ a {
 
 @media only screen and (max-width:480px) {
     .footer-copyright {
-        font-size: 9px;
+        font-size: 8px;
         text-align: center;
     }
     .footerGrinder {
@@ -68,7 +68,7 @@ a {
 
 @media only screen and (max-width:400px) {
     .footer-copyright {
-        font-size: 8px;
+        font-size: 6px;
         text-align: center;
     }
 }
