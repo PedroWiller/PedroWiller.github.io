@@ -8,10 +8,10 @@
 
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
-    <link href="css/fa-svg-with-js.css" type="text/css" rel="stylesheet" />
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous">
     <link href="css/grinder.css" type="text/css" rel="stylesheet" media="screen,projection" />
 
     <script src="https://code.jquery.com/jquery-2.1.1.min.js "></script>
@@ -20,36 +20,106 @@
 
 </head>
 
-<body class="grey">
+<body>
     <nav class="black" role="navigation">
         <div class="nav-wrapper container">
-            <a id="logo-container" href="#" class="brand-logo"> <img src="./image/logo3.png" class="col s12 m16 follow" style="height: 50px; margin-top: 5px; border-radius: 400px;" data-delay="50" data-tooltip="Home"></a>
+            <a id="logo-container" href="#" class="brand-logo">
+                <img src="./image/logo3.png" class="col s12 m16 follow" style="height: 50px; margin-top: 5px; border-radius: 400px;" data-delay="50"
+                    data-tooltip="Home">
+            </a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="#"><b>HOME</b></a></li>
-                <li><a href="#"><b>BAND</b></a></li>
-                <li><a href="#"><b>MEDIA</b></a></li>
-                <li><a href="#"><b>NEWS</b></a></li>
-                <li><a href="#"><b>TOUR</b></a></li>
-                <li><a href="#"><b>SHOP</b></a></li>
+                <li>
+                    <a href="#">
+                        <b>HOME</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <b>BAND</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <b>MEDIA</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <b>NEWS</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <b>TOUR</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <b>SHOP</b>
+                    </a>
+                </li>
             </ul>
 
-            <ul id="nav-mobile" class="sidenav">
+            <ul id="nav-mobile" class="sidenav black">
                 <br>
-                <li><a href="#"><b>HOME</b></a></li>
-                <li><a href="#"><b>BAND</b></a></li>
-                <li><a href="#"><b>MEDIA</b></a></li>
-                <li><a href="#"><b>NEWS</b></a></li>
-                <li><a href="#"><b>TOUR</b></a></li>
-                <li><a href="#"><b>SHOP</b></a></li>
+                <div class="divider"></div>
+                <li>
+                    <a href="#">
+                        <b>HOME</b>
+                    </a>
+                </li>
+                <div class="divider"></div>
+                <li>
+                    <a href="#">
+                        <b>BAND</b>
+                    </a>
+                </li>
+                <div class="divider"></div>
+                <li>
+                    <a href="#">
+                        <b>MEDIA</b>
+                    </a>
+                </li>
+                <div class="divider"></div>
+                <li>
+                    <a href="#">
+                        <b>NEWS</b>
+                    </a>
+                </li>
+                <div class="divider"></div>
+                <li>
+                    <a href="#">
+                        <b>TOUR</b>
+                    </a>
+                </li>
+                <div class="divider"></div>
+                <li>
+                    <a href="#">
+                        <b>SHOP</b>
+                    </a>
+                </li>
+                <div class="divider"></div>
+                <li class="center">
+                    <i class="fab fa-facebook tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Facebook"
+                        style="margin-right: 30px;" target="_blank"></i>
+                    <i class="fab fa-instagram tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Instagram"
+                        style="margin-right: 30px;" target="_blank"></i>
+                    <i class="fab fa-youtube tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on YouTube" style="margin-right: 30px;"
+                        target="_blank"></i>
+                    <i class="far fa-envelope tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on YouTube" style="margin-right: 30px;"
+                        target="_blank"></i>
+                </li>
             </ul>
-            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger">
+                <i class="material-icons">menu</i>
+            </a>
         </div>
     </nav>
     <div class="section no-pad-bot" id="index-banner">
         <div class="slider">
             <ul class="slides">
                 <li>
-                    <img src="./image/fotos/1.jpeg" class="headPhoto" style="width: 100%; height: 100%;">
+                    <img src="./image/fotos/1.jpeg" class="headPhoto">
                 </li>
                 <li>
                     <img src="./image/fotos/2.jpeg" class="headPhoto">
@@ -67,7 +137,9 @@
                 <div class="row">
                     <div class="row">
                         <div class="col s0 m3">
-                            <h6><b>Lasted news</b></h6>
+                            <h6>
+                                <b>Lasted news</b>
+                            </h6>
                         </div>
                     </div>
                     <div class="col s12 m2"></div>
@@ -77,7 +149,8 @@
                                 <img src="./image/fotos/3.jpg">
                             </div>
                             <div class=" card-content ">
-                                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                                <p>I am a very simple card. I am good at containing small bits of information. I am convenient
+                                    because I require little markup to use effectively.</p>
                             </div>
                             <div class="card-action ">
                                 <a href="# ">This is a link</a>
@@ -90,7 +163,8 @@
                                 <img src="./image/fotos/2.jpeg">
                             </div>
                             <div class=" card-content ">
-                                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                                <p>I am a very simple card. I am good at containing small bits of information. I am convenient
+                                    because I require little markup to use effectively.</p>
                             </div>
                             <div class="card-action ">
                                 <a href="# ">This is a link</a>
@@ -103,31 +177,38 @@
                                 <img src="./image/fotos/1.jpeg">
                             </div>
                             <div class=" card-content ">
-                                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                                <p>I am a very simple card. I am good at containing small bits of information. I am convenient
+                                    because I require little markup to use effectively.</p>
                             </div>
                             <div class="card-action ">
                                 <a href="# ">This is a link</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col s2 m1">
-                        <i class="fa fa-angle-left fa-w-8 fa-3x tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Facebook" target="_blank"></i>
-                        <i class="fa fa-angle-right fa-w-8 fa-3x tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Instagram" target="_blank"></i>
+                    <div class="col s4 m1 nextgrinder">
+                        <i class="fa fa-angle-left fa-w-8 fa-3x tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Facebook"
+                            target="_blank"></i>
+                        <i class="fa fa-angle-right fa-w-8 fa-3x tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Instagram"
+                            target="_blank"></i>
                     </div>
                 </div>
 
             </div>
         </div>
-        <br><br>
+        <br>
+        <br>
 
         <div class="section white containerGrinder">
             <div class="container">
                 <div class="row">
                     <div class="row">
-                        <h6><b>Lasted Video</b></h6>
+                        <h6>
+                            <b>Lasted Video</b>
+                        </h6>
                     </div>
                     <div class="video-container">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/FhOv1KDbLY4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/FhOv1KDbLY4" frameborder="0" allow="autoplay; encrypted-media"
+                            allowfullscreen></iframe>
                     </div>
                 </div>
 
@@ -143,29 +224,46 @@
                     <div class="col l6 s12 footerGrinder">
                         <div class="row"></div>
                         <h6>Social</h6>
-                        <i class="tiny fa fa-facebook tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Facebook" style="margin-right: 30px;" target="_blank"></i>
-                        <i class="tiny fa fa-instagram tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Instagram" style="margin-right: 30px;" target="_blank"></i>
-                        <i class="tiny fa fa-youtube tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on YouTube" style="margin-right: 30px;" target="_blank"></i>
-                        <i class="tiny fa fa-envelope tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on YouTube" style="margin-right: 30px;" target="_blank"></i>
-                        <a href="#"><b>HOME</b></a>
-                        <a href="#"><b>BAND</b></a>
-                        <a href="#"><b>MEDIA</b></a>
-                        <a href="#"><b>NEWS</b></a>
-                        <a href="#"><b>TOUR</b></a>
-                        <a href="#"><b>SHOP</b></a>
+                        <i class="fab fa-facebook tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Facebook"
+                            style="margin-right: 30px;" target="_blank"></i>
+                        <i class="fab fa-instagram tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on Instagram"
+                            style="margin-right: 30px;" target="_blank"></i>
+                        <i class="fab fa-youtube tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on YouTube" style="margin-right: 30px;"
+                            target="_blank"></i>
+                        <i class="far fa-envelope tooltipped follow" data-position="bottom" data-delay="50" data-tooltip="Follow us on YouTube" style="margin-right: 30px;"
+                            target="_blank"></i>
+                        <a href="#">
+                            <b>HOME</b>
+                        </a>
+                        <a href="#">
+                            <b>BAND</b>
+                        </a>
+                        <a href="#">
+                            <b>MEDIA</b>
+                        </a>
+                        <a href="#">
+                            <b>NEWS</b>
+                        </a>
+                        <a href="#">
+                            <b>TOUR</b>
+                        </a>
+                        <a href="#">
+                            <b>SHOP</b>
+                        </a>
                     </div>
                 </div>
 
                 <div class="footer-copyright">
                     <div class="container">
-                        © 2018 - Grinder - Website Designed & Developed by <a class="text-lighten-3 " href="https://github.com/PedroWiller" target="_blank">Pedro Figueredo.</a>
+                        © 2018 - Grinder - Website Designed & Developed by
+                        <a class="text-lighten-3" href="https://github.com/PedroWiller" target="_blank">Pedro Figueredo.</a>
                     </div>
                 </div>
         </footer>
 </body>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.slider').slider();
     });
 </script>

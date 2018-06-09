@@ -49,6 +49,25 @@ a {
     background-position: top center;
     background-size: auto;
 }
+.sidenav li>a{
+    color: #ffffff;
+}
+
+@media only screen and (max-width:979px) {
+    .footer-copyright {
+        font-size: 8px;
+        text-align: center;
+    }
+    .footerGrinder {
+        text-align: center;
+    }
+    .footerGrinder a {
+        display: none;
+    }
+    .footerGrinder h6 {
+        display: none;
+    }
+}
 
 @media only screen and (max-width:480px) {
     .footer-copyright {
