@@ -20,7 +20,7 @@ body {
 
 .slider .indicators .indicator-item {
     border: 1px solid black;
-    background-color: white;
+    background-color: grey;
     opacity: 0.2;
     -webkit-opacity: 0.2;
 }
