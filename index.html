@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,85 +10,77 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-<nav>
-    <div class="nav-wrapper light-blue darken-4">
-        <a href="#" class="brand-logo">~/pedro</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-        </ul>
-    </div>
-</nav>
-<div class="container">
-    <div class="row">
-        <div class="col s3"></div>
-        <div class="col s10">
-           <div class="row">
-    <h3 class="header">Create Hash</h3>
-    <div class="card horizontal">
-        <div class="card-stacked">
-            <div class="card-content">
-                <div class="row">
-                    <form class="col s12">
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <input type="text" id="normalValue">
-                                <label for="normalValue">Value</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <textarea id="hashOut" class="materialize-textarea" readonly></textarea>
-                                <label for="hashOut">Hash</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field  col m6">
-                            </div>
-                            <div class="input-field  col m3">
-                                <button class="btn waves-effect waves-light right" type="reset" name="action">
-                                    Reset
-                                </button>
-                            </div>
-                            <div class="input-field col m3">
-                                <button class="btn waves-effect waves-light right" type="submit" name="action">
-                                    Submit
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+    <nav>
+        <div class="nav-wrapper light-blue darken-4">
+            <a class="brand-logo">~/pedro</a>
+
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li class="tab col s3"><a onclick="getHash();">Hash</a></li>
+                <li class="tab col s3"><a>Auto Complete</a></li>
+                <li class="tab col s3"><a>Study Material</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="section">
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    <div class="row">
+                      <div  style="height:500px;">
+                          <div id="renderBody"></div>
+                      </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-        </div>
-    </div>
-</div>
-<footer class="page-footer light-blue darken-4">
-    <div class="container">
-        <div class="row">
-            <div class="col l6 s12">
-                <h5 class="white-text">Footer Content</h5>
-                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+    <div class="preloader-wrapper big active"  id="loader" style="margin: 20% 0 0 45%">
+        <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+                <div class="circle"></div>
             </div>
         </div>
     </div>
-    <div class="footer-copyright">
+    <footer class="page-footer light-blue darken-4">
         <div class="container">
-            <p>&copy; 2018 - Pedro Figueredo</p>
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Footer Content</h5>
+                    <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer
+                        content.</p>
+                </div>
+            </div>
         </div>
-    </div>
-</footer>
-<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-        asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-        asp-fallback-test="window.jQuery"
-        crossorigin="anonymous"
-        integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-</script>
-
-<script src="./js/materialize.min.js" asp-append-version="true"></script>
-
-
+        <div class="footer-copyright">
+            <div class="container">
+                <p>&copy; 2018 - Pedro Figueredo</p>
+            </div>
+        </div>
+    </footer>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"></script>
+    <script src="./js/materialize.min.js" asp-append-version="true"></script>
 </body>
 </html>
 
+<script>
+
+    var loader = $("#loader");
+    $("#loader").remove();
+    function getHash(){
+        $("#renderBody").html(loader);
+        setTimeout(function(){
+            $.get("./view/hash.html").done(function(data){
+                $("#renderBody").hide().fadeIn(400).slider().html(data);
+            }).fail(function(){
+                M.toast({html: 'Error to load html page!'})
+            });
+        }, 800)
+    }
+
+</script>
