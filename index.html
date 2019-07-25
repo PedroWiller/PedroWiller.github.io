@@ -2,114 +2,141 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HashExemple</title>
-
-    <link rel="stylesheet" href="./css/materialize.min.css" />
+    <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-<body>
-    <nav class="light-blue darken-4" role="navigation">
-        <div class="nav-wrapper container">
-            <ul class="right hide-on-med-and-down">
-                <li><a onclick="getHash();">Hash</a></li>
-            </ul>
+    <!--Import materialize.css-->
+    <script type="text/javascript" src="js/materialize.min.js"></script>
 
-            <ul id="nav-mobile" class="sidenav">
-                <li><a onclick="getHash();">Hash</a></li>
-            </ul>
-            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-        </div>
-    </nav>
-    <div class="container">
-        <div class="section">
-            <div class="row">
-                <div class="col s10 offset-s1">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+</head>
+
+<body>
+    <div class="row"></div>
+    <div class="row">
+        <div class="col s2"></div>
+        <div class="col s8">
+            <div class="card">
+                <div class="card-content">
                     <div class="row">
-                        <div  style="height:500px;">
-                            <div id="renderBody"></div>
+                        <div class="col s12">
+                            <form class="row">
+                                <div class="input-field col s3">
+                                    <input placeholder="" id="nota" type="text" class="validate" style="text-transform: uppercase">
+                                    <label for="first_name">Nota</label>
+                                </div>
+                                <div class="input-field col s2">
+                                    <button class="btn waves-effect waves-light" type="submit" id="btnCriarEscala">Criar Escala
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                                <div class="input-field col s7">
+                                    <p>
+                                        <label>
+                                            <input  class="with-gap" name="Modo" type="radio" value="1" id="maior" checked/>
+                                            <span>Maior</span>
+                                        </label>
+                                        <label>
+                                            <input class="with-gap" name="Modo" type="radio" value="1"/>
+                                            <span>Menor</span>
+                                        </label>
+                                    </p>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </div>
-            </div>
 
-        </div>
-        <br><br>
-    </div>
-
-    <footer class="page-footer light-blue darken-4">
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Company Bio</h5>
-                    <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our
-                        full time job. Any amount would help support and continue development on this project and is greatly
-                        appreciated.</p>
-
-
+                    <table class="striped" style="display: none;" id="tabelaEscala">
+                        <thead>
+                            <tr>
+                                <th style="width: 20px;">1</th>
+                                <th style="width: 20px;">2</th>
+                                <th style="width: 20px;">3</th>
+                                <th style="width: 20px;">4</th>
+                                <th style="width: 20px;">5</th>
+                                <th style="width: 20px;">6</th>
+                                <th style="width: 20px;">7</th>
+                                <th style="width: 20px;">8</th>
+                            </tr>
+                        </thead>
+                        <tbody id="escala">
+                        </tbody>
+                    </table>
                 </div>
-                <div class="col l3 s12">
-                    <h5 class="white-text">Settings</h5>
-                    <ul>
-                        <li><a class="white-text" href="#!">Link 1</a></li>
-                        <li><a class="white-text" href="#!">Link 2</a></li>
-                        <li><a class="white-text" href="#!">Link 3</a></li>
-                        <li><a class="white-text" href="#!">Link 4</a></li>
-                    </ul>
-                </div>
-                <div class="col l3 s12">
-                    <h5 class="white-text">Connect</h5>
-                    <ul>
-                        <li><a class="white-text" href="#!">Link 1</a></li>
-                        <li><a class="white-text" href="#!">Link 2</a></li>
-                        <li><a class="white-text" href="#!">Link 3</a></li>
-                        <li><a class="white-text" href="#!">Link 4</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright">
-            <div class="container">
-                Made by <a class="orange-text text-lighten-3" href="https://www.linkedin.com/in/pedro-figueredo" target="blank">Pedro Figueredo</a>
-            </div>
-        </div>
-    </footer>
-    <div class="preloader-wrapper big active"  id="loader" style="margin: 20% 0 0 45%">
-        <div class="spinner-layer spinner-blue-only">
-            <div class="circle-clipper left">
-                <div class="circle"></div>
-            </div>
-            <div class="gap-patch">
-                <div class="circle"></div>
-            </div>
-            <div class="circle-clipper right">
-                <div class="circle"></div>
             </div>
         </div>
     </div>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"></script>
-    <script src="./js/materialize.min.js" ></script>
+
 </body>
+
+
 </html>
 
 <script>
+    var notas = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    document.getElementById("btnCriarEscala").onclick = (function(e) {
+        e.preventDefault();
 
-    var loader = $("#loader");
-    $("#loader").remove();
-    function getHash(){
-        $("#renderBody").html(loader);
-        setTimeout(function(){
-            $.get("./view/hash.html").done(function(data){
-                $("#renderBody").hide().fadeIn(400).slider().html(data);
-            }).fail(function(){
-                M.toast({html: 'Error to load html page!'})
+        var tom = 2,
+            semiTom = 1;
+
+        var escalaMaior;
+
+        if (document.getElementById("maior").checked)
+            escalaMaior = [tom, tom, semiTom, tom, tom, tom, semiTom];
+        else
+            escalaMaior = [tom, semiTom, tom, tom, semiTom, tom, tom];
+
+        var tudo = ["C", "D", "E", "F", "G", "A", "B", "C"];
+
+        var nota = document.getElementById("nota").value,
+            body = document.getElementById("escala");
+        nota = nota.toUpperCase();
+        if (nota != "")
+            tudo = [nota];
+
+        if (nota != "" && notas.findIndex(x => x == nota) == -1) {
+            M.toast({
+                html: 'Nota informada não existente!'
             });
-        }, 800)
-    }
+            return;
+        }
+        var tbody = "";
+        for (var nota in tudo) {
+            tbody += "<tr>";
+            nota = tudo[nota];
+            tbody += "<td><p style='color: red'>" + nota + "</p></td>";
+            for (var i in escalaMaior) {
+                nota = buscaNotaEscala(nota, escalaMaior[i]);
+                if (i == 1 || i == 3 || i == 5)
+                    tbody += "<td><p style='color: red'>" + nota + "</p></td>";
+                else
+                    tbody += "<td>" + nota + "</td>";
+            }
+            tbody += "</tr>";
+        }
 
-    $(document).ready(function(){
-       $('.sidenav').sidenav();
+        body.innerHTML = tbody;
+        document.getElementById("tabelaEscala").style.display = "";
+        return;
     });
 
+    function buscaNotaEscala(nota, tom) {
+        var batataStrikesBack = notas.findIndex(x => x == nota);
+
+        tom += batataStrikesBack;
+        if (tom >= notas.length)
+            tom = (tom - (notas.length));
+
+        return notas[tom];
+    }
 </script>
+
+<style>
+    td {
+        width: 100px;
+    }
+</style>
