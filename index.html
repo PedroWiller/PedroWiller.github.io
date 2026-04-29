@@ -139,6 +139,15 @@
 
       <form onsubmit="event.preventDefault(); doLogin();" class="space-y-4">
         <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1.5">Perfil (demo)</label>
+          <select id="loginRole" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20">
+            <option value="super_admin">Super Admin (revendedor)</option>
+            <option value="admin_empresa" selected>Admin da Empresa</option>
+            <option value="operador">Operador</option>
+          </select>
+        </div>
+
+        <div>
           <label class="block text-xs font-medium text-slate-400 mb-1.5">E-mail</label>
           <div class="relative">
             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">✉</span>
@@ -225,29 +234,45 @@
     <!-- Sidebar -->
     <nav class="hidden md:block w-64 min-h-[calc(100vh-65px)] glass border-r border-slate-700/50 p-4 sticky top-[65px] self-start">
       <div class="space-y-1">
-        <button class="nav-btn w-full" data-page="catraca">
+        <button class="nav-btn w-full" data-page="catraca" data-roles="super_admin,admin_empresa,operador">
           <span class="text-lg">🚪</span> <span>Catraca</span>
           <span class="ml-auto text-[10px] bg-slate-700/50 px-1.5 py-0.5 rounded">US01/02</span>
         </button>
-        <button class="nav-btn w-full" data-page="alunos">
+        <button class="nav-btn w-full" data-page="alunos" data-roles="super_admin,admin_empresa">
           <span class="text-lg">👥</span> <span>Alunos</span>
           <span class="ml-auto text-[10px] bg-slate-700/50 px-1.5 py-0.5 rounded">US04</span>
         </button>
-        <button class="nav-btn w-full" data-page="pagamentos">
+        <button class="nav-btn w-full" data-page="pagamentos" data-roles="super_admin,admin_empresa">
           <span class="text-lg">💳</span> <span>Pagamentos</span>
           <span class="ml-auto text-[10px] bg-slate-700/50 px-1.5 py-0.5 rounded">US03</span>
         </button>
-        <button class="nav-btn w-full" data-page="auditoria">
+        <button class="nav-btn w-full" data-page="auditoria" data-roles="super_admin,admin_empresa">
           <span class="text-lg">📋</span> <span>Auditoria</span>
           <span class="ml-auto text-[10px] bg-slate-700/50 px-1.5 py-0.5 rounded">US06</span>
         </button>
-        <button class="nav-btn w-full" data-page="logs">
+        <button class="nav-btn w-full" data-page="logs" data-roles="super_admin,admin_empresa,operador">
           <span class="text-lg">📜</span> <span>Log de Acessos</span>
           <span class="ml-auto text-[10px] bg-slate-700/50 px-1.5 py-0.5 rounded">US06</span>
         </button>
-        <button class="nav-btn w-full" data-page="offline">
+        <button class="nav-btn w-full" data-page="offline" data-roles="super_admin,admin_empresa">
           <span class="text-lg">📡</span> <span>Offline / Sync</span>
           <span class="ml-auto text-[10px] bg-slate-700/50 px-1.5 py-0.5 rounded">US05</span>
+        </button>
+
+        <div class="my-3 border-t border-slate-700/50"></div>
+        <p class="px-3 text-[10px] uppercase tracking-wider text-slate-500 mb-1">Administração</p>
+
+        <button class="nav-btn w-full" data-page="empresas" data-roles="super_admin">
+          <span class="text-lg">🏢</span> <span>Empresas</span>
+          <span class="ml-auto text-[10px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded">SA</span>
+        </button>
+        <button class="nav-btn w-full" data-page="usuarios" data-roles="super_admin,admin_empresa">
+          <span class="text-lg">🔑</span> <span>Usuários</span>
+          <span class="ml-auto text-[10px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded">KC</span>
+        </button>
+        <button class="nav-btn w-full" data-page="robos" data-roles="super_admin,admin_empresa">
+          <span class="text-lg">🤖</span> <span>Robôs</span>
+          <span class="ml-auto text-[10px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded">IoT</span>
         </button>
       </div>
 
@@ -638,30 +663,240 @@
         </div>
       </section>
 
+      <!-- ===== EMPRESAS (super_admin) ===== -->
+      <section id="page-empresas" class="page hidden animate-slide-up">
+        <div class="mb-6">
+          <h2 class="text-xl md:text-2xl font-bold text-white">Empresas</h2>
+          <p class="text-slate-400 text-sm">Tenants do sistema (academias contratantes)</p>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl p-4 md:p-6 mb-6">
+          <h3 class="text-white font-semibold mb-4 flex items-center gap-2">
+            <span class="w-1 h-5 bg-purple-500 rounded-full"></span> Nova empresa
+          </h3>
+          <div class="grid md:grid-cols-3 gap-4 mb-4">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Nome *</label>
+              <input id="empNome" placeholder="Academia X" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">CNPJ *</label>
+              <input id="empCnpj" placeholder="00.000.000/0001-00" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Plano</label>
+              <select id="empPlano" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500">
+                <option>Básico</option><option>Pro</option><option>Enterprise</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">E-mail contato</label>
+              <input id="empEmail" type="email" placeholder="contato@empresa.com" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Telefone</label>
+              <input id="empTel" placeholder="(00) 00000-0000" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+          </div>
+          <button onclick="cadastrarEmpresa()" class="w-full md:w-auto bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-purple-500/20 transition">
+            🏢 Cadastrar empresa
+          </button>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden">
+          <div class="p-4 md:p-6 border-b border-slate-700/50">
+            <h3 class="text-white font-semibold">Empresas cadastradas</h3>
+          </div>
+          <div class="hidden md:block overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
+                <tr>
+                  <th class="text-left px-6 py-3">Empresa</th>
+                  <th class="text-left px-6 py-3">CNPJ</th>
+                  <th class="text-left px-6 py-3">Plano</th>
+                  <th class="text-left px-6 py-3">Robôs</th>
+                  <th class="text-left px-6 py-3">Usuários</th>
+                  <th class="text-left px-6 py-3">Status</th>
+                  <th class="text-right px-6 py-3">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="empresasTable" class="divide-y divide-slate-700/50"></tbody>
+            </table>
+          </div>
+          <div id="empresasCards" class="md:hidden divide-y divide-slate-700/50"></div>
+        </div>
+      </section>
+
+      <!-- ===== USUÁRIOS ===== -->
+      <section id="page-usuarios" class="page hidden animate-slide-up">
+        <div class="mb-6">
+          <h2 class="text-xl md:text-2xl font-bold text-white">Usuários</h2>
+          <p class="text-slate-400 text-sm">Cadastro com sincronização no Keycloak</p>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl p-4 md:p-6 mb-6">
+          <h3 class="text-white font-semibold mb-4 flex items-center gap-2">
+            <span class="w-1 h-5 bg-cyan-500 rounded-full"></span> Novo usuário
+          </h3>
+          <div class="grid md:grid-cols-3 gap-4 mb-4">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Nome *</label>
+              <input id="usrNome" placeholder="Maria Silva" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">E-mail *</label>
+              <input id="usrEmail" type="email" placeholder="maria@empresa.com" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Perfil *</label>
+              <select id="usrRole" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"></select>
+            </div>
+            <div id="usrEmpresaWrap">
+              <label class="block text-xs text-slate-400 mb-1.5">Empresa</label>
+              <select id="usrEmpresa" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"></select>
+            </div>
+          </div>
+          <p class="text-xs text-slate-500 mb-3">💡 Ao cadastrar, uma credencial será criada no Keycloak (mock).</p>
+          <button onclick="cadastrarUsuario()" class="w-full md:w-auto bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-cyan-500/20 transition">
+            🔑 Cadastrar + Criar no Keycloak
+          </button>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden">
+          <div class="p-4 md:p-6 border-b border-slate-700/50">
+            <h3 class="text-white font-semibold">Usuários do sistema</h3>
+          </div>
+          <div class="hidden md:block overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
+                <tr>
+                  <th class="text-left px-6 py-3">Usuário</th>
+                  <th class="text-left px-6 py-3">Perfil</th>
+                  <th class="text-left px-6 py-3">Empresa</th>
+                  <th class="text-left px-6 py-3">Keycloak</th>
+                  <th class="text-left px-6 py-3">Status</th>
+                  <th class="text-right px-6 py-3">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="usuariosTable" class="divide-y divide-slate-700/50"></tbody>
+            </table>
+          </div>
+          <div id="usuariosCards" class="md:hidden divide-y divide-slate-700/50"></div>
+        </div>
+      </section>
+
+      <!-- ===== ROBÔS ===== -->
+      <section id="page-robos" class="page hidden animate-slide-up">
+        <div class="mb-6">
+          <h2 class="text-xl md:text-2xl font-bold text-white">Robôs de Catraca</h2>
+          <p class="text-slate-400 text-sm">Dispositivos instalados que validam acesso offline</p>
+        </div>
+
+        <div id="robosAlerta" class="hidden glass border border-red-500/40 bg-red-500/10 rounded-2xl p-4 md:p-5 mb-6">
+          <div class="flex items-start gap-3">
+            <span class="text-2xl">⚠️</span>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-red-300">Robôs sem comunicação</div>
+              <div id="robosAlertaList" class="text-sm text-red-200/80 mt-1"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6">
+          <div class="glass border border-slate-700/50 rounded-xl p-4">
+            <div class="text-xs text-slate-400 uppercase">Total</div>
+            <div class="text-2xl font-bold text-white mt-1" id="robosTotal">0</div>
+          </div>
+          <div class="glass border border-emerald-500/30 bg-emerald-500/5 rounded-xl p-4">
+            <div class="text-xs text-emerald-400 uppercase">Online</div>
+            <div class="text-2xl font-bold text-emerald-400 mt-1" id="robosOnline">0</div>
+          </div>
+          <div class="glass border border-slate-500/30 bg-slate-500/5 rounded-xl p-4">
+            <div class="text-xs text-slate-400 uppercase">Offline</div>
+            <div class="text-2xl font-bold text-slate-300 mt-1" id="robosOffline">0</div>
+          </div>
+          <div class="glass border border-red-500/30 bg-red-500/5 rounded-xl p-4">
+            <div class="text-xs text-red-400 uppercase">Com erro</div>
+            <div class="text-2xl font-bold text-red-400 mt-1" id="robosErro">0</div>
+          </div>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl p-4 md:p-6 mb-6">
+          <h3 class="text-white font-semibold mb-4 flex items-center gap-2">
+            <span class="w-1 h-5 bg-amber-500 rounded-full"></span> Cadastrar robô
+          </h3>
+          <div class="grid md:grid-cols-3 gap-4 mb-4">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Nome / apelido *</label>
+              <input id="robNome" placeholder="Recepção 1" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div id="robEmpresaWrap">
+              <label class="block text-xs text-slate-400 mb-1.5">Empresa</label>
+              <select id="robEmpresa" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"></select>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Versão firmware</label>
+              <input id="robFw" placeholder="1.4.0" value="1.4.0" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+          </div>
+          <button onclick="cadastrarRobo()" class="w-full md:w-auto bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-amber-500/20 transition">
+            🤖 Cadastrar robô
+          </button>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden">
+          <div class="p-4 md:p-6 border-b border-slate-700/50">
+            <h3 class="text-white font-semibold">Frota</h3>
+          </div>
+          <div class="hidden md:block overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
+                <tr>
+                  <th class="text-left px-6 py-3">Robô</th>
+                  <th class="text-left px-6 py-3">Empresa</th>
+                  <th class="text-left px-6 py-3">Status</th>
+                  <th class="text-left px-6 py-3">Última sync</th>
+                  <th class="text-left px-6 py-3">Firmware</th>
+                  <th class="text-right px-6 py-3">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="robosTable" class="divide-y divide-slate-700/50"></tbody>
+            </table>
+          </div>
+          <div id="robosCards" class="md:hidden divide-y divide-slate-700/50"></div>
+        </div>
+      </section>
+
     </main>
   </div>
 
   <!-- Bottom nav (mobile) -->
-  <nav class="md:hidden fixed bottom-0 inset-x-0 glass border-t border-slate-700/50 z-40 grid grid-cols-6">
-    <button class="bottom-nav-btn nav-btn" data-page="catraca">
+  <nav id="bottomNav" class="md:hidden fixed bottom-0 inset-x-0 glass border-t border-slate-700/50 z-40 grid grid-cols-5">
+    <button class="bottom-nav-btn nav-btn" data-page="catraca" data-roles="super_admin,admin_empresa,operador">
       <span class="text-lg">🚪</span><span>Catraca</span>
     </button>
-    <button class="bottom-nav-btn nav-btn" data-page="alunos">
+    <button class="bottom-nav-btn nav-btn" data-page="alunos" data-roles="super_admin,admin_empresa">
       <span class="text-lg">👥</span><span>Alunos</span>
     </button>
-    <button class="bottom-nav-btn nav-btn" data-page="pagamentos">
-      <span class="text-lg">💳</span><span>Pagar</span>
+    <button class="bottom-nav-btn nav-btn" data-page="robos" data-roles="super_admin,admin_empresa">
+      <span class="text-lg">🤖</span><span>Robôs</span>
     </button>
-    <button class="bottom-nav-btn nav-btn" data-page="auditoria">
-      <span class="text-lg">📋</span><span>Audit.</span>
-    </button>
-    <button class="bottom-nav-btn nav-btn" data-page="logs">
+    <button class="bottom-nav-btn nav-btn" data-page="logs" data-roles="super_admin,admin_empresa,operador">
       <span class="text-lg">📜</span><span>Logs</span>
     </button>
-    <button class="bottom-nav-btn nav-btn" data-page="offline">
-      <span class="text-lg">📡</span><span>Sync</span>
+    <button class="bottom-nav-btn" onclick="toggleMoreSheet(event)" id="moreBtn">
+      <span class="text-lg">⋯</span><span>Mais</span>
     </button>
   </nav>
+
+  <!-- More sheet (mobile) -->
+  <div id="moreSheet" class="hidden md:hidden fixed inset-0 z-50 bg-black/60" onclick="toggleMoreSheet(event)">
+    <div class="absolute bottom-0 inset-x-0 glass border-t border-slate-700/50 rounded-t-2xl p-4 pb-8" onclick="event.stopPropagation()">
+      <div class="w-12 h-1 bg-slate-600 rounded-full mx-auto mb-4"></div>
+      <h3 class="text-white font-semibold mb-3">Mais opções</h3>
+      <div id="moreSheetItems" class="grid grid-cols-3 gap-2"></div>
+    </div>
+  </div>
 </div>
 
 <!-- Toast -->
@@ -720,15 +955,47 @@
   .badge.ativo, .badge.liberado { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
   .badge.inadimplente, .badge.bloqueado, .badge.negado, .badge.vencido { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
   .badge.aguardando { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+  .badge.online, .badge.sim { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
+  .badge.offline, .badge.nao, .badge.suspensa, .badge.inativo { background: rgba(100,116,139,0.2); color: #cbd5e1; border: 1px solid rgba(100,116,139,0.4); }
+  .badge.erro { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+  .badge.super_admin { background: rgba(168,85,247,0.15); color: #c4b5fd; border: 1px solid rgba(168,85,247,0.3); }
+  .badge.admin_empresa { background: rgba(99,102,241,0.15); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.3); }
+  .badge.operador { background: rgba(14,165,233,0.15); color: #7dd3fc; border: 1px solid rgba(14,165,233,0.3); }
 </style>
 
 <script>
 // ===== Mock Data =====
+const ROLE_LABEL = { super_admin: 'Super Admin', admin_empresa: 'Admin Empresa', operador: 'Operador' };
+let currentUser = { role: 'admin_empresa', empresaId: 1, nome: 'Admin Demo', email: 'admin@academia.com' };
+
+let empresas = [
+  { id: 1, nome: 'Academia Demo',  cnpj: '12.345.678/0001-90', plano: 'Pro',        email: 'contato@demo.com',     tel: '(11) 3333-1000', status: 'ativa', criadoEm: '2025-09-01' },
+  { id: 2, nome: 'Gym Total',      cnpj: '98.765.432/0001-10', plano: 'Básico',     email: 'contato@gymtotal.com', tel: '(21) 4444-2000', status: 'ativa', criadoEm: '2026-01-15' },
+  { id: 3, nome: 'PowerFit Center',cnpj: '55.444.333/0001-22', plano: 'Enterprise', email: 'ti@powerfit.com',      tel: '(31) 5555-3000', status: 'suspensa', criadoEm: '2025-06-20' },
+];
+let nextEmpresaId = 4;
+
+let usuarios = [
+  { id: 1, nome: 'Pedro Owner',    email: 'pedro@accesscore.com', role: 'super_admin',   empresaId: null, status: 'ativo', keycloakSync: true },
+  { id: 2, nome: 'Admin Demo',     email: 'admin@academia.com',   role: 'admin_empresa', empresaId: 1,    status: 'ativo', keycloakSync: true },
+  { id: 3, nome: 'Recepção Manhã', email: 'recep1@demo.com',      role: 'operador',      empresaId: 1,    status: 'ativo', keycloakSync: true },
+  { id: 4, nome: 'João Gym Total', email: 'joao@gymtotal.com',    role: 'admin_empresa', empresaId: 2,    status: 'ativo', keycloakSync: false },
+];
+let nextUsuarioId = 5;
+
+let robos = [
+  { id: 1, nome: 'Recepção 1',  empresaId: 1, status: 'online',  lastSync: new Date(Date.now() - 30 * 1000).toISOString(),       firmware: '1.4.0' },
+  { id: 2, nome: 'Recepção 2',  empresaId: 1, status: 'offline', lastSync: new Date(Date.now() - 12 * 60 * 1000).toISOString(),  firmware: '1.3.8' },
+  { id: 3, nome: 'Entrada Sul', empresaId: 2, status: 'online',  lastSync: new Date(Date.now() - 60 * 1000).toISOString(),       firmware: '1.4.0' },
+  { id: 4, nome: 'Vestiário',   empresaId: 3, status: 'erro',    lastSync: new Date(Date.now() - 3 * 60 * 1000).toISOString(),   firmware: '1.2.5' },
+];
+let nextRoboId = 5;
+
 let alunos = [
-  { id: 1, nome: 'Ana Silva',    cpf: '111.111.111-11', nasc: '1995-03-12', email: 'ana@email.com',    tel: '(11) 98888-1111', endereco: 'Rua das Flores, 100',  cidade: 'São Paulo / SP', cep: '01010-000', emergencia: 'Marcos (11) 97777-1111', plano: 'Mensal',     validade: '2026-05-15', status: 'ativo',        bloqueado: false },
-  { id: 2, nome: 'Bruno Costa',  cpf: '222.222.222-22', nasc: '1990-07-22', email: 'bruno@email.com',  tel: '(11) 98888-2222', endereco: 'Av. Brasil, 250',      cidade: 'São Paulo / SP', cep: '02020-000', emergencia: 'Júlia (11) 97777-2222',  plano: 'Trimestral', validade: '2026-03-10', status: 'inadimplente', bloqueado: false },
-  { id: 3, nome: 'Carla Mendes', cpf: '333.333.333-33', nasc: '1998-11-05', email: 'carla@email.com',  tel: '(11) 98888-3333', endereco: 'Rua do Sol, 78',       cidade: 'Campinas / SP',  cep: '13010-000', emergencia: 'Pedro (11) 97777-3333',  plano: 'Anual',      validade: '2026-12-30', status: 'ativo',        bloqueado: true  },
-  { id: 4, nome: 'Diego Lima',   cpf: '444.444.444-44', nasc: '1988-01-30', email: 'diego@email.com',  tel: '(11) 98888-4444', endereco: 'Praça Central, 12',    cidade: 'Santos / SP',    cep: '11010-000', emergencia: 'Ana (11) 97777-4444',    plano: 'Mensal',     validade: '2026-05-20', status: 'ativo',        bloqueado: false },
+  { id: 1, empresaId: 1, nome: 'Ana Silva',    cpf: '111.111.111-11', nasc: '1995-03-12', email: 'ana@email.com',    tel: '(11) 98888-1111', endereco: 'Rua das Flores, 100',  cidade: 'São Paulo / SP', cep: '01010-000', emergencia: 'Marcos (11) 97777-1111', plano: 'Mensal',     validade: '2026-05-15', status: 'ativo',        bloqueado: false },
+  { id: 2, empresaId: 1, nome: 'Bruno Costa',  cpf: '222.222.222-22', nasc: '1990-07-22', email: 'bruno@email.com',  tel: '(11) 98888-2222', endereco: 'Av. Brasil, 250',      cidade: 'São Paulo / SP', cep: '02020-000', emergencia: 'Júlia (11) 97777-2222',  plano: 'Trimestral', validade: '2026-03-10', status: 'inadimplente', bloqueado: false },
+  { id: 3, empresaId: 1, nome: 'Carla Mendes', cpf: '333.333.333-33', nasc: '1998-11-05', email: 'carla@email.com',  tel: '(11) 98888-3333', endereco: 'Rua do Sol, 78',       cidade: 'Campinas / SP',  cep: '13010-000', emergencia: 'Pedro (11) 97777-3333',  plano: 'Anual',      validade: '2026-12-30', status: 'ativo',        bloqueado: true  },
+  { id: 4, empresaId: 2, nome: 'Diego Lima',   cpf: '444.444.444-44', nasc: '1988-01-30', email: 'diego@email.com',  tel: '(11) 98888-4444', endereco: 'Praça Central, 12',    cidade: 'Santos / SP',    cep: '11010-000', emergencia: 'Ana (11) 97777-4444',    plano: 'Mensal',     validade: '2026-05-20', status: 'ativo',        bloqueado: false },
 ];
 let pagamentos = [
   { data: '2026-04-15', alunoId: 1, valor: 120, validade: '2026-05-15' },
@@ -767,16 +1034,48 @@ function atualizarStatusAluno(a) {
 function doLogin() {
   const email = $('loginEmail').value;
   const pwd = $('loginPwd').value;
+  const role = $('loginRole').value;
   const err = $('loginError');
   if (email === 'admin@academia.com' && pwd === 'admin123') {
     err.classList.add('hidden');
+    if (role === 'super_admin')      currentUser = { role, empresaId: null, nome: 'Super Admin', email };
+    else if (role === 'admin_empresa') currentUser = { role, empresaId: 1,    nome: 'Admin Demo',  email };
+    else                                currentUser = { role: 'operador', empresaId: 1, nome: 'Operador Demo', email };
     $('loginPage').classList.add('hidden');
     $('appPage').classList.remove('hidden');
+    applyRoleVisibility();
     renderAll();
   } else {
     err.textContent = 'Credenciais inválidas';
     err.classList.remove('hidden');
   }
+}
+
+function applyRoleVisibility() {
+  document.querySelectorAll('.nav-btn[data-roles]').forEach(btn => {
+    const allowed = btn.dataset.roles.split(',');
+    btn.style.display = allowed.includes(currentUser.role) ? '' : 'none';
+  });
+  // Ir para a primeira página visível, se a atual não está acessível
+  const currentVisible = document.querySelector('.page:not(.hidden)');
+  const currentKey = currentVisible ? currentVisible.id.replace('page-', '') : null;
+  const firstVisibleBtn = document.querySelector('nav .nav-btn[data-roles]:not([style*="display: none"])');
+  const visibleKeys = Array.from(document.querySelectorAll('.nav-btn[data-roles]'))
+    .filter(b => b.dataset.roles.split(',').includes(currentUser.role))
+    .map(b => b.dataset.page);
+  if (!currentKey || !visibleKeys.includes(currentKey)) {
+    if (firstVisibleBtn) selectPage(firstVisibleBtn.dataset.page);
+  }
+  // Mostrar email do usuário no avatar tooltip
+  const av = document.querySelector('button[onclick="toggleUserMenu(event)"] > div');
+  if (av) av.title = `${currentUser.nome} · ${ROLE_LABEL[currentUser.role]}`;
+}
+
+// ===== Visibilidade por empresa =====
+function getEmpresaNome(id) { const e = empresas.find(x => x.id === id); return e ? e.nome : '—'; }
+function isVisivelEmpresa(empresaId) {
+  if (currentUser.role === 'super_admin') return true;
+  return empresaId === currentUser.empresaId;
 }
 function doLogout() {
   $('appPage').classList.add('hidden');
@@ -806,6 +1105,31 @@ function toggleUserMenu(e) {
   $('userMenu').classList.toggle('hidden');
 }
 document.addEventListener('click', () => $('userMenu')?.classList.add('hidden'));
+
+// ===== More sheet (mobile) =====
+function toggleMoreSheet(e) {
+  e?.stopPropagation();
+  const sheet = $('moreSheet');
+  if (sheet.classList.contains('hidden')) {
+    // popula com os itens de nav que NÃO estão na bottom bar e visíveis ao perfil
+    const nav = $('bottomNav');
+    const inBottom = new Set(Array.from(nav.querySelectorAll('[data-page]')).map(b => b.dataset.page));
+    const items = Array.from(document.querySelectorAll('nav.hidden.md\\:block .nav-btn[data-page]'))
+      .filter(b => !inBottom.has(b.dataset.page))
+      .filter(b => b.dataset.roles.split(',').includes(currentUser.role));
+    $('moreSheetItems').innerHTML = items.map(b => {
+      const icon = b.querySelector('.text-lg').textContent;
+      const label = b.querySelectorAll('span')[1].textContent.trim();
+      return `<button onclick="selectPage('${b.dataset.page}'); toggleMoreSheet()" class="flex flex-col items-center gap-1 p-3 rounded-xl bg-slate-800/50 hover:bg-slate-700/50 transition">
+        <span class="text-2xl">${icon}</span>
+        <span class="text-xs text-slate-300">${label}</span>
+      </button>`;
+    }).join('') || '<div class="col-span-3 text-center text-slate-500 text-sm py-4">Sem itens adicionais</div>';
+    sheet.classList.remove('hidden');
+  } else {
+    sheet.classList.add('hidden');
+  }
+}
 
 // ===== API toggle =====
 $('apiToggle').addEventListener('change', e => {
@@ -925,14 +1249,18 @@ function limparFiltros() {
 }
 
 // ===== Render =====
+function alunosVisiveis() {
+  return alunos.filter(a => isVisivelEmpresa(a.empresaId));
+}
 function renderAlunoSelects() {
-  const opts = alunos.map(a => `<option value="${a.id}">${a.nome}</option>`).join('');
+  const opts = alunosVisiveis().map(a => `<option value="${a.id}">${a.nome}</option>`).join('');
   $('alunoSelect').innerHTML = opts;
   $('pagAluno').innerHTML = opts;
 }
 function renderAlunos() {
   alunos.forEach(atualizarStatusAluno);
-  $('alunosTable').innerHTML = alunos.map(a => {
+  const lista = alunosVisiveis();
+  $('alunosTable').innerHTML = lista.map(a => {
     const statusKey = a.bloqueado ? 'bloqueado' : a.status;
     const initials = a.nome.split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase();
     return `<tr class="hover:bg-slate-800/30 transition">
@@ -956,7 +1284,7 @@ function renderAlunos() {
     </tr>`;
   }).join('');
 
-  $('alunosCards').innerHTML = alunos.map(a => {
+  $('alunosCards').innerHTML = lista.map(a => {
     const statusKey = a.bloqueado ? 'bloqueado' : a.status;
     const initials = a.nome.split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase();
     return `<div class="p-4">
@@ -980,7 +1308,11 @@ function renderAlunos() {
 }
 function renderPagamentos() {
   const hoje = new Date().toISOString().slice(0,10);
-  $('pagamentosTable').innerHTML = pagamentos.map(p => {
+  const lista = pagamentos.filter(p => {
+    const a = getAluno(p.alunoId);
+    return a && isVisivelEmpresa(a.empresaId);
+  });
+  $('pagamentosTable').innerHTML = lista.map(p => {
     const aluno = getAluno(p.alunoId);
     const status = p.validade < hoje ? 'vencido' : 'ativo';
     return `<tr class="hover:bg-slate-800/30 transition">
@@ -992,7 +1324,7 @@ function renderPagamentos() {
     </tr>`;
   }).join('');
 
-  $('pagamentosCards').innerHTML = pagamentos.map(p => {
+  $('pagamentosCards').innerHTML = lista.map(p => {
     const aluno = getAluno(p.alunoId);
     const status = p.validade < hoje ? 'vencido' : 'ativo';
     return `<div class="p-4">
@@ -1154,6 +1486,307 @@ function limparLogs() {
   renderAll();
 }
 
+// ===== Empresas =====
+function cadastrarEmpresa() {
+  const nome = $('empNome').value.trim();
+  const cnpj = $('empCnpj').value.trim();
+  if (!nome || !cnpj) { toast('Nome e CNPJ são obrigatórios', 'error'); return; }
+  empresas.push({
+    id: nextEmpresaId++, nome, cnpj,
+    plano: $('empPlano').value,
+    email: $('empEmail').value.trim(),
+    tel: $('empTel').value.trim(),
+    status: 'ativa',
+    criadoEm: new Date().toISOString().slice(0,10)
+  });
+  ['empNome','empCnpj','empEmail','empTel'].forEach(id => $(id).value = '');
+  toast('Empresa cadastrada');
+  renderAll();
+}
+function toggleEmpresaStatus(id) {
+  const e = empresas.find(x => x.id === id);
+  e.status = e.status === 'ativa' ? 'suspensa' : 'ativa';
+  toast(`Empresa ${e.status}`, 'info');
+  renderAll();
+}
+function removerEmpresa(id) {
+  if (!confirm('Remover empresa? Usuários e robôs vinculados ficarão órfãos.')) return;
+  empresas = empresas.filter(e => e.id !== id);
+  renderAll();
+}
+function renderEmpresas() {
+  const tbody = $('empresasTable');
+  const cards = $('empresasCards');
+  if (!tbody) return;
+  const linhas = empresas.map(e => {
+    const qtdRobos = robos.filter(r => r.empresaId === e.id).length;
+    const qtdUsuarios = usuarios.filter(u => u.empresaId === e.id).length;
+    return { e, qtdRobos, qtdUsuarios };
+  });
+  tbody.innerHTML = linhas.map(({e, qtdRobos, qtdUsuarios}) => `
+    <tr class="hover:bg-slate-800/30 transition">
+      <td class="px-6 py-4">
+        <div class="font-medium text-white">${e.nome}</div>
+        <div class="text-xs text-slate-500">${e.email || '—'} ${e.tel ? '· ' + e.tel : ''}</div>
+      </td>
+      <td class="px-6 py-4 text-sm text-slate-400">${e.cnpj}</td>
+      <td class="px-6 py-4 text-sm">${e.plano}</td>
+      <td class="px-6 py-4 text-sm">${qtdRobos}</td>
+      <td class="px-6 py-4 text-sm">${qtdUsuarios}</td>
+      <td class="px-6 py-4"><span class="badge ${e.status === 'ativa' ? 'ativo' : 'suspensa'}">${e.status}</span></td>
+      <td class="px-6 py-4 text-right">
+        <button onclick="toggleEmpresaStatus(${e.id})" class="px-3 py-1 text-xs rounded-md bg-amber-500/15 text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 transition mr-1">${e.status === 'ativa' ? 'Suspender' : 'Reativar'}</button>
+        <button onclick="removerEmpresa(${e.id})" class="px-3 py-1 text-xs rounded-md bg-red-500/15 text-red-300 border border-red-500/30 hover:bg-red-500/25 transition">Excluir</button>
+      </td>
+    </tr>`).join('');
+
+  cards.innerHTML = linhas.map(({e, qtdRobos, qtdUsuarios}) => `
+    <div class="p-4">
+      <div class="flex items-center justify-between gap-2 mb-1">
+        <div class="font-medium text-white truncate">${e.nome}</div>
+        <span class="badge ${e.status === 'ativa' ? 'ativo' : 'suspensa'} shrink-0">${e.status}</span>
+      </div>
+      <div class="text-xs text-slate-500 truncate">${e.cnpj} · ${e.plano}</div>
+      <div class="text-xs text-slate-400 mt-1">🤖 ${qtdRobos} robôs · 🔑 ${qtdUsuarios} usuários</div>
+      <div class="flex gap-2 mt-3">
+        <button onclick="toggleEmpresaStatus(${e.id})" class="flex-1 px-3 py-1.5 text-xs rounded-md bg-amber-500/15 text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 transition">${e.status === 'ativa' ? 'Suspender' : 'Reativar'}</button>
+        <button onclick="removerEmpresa(${e.id})" class="flex-1 px-3 py-1.5 text-xs rounded-md bg-red-500/15 text-red-300 border border-red-500/30 hover:bg-red-500/25 transition">Excluir</button>
+      </div>
+    </div>`).join('') || '<div class="p-8 text-center text-slate-500 text-sm">Nenhuma empresa cadastrada</div>';
+}
+
+// ===== Usuários =====
+function rolesPermitidosParaCriar() {
+  if (currentUser.role === 'super_admin') return ['super_admin', 'admin_empresa', 'operador'];
+  if (currentUser.role === 'admin_empresa') return ['admin_empresa', 'operador'];
+  return [];
+}
+function renderUsuarioForm() {
+  const roles = rolesPermitidosParaCriar();
+  $('usrRole').innerHTML = roles.map(r => `<option value="${r}">${ROLE_LABEL[r]}</option>`).join('');
+  if (currentUser.role === 'super_admin') {
+    $('usrEmpresaWrap').style.display = '';
+    $('usrEmpresa').innerHTML = '<option value="">— (sem empresa)</option>' +
+      empresas.map(e => `<option value="${e.id}">${e.nome}</option>`).join('');
+  } else {
+    $('usrEmpresaWrap').style.display = 'none';
+  }
+}
+function cadastrarUsuario() {
+  const nome = $('usrNome').value.trim();
+  const email = $('usrEmail').value.trim();
+  const role = $('usrRole').value;
+  if (!nome || !email || !role) { toast('Nome, e-mail e perfil são obrigatórios', 'error'); return; }
+  let empresaId;
+  if (currentUser.role === 'super_admin') {
+    empresaId = $('usrEmpresa').value ? parseInt($('usrEmpresa').value) : null;
+  } else {
+    empresaId = currentUser.empresaId;
+  }
+  const novo = { id: nextUsuarioId++, nome, email, role, empresaId, status: 'ativo', keycloakSync: false };
+  usuarios.push(novo);
+  ['usrNome','usrEmail'].forEach(id => $(id).value = '');
+  toast('Usuário criado, sincronizando com Keycloak...', 'info');
+  // mock async Keycloak
+  setTimeout(() => {
+    novo.keycloakSync = true;
+    toast(`Credencial criada no Keycloak: ${email}`);
+    renderAll();
+  }, 800);
+  renderAll();
+}
+function toggleUsuarioStatus(id) {
+  const u = usuarios.find(x => x.id === id);
+  u.status = u.status === 'ativo' ? 'inativo' : 'ativo';
+  renderAll();
+}
+function removerUsuario(id) {
+  if (!confirm('Remover usuário?')) return;
+  usuarios = usuarios.filter(u => u.id !== id);
+  renderAll();
+}
+function sincronizarKeycloak(id) {
+  const u = usuarios.find(x => x.id === id);
+  toast('Sincronizando com Keycloak...', 'info');
+  setTimeout(() => { u.keycloakSync = true; toast('Sincronizado'); renderAll(); }, 600);
+}
+function usuariosVisiveis() {
+  if (currentUser.role === 'super_admin') return usuarios;
+  return usuarios.filter(u => u.empresaId === currentUser.empresaId);
+}
+function renderUsuarios() {
+  if (!$('usuariosTable')) return;
+  renderUsuarioForm();
+  const lista = usuariosVisiveis();
+  $('usuariosTable').innerHTML = lista.map(u => {
+    const initials = u.nome.split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase();
+    return `<tr class="hover:bg-slate-800/30 transition">
+      <td class="px-6 py-4">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-xs font-semibold text-white">${initials}</div>
+          <div>
+            <div class="font-medium text-white">${u.nome}</div>
+            <div class="text-xs text-slate-500">${u.email}</div>
+          </div>
+        </div>
+      </td>
+      <td class="px-6 py-4"><span class="badge ${u.role}">${ROLE_LABEL[u.role]}</span></td>
+      <td class="px-6 py-4 text-sm">${u.empresaId ? getEmpresaNome(u.empresaId) : '—'}</td>
+      <td class="px-6 py-4"><span class="badge ${u.keycloakSync ? 'sim' : 'nao'}">${u.keycloakSync ? '✓ Sincronizado' : '⚠ Pendente'}</span></td>
+      <td class="px-6 py-4"><span class="badge ${u.status}">${u.status}</span></td>
+      <td class="px-6 py-4 text-right">
+        ${!u.keycloakSync ? `<button onclick="sincronizarKeycloak(${u.id})" class="px-3 py-1 text-xs rounded-md bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/25 transition mr-1">Sync KC</button>` : ''}
+        <button onclick="toggleUsuarioStatus(${u.id})" class="px-3 py-1 text-xs rounded-md bg-amber-500/15 text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 transition mr-1">${u.status === 'ativo' ? 'Desativar' : 'Ativar'}</button>
+        <button onclick="removerUsuario(${u.id})" class="px-3 py-1 text-xs rounded-md bg-red-500/15 text-red-300 border border-red-500/30 hover:bg-red-500/25 transition">Excluir</button>
+      </td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="6" class="px-6 py-12 text-center text-slate-500">Nenhum usuário</td></tr>';
+
+  $('usuariosCards').innerHTML = lista.map(u => {
+    const initials = u.nome.split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase();
+    return `<div class="p-4">
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-xs font-semibold text-white shrink-0">${initials}</div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between gap-2">
+            <div class="font-medium text-white truncate">${u.nome}</div>
+            <span class="badge ${u.status} shrink-0">${u.status}</span>
+          </div>
+          <div class="text-xs text-slate-500 truncate">${u.email}</div>
+          <div class="flex items-center gap-2 mt-2 flex-wrap">
+            <span class="badge ${u.role}">${ROLE_LABEL[u.role]}</span>
+            <span class="badge ${u.keycloakSync ? 'sim' : 'nao'}">${u.keycloakSync ? '✓ KC' : '⚠ KC'}</span>
+            ${u.empresaId ? `<span class="text-xs text-slate-500">· ${getEmpresaNome(u.empresaId)}</span>` : ''}
+          </div>
+          <div class="flex gap-2 mt-3">
+            ${!u.keycloakSync ? `<button onclick="sincronizarKeycloak(${u.id})" class="flex-1 px-3 py-1.5 text-xs rounded-md bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/25 transition">Sync KC</button>` : ''}
+            <button onclick="toggleUsuarioStatus(${u.id})" class="flex-1 px-3 py-1.5 text-xs rounded-md bg-amber-500/15 text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 transition">${u.status === 'ativo' ? 'Desativar' : 'Ativar'}</button>
+            <button onclick="removerUsuario(${u.id})" class="flex-1 px-3 py-1.5 text-xs rounded-md bg-red-500/15 text-red-300 border border-red-500/30 hover:bg-red-500/25 transition">Excluir</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('') || '<div class="p-8 text-center text-slate-500 text-sm">Nenhum usuário</div>';
+}
+
+// ===== Robôs =====
+const ROBO_OFFLINE_THRESHOLD_MS = 5 * 60 * 1000;
+function robosVisiveis() {
+  if (currentUser.role === 'super_admin') return robos;
+  return robos.filter(r => r.empresaId === currentUser.empresaId);
+}
+function tempoDecorrido(iso) {
+  const ms = Date.now() - new Date(iso).getTime();
+  const min = Math.floor(ms / 60000);
+  if (min < 1) return 'agora há pouco';
+  if (min < 60) return `${min} min atrás`;
+  const h = Math.floor(min / 60);
+  return `${h}h ${min % 60}min atrás`;
+}
+function renderRoboForm() {
+  if (currentUser.role === 'super_admin') {
+    $('robEmpresaWrap').style.display = '';
+    $('robEmpresa').innerHTML = empresas.map(e => `<option value="${e.id}">${e.nome}</option>`).join('');
+  } else {
+    $('robEmpresaWrap').style.display = 'none';
+  }
+}
+function cadastrarRobo() {
+  const nome = $('robNome').value.trim();
+  if (!nome) { toast('Nome obrigatório', 'error'); return; }
+  const empresaId = currentUser.role === 'super_admin' ? parseInt($('robEmpresa').value) : currentUser.empresaId;
+  robos.push({
+    id: nextRoboId++, nome, empresaId,
+    status: 'offline',
+    lastSync: new Date().toISOString(),
+    firmware: $('robFw').value.trim() || '1.0.0'
+  });
+  $('robNome').value = '';
+  toast('Robô cadastrado (aguardando primeira conexão)');
+  renderAll();
+}
+function forcarSyncRobo(id) {
+  const r = robos.find(x => x.id === id);
+  toast(`Comando enviado para ${r.nome}...`, 'info');
+  setTimeout(() => {
+    r.lastSync = new Date().toISOString();
+    if (r.status !== 'erro') r.status = 'online';
+    toast(`${r.nome} sincronizado`);
+    renderAll();
+  }, 700);
+}
+function desativarRobo(id) {
+  if (!confirm('Desativar robô? Ele será removido da frota.')) return;
+  robos = robos.filter(r => r.id !== id);
+  renderAll();
+}
+function renderRobos() {
+  if (!$('robosTable')) return;
+  renderRoboForm();
+  const lista = robosVisiveis();
+  const offlineCriticos = lista.filter(r => {
+    const ms = Date.now() - new Date(r.lastSync).getTime();
+    return r.status !== 'online' && ms > ROBO_OFFLINE_THRESHOLD_MS;
+  });
+
+  $('robosTotal').textContent = lista.length;
+  $('robosOnline').textContent = lista.filter(r => r.status === 'online').length;
+  $('robosOffline').textContent = lista.filter(r => r.status === 'offline').length;
+  $('robosErro').textContent = lista.filter(r => r.status === 'erro').length;
+
+  if (offlineCriticos.length) {
+    $('robosAlerta').classList.remove('hidden');
+    $('robosAlertaList').innerHTML = offlineCriticos.map(r =>
+      `<span class="inline-block mr-3"><b>${r.nome}</b> (${getEmpresaNome(r.empresaId)}) — ${tempoDecorrido(r.lastSync)}</span>`
+    ).join('');
+  } else {
+    $('robosAlerta').classList.add('hidden');
+  }
+
+  $('robosTable').innerHTML = lista.map(r => `
+    <tr class="hover:bg-slate-800/30 transition">
+      <td class="px-6 py-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🤖</span>
+          <div class="font-medium text-white">${r.nome}</div>
+        </div>
+      </td>
+      <td class="px-6 py-4 text-sm">${getEmpresaNome(r.empresaId)}</td>
+      <td class="px-6 py-4"><span class="badge ${r.status}">${r.status}</span></td>
+      <td class="px-6 py-4 text-sm text-slate-400">${tempoDecorrido(r.lastSync)}</td>
+      <td class="px-6 py-4 text-sm font-mono text-slate-400">v${r.firmware}</td>
+      <td class="px-6 py-4 text-right">
+        <button onclick="forcarSyncRobo(${r.id})" class="px-3 py-1 text-xs rounded-md bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/25 transition mr-1">🔄 Sync</button>
+        <button onclick="desativarRobo(${r.id})" class="px-3 py-1 text-xs rounded-md bg-red-500/15 text-red-300 border border-red-500/30 hover:bg-red-500/25 transition">Desativar</button>
+      </td>
+    </tr>`).join('') || '<tr><td colspan="6" class="px-6 py-12 text-center text-slate-500">Nenhum robô</td></tr>';
+
+  $('robosCards').innerHTML = lista.map(r => `
+    <div class="p-4">
+      <div class="flex items-start gap-3">
+        <span class="text-2xl">🤖</span>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between gap-2">
+            <div class="font-medium text-white truncate">${r.nome}</div>
+            <span class="badge ${r.status} shrink-0">${r.status}</span>
+          </div>
+          <div class="text-xs text-slate-500 truncate">${getEmpresaNome(r.empresaId)} · v${r.firmware}</div>
+          <div class="text-xs text-slate-400 mt-1">Última sync: ${tempoDecorrido(r.lastSync)}</div>
+          <div class="flex gap-2 mt-3">
+            <button onclick="forcarSyncRobo(${r.id})" class="flex-1 px-3 py-1.5 text-xs rounded-md bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/25 transition">🔄 Sync</button>
+            <button onclick="desativarRobo(${r.id})" class="flex-1 px-3 py-1.5 text-xs rounded-md bg-red-500/15 text-red-300 border border-red-500/30 hover:bg-red-500/25 transition">Desativar</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('') || '<div class="p-8 text-center text-slate-500 text-sm">Nenhum robô</div>';
+}
+
+// "vida" dos robôs online: a cada 30s atualiza lastSync
+setInterval(() => {
+  robos.forEach(r => { if (r.status === 'online') r.lastSync = new Date().toISOString(); });
+  if (!$('page-robos').classList.contains('hidden')) renderRobos();
+}, 30000);
+
 function renderAll() {
   renderAlunoSelects();
   renderAlunos();
@@ -1161,6 +1794,9 @@ function renderAll() {
   renderAuditoria();
   renderLogs();
   renderOffline();
+  renderEmpresas();
+  renderUsuarios();
+  renderRobos();
 }
 
 // ===== Tema =====
