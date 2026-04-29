@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Access Core Mobile — Protótipo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        animation: {
+          'fade-in': 'fadeIn 0.3s ease-out',
+          'slide-up': 'slideUp 0.35s ease-out',
+          'pulse-ring': 'pulseRing 2s infinite',
+        },
+        keyframes: {
+          fadeIn: { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
+          slideUp: { '0%': { opacity: 0, transform: 'translateY(15px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
+          pulseRing: {
+            '0%': { boxShadow: '0 0 0 0 rgba(99,102,241,0.6)' },
+            '70%': { boxShadow: '0 0 0 20px rgba(99,102,241,0)' },
+            '100%': { boxShadow: '0 0 0 0 rgba(99,102,241,0)' },
+          }
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .desktop-bg {
+    background: radial-gradient(ellipse at center, #1e1b4b 0%, #0f172a 60%, #020617 100%);
+  }
+  /* Phone frame */
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: #0a0a0a;
+    border-radius: 50px;
+    padding: 12px;
+    box-shadow: 0 0 0 2px #1f2937, 0 30px 60px rgba(0,0,0,0.5), 0 0 100px rgba(99,102,241,0.15);
+    position: relative;
+  }
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 100%);
+    border-radius: 40px;
+    overflow: hidden;
+    position: relative;
+    color: #e2e8f0;
+  }
+  .notch {
+    position: absolute;
+    top: 12px; left: 50%;
+    transform: translateX(-50%);
+    width: 120px; height: 30px;
+    background: #0a0a0a;
+    border-radius: 20px;
+    z-index: 50;
+  }
+  .status-bar {
+    padding: 14px 28px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+  }
+  .screen-content {
+    height: calc(100% - 130px);
+    overflow-y: auto;
+    padding: 0 20px 20px;
+  }
+  .screen-content::-webkit-scrollbar { display: none; }
+  .bottom-nav {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(99,102,241,0.2);
+    padding: 10px 0 28px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: #64748b;
+    cursor: pointer;
+    padding: 6px;
+    border: none;
+    background: transparent;
+    transition: all 0.2s;
+  }
+  .nav-item.active {
+    color: #818cf8;
+  }
+  .nav-item .ico { font-size: 20px; }
+  .nav-item .lbl { font-size: 10px; font-weight: 600; }
+
+  .screen { display: none; }
+  .screen.active { display: block; animation: slideUp 0.35s ease-out; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+  .qr-pattern {
+    background-image:
+      linear-gradient(45deg, #000 25%, transparent 25%),
+      linear-gradient(-45deg, #000 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #000 75%),
+      linear-gradient(-45deg, transparent 75%, #000 75%);
+    background-size: 12px 12px;
+    background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+  }
+</style>
+</head>
+<body class="desktop-bg min-h-screen flex items-center justify-center py-10 px-4">
+
+<div class="text-center mb-6">
+  <h1 class="text-2xl font-bold text-white">Access Core — Mobile App</h1>
+  <p class="text-slate-400 text-sm">Protótipo do app do aluno</p>
+</div>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="phone-screen relative">
+
+    <!-- ===== LOGIN ===== -->
+    <div id="loginScreen" class="absolute inset-0 z-40 flex flex-col px-7 pt-24 pb-8">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-indigo-500 to-purple-600 mb-4 shadow-2xl shadow-indigo-500/40">
+          <span class="text-4xl">🏋️</span>
+        </div>
+        <h2 class="text-2xl font-bold text-white">Access Core</h2>
+        <p class="text-slate-400 text-sm mt-1">Sua academia na palma da mão</p>
+      </div>
+
+      <form onsubmit="event.preventDefault(); doLogin();" class="space-y-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">CPF ou e-mail</label>
+          <input id="loginUser" value="ana@email.com" class="w-full bg-slate-900/70 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Senha</label>
+          <input id="loginPwd" type="password" value="123456" class="w-full bg-slate-900/70 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500"/>
+        </div>
+        <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-3 rounded-xl shadow-lg shadow-indigo-500/30 mt-2">Entrar</button>
+        <button type="button" class="w-full text-xs text-slate-400 mt-2">Esqueceu a senha?</button>
+      </form>
+
+      <div class="mt-auto text-center">
+        <p class="text-xs text-slate-500">Demo: ana@email.com / 123456</p>
+      </div>
+    </div>
+
+    <!-- ===== APP ===== -->
+    <div id="appScreen" class="hidden h-full flex flex-col">
+      <!-- Status bar -->
+      <div class="status-bar pt-12">
+        <span id="statusTime">14:30</span>
+        <div class="flex items-center gap-1 text-xs">
+          <span>📶</span><span>📡</span><span>🔋</span>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="screen-content flex-1">
+
+        <!-- HOME -->
+        <section id="screen-home" class="screen active pt-2">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <p class="text-slate-400 text-xs">Olá,</p>
+              <h2 class="text-xl font-bold text-white">Ana Silva 👋</h2>
+            </div>
+            <button class="relative w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center" onclick="goTo('notif')">
+              <span>🔔</span>
+              <span id="notifBadge" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 text-[10px] flex items-center justify-center text-white font-bold">2</span>
+            </button>
+          </div>
+
+          <!-- Status Card -->
+          <div class="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl p-5 mb-5 shadow-xl shadow-indigo-500/20">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-medium text-indigo-200">PLANO ATIVO</span>
+              <span class="px-2 py-0.5 bg-emerald-400/30 text-emerald-200 rounded-full text-[10px] font-bold">EM DIA</span>
+            </div>
+            <div class="text-2xl font-bold mb-1">Mensal Premium</div>
+            <div class="text-sm text-indigo-200">Válido até 15/05/2026</div>
+            <div class="mt-4 pt-4 border-t border-white/20 grid grid-cols-2 gap-2">
+              <div>
+                <div class="text-[10px] text-indigo-200 uppercase">Próximo venc.</div>
+                <div class="text-sm font-semibold">15/05/2026</div>
+              </div>
+              <div>
+                <div class="text-[10px] text-indigo-200 uppercase">Mensalidade</div>
+                <div class="text-sm font-semibold">R$ 120,00</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick actions -->
+          <div class="grid grid-cols-4 gap-3 mb-6">
+            <button onclick="goTo('credencial')" class="flex flex-col items-center gap-1.5">
+              <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-xl">📱</div>
+              <span class="text-[10px] text-slate-300">Credencial</span>
+            </button>
+            <button onclick="goTo('pagar')" class="flex flex-col items-center gap-1.5">
+              <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-xl">💳</div>
+              <span class="text-[10px] text-slate-300">Pagar</span>
+            </button>
+            <button onclick="goTo('historico')" class="flex flex-col items-center gap-1.5">
+              <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-xl">📋</div>
+              <span class="text-[10px] text-slate-300">Histórico</span>
+            </button>
+            <button onclick="goTo('agenda')" class="flex flex-col items-center gap-1.5">
+              <div class="w-12 h-12 rounded-2xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-xl">🗓</div>
+              <span class="text-[10px] text-slate-300">Aulas</span>
+            </button>
+          </div>
+
+          <!-- Frequência -->
+          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-4 mb-4">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-semibold text-white text-sm">Esta semana</h3>
+              <span class="text-xs text-slate-400">4 visitas</span>
+            </div>
+            <div class="flex justify-between">
+              <div class="flex flex-col items-center gap-1">
+                <div class="w-7 h-7 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center">✓</div>
+                <span class="text-[10px] text-slate-400">Seg</span>
+              </div>
+              <div class="flex flex-col items-center gap-1">
+                <div class="w-7 h-7 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center">✓</div>
+                <span class="text-[10px] text-slate-400">Ter</span>
+              </div>
+              <div class="flex flex-col items-center gap-1">
+                <div class="w-7 h-7 rounded-full bg-slate-700 text-slate-500 text-[10px] flex items-center justify-center">·</div>
+                <span class="text-[10px] text-slate-400">Qua</span>
+              </div>
+              <div class="flex flex-col items-center gap-1">
+                <div class="w-7 h-7 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center">✓</div>
+                <span class="text-[10px] text-slate-400">Qui</span>
+              </div>
+              <div class="flex flex-col items-center gap-1">
+                <div class="w-7 h-7 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center">✓</div>
+                <span class="text-[10px] text-slate-400">Sex</span>
+              </div>
+              <div class="flex flex-col items-center gap-1">
+                <div class="w-7 h-7 rounded-full bg-slate-700 text-slate-500 text-[10px] flex items-center justify-center">·</div>
+                <span class="text-[10px] text-slate-400">Sáb</span>
+              </div>
+              <div class="flex flex-col items-center gap-1">
+                <div class="w-7 h-7 rounded-full border-2 border-indigo-500 text-indigo-400 text-[10px] flex items-center justify-center">•</div>
+                <span class="text-[10px] text-indigo-400">Dom</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Avisos -->
+          <div class="mb-2">
+            <h3 class="text-sm font-semibold text-white mb-2">Avisos</h3>
+            <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 mb-2">
+              <div class="flex gap-2">
+                <span class="text-base">⚠️</span>
+                <div>
+                  <p class="text-xs font-semibold text-amber-300">Manutenção da catraca 2</p>
+                  <p class="text-[11px] text-slate-400 mt-0.5">Use a catraca principal hoje das 14h às 16h</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-3">
+              <div class="flex gap-2">
+                <span class="text-base">🎉</span>
+                <div>
+                  <p class="text-xs font-semibold text-indigo-300">Indique amigos</p>
+                  <p class="text-[11px] text-slate-400 mt-0.5">Ganhe 1 mês grátis a cada amigo que se matricular</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CREDENCIAL (QR) -->
+        <section id="screen-credencial" class="screen pt-2">
+          <div class="flex items-center gap-3 mb-4">
+            <button onclick="goTo('home')" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center">←</button>
+            <h2 class="text-lg font-bold text-white">Credencial digital</h2>
+          </div>
+
+          <div class="bg-white rounded-3xl p-6 mx-2 shadow-2xl">
+            <div class="text-center mb-4">
+              <div class="text-xs font-bold text-slate-500 uppercase">Access Core</div>
+              <div class="text-base font-bold text-slate-900 mt-1">Ana Silva</div>
+              <div class="text-xs text-slate-500">CPF 111.111.111-11</div>
+            </div>
+            <div class="qr-pattern mx-auto" style="width:200px; height:200px; border-radius:8px; border:8px solid white; box-shadow: 0 0 0 1px #e5e7eb;"></div>
+            <div class="mt-4 text-center">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                ACESSO LIBERADO
+              </div>
+              <p class="text-[10px] text-slate-500 mt-3">Aproxime na catraca · Atualizado há 2s</p>
+            </div>
+          </div>
+
+          <p class="text-center text-xs text-slate-400 mt-4">
+            🔒 Token válido por 60 segundos<br/>
+            Não compartilhe sua credencial
+          </p>
+
+          <div class="mt-5 bg-slate-800/50 border border-slate-700/50 rounded-2xl p-4">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">📱</span>
+              <div class="flex-1">
+                <p class="text-sm font-semibold text-white">Salvar no Wallet</p>
+                <p class="text-[10px] text-slate-400">Apple Wallet · Google Wallet</p>
+              </div>
+              <span class="text-slate-400">›</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- PAGAR -->
+        <section id="screen-pagar" class="screen pt-2">
+          <div class="flex items-center gap-3 mb-4">
+            <button onclick="goTo('home')" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center">←</button>
+            <h2 class="text-lg font-bold text-white">Pagamentos</h2>
+          </div>
+
+          <div class="bg-gradient-to-br from-emerald-600 to-teal-700 rounded-2xl p-5 mb-5">
+            <div class="text-xs text-emerald-200 mb-1">PRÓXIMA FATURA</div>
+            <div class="text-3xl font-bold">R$ 120,00</div>
+            <div class="text-sm text-emerald-200 mt-1">Vence em 15/05/2026</div>
+            <button class="w-full mt-4 bg-white text-emerald-700 font-bold py-3 rounded-xl">Pagar agora</button>
+          </div>
+
+          <h3 class="text-sm font-semibold text-white mb-3">Formas de pagamento</h3>
+          <div class="space-y-2 mb-5">
+            <button class="w-full flex items-center gap-3 bg-slate-800/50 border border-slate-700/50 rounded-xl p-3">
+              <div class="w-10 h-10 rounded-lg bg-indigo-500/20 flex items-center justify-center">⚡</div>
+              <div class="flex-1 text-left">
+                <p class="text-sm font-semibold text-white">PIX</p>
+                <p class="text-[10px] text-slate-400">Aprovação imediata</p>
+              </div>
+              <span class="text-slate-400">›</span>
+            </button>
+            <button class="w-full flex items-center gap-3 bg-slate-800/50 border border-slate-700/50 rounded-xl p-3">
+              <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">💳</div>
+              <div class="flex-1 text-left">
+                <p class="text-sm font-semibold text-white">Cartão de crédito</p>
+                <p class="text-[10px] text-slate-400">•••• 4242</p>
+              </div>
+              <span class="text-slate-400">›</span>
+            </button>
+            <button class="w-full flex items-center gap-3 bg-slate-800/50 border border-slate-700/50 rounded-xl p-3">
+              <div class="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center">📄</div>
+              <div class="flex-1 text-left">
+                <p class="text-sm font-semibold text-white">Boleto</p>
+                <p class="text-[10px] text-slate-400">Compensa em até 3 dias</p>
+              </div>
+              <span class="text-slate-400">›</span>
+            </button>
+          </div>
+
+          <h3 class="text-sm font-semibold text-white mb-3">Histórico</h3>
+          <div class="space-y-2">
+            <div class="flex items-center gap-3 bg-slate-800/30 rounded-xl p-3">
+              <div class="w-9 h-9 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">✓</div>
+              <div class="flex-1">
+                <p class="text-xs font-semibold text-white">Mensalidade Abril</p>
+                <p class="text-[10px] text-slate-400">15/04/2026 · PIX</p>
+              </div>
+              <span class="text-sm font-semibold text-emerald-400">R$ 120</span>
+            </div>
+            <div class="flex items-center gap-3 bg-slate-800/30 rounded-xl p-3">
+              <div class="w-9 h-9 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">✓</div>
+              <div class="flex-1">
+                <p class="text-xs font-semibold text-white">Mensalidade Março</p>
+                <p class="text-[10px] text-slate-400">15/03/2026 · Cartão</p>
+              </div>
+              <span class="text-sm font-semibold text-emerald-400">R$ 120</span>
+            </div>
+            <div class="flex items-center gap-3 bg-slate-800/30 rounded-xl p-3">
+              <div class="w-9 h-9 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">✓</div>
+              <div class="flex-1">
+                <p class="text-xs font-semibold text-white">Mensalidade Fevereiro</p>
+                <p class="text-[10px] text-slate-400">15/02/2026 · PIX</p>
+              </div>
+              <span class="text-sm font-semibold text-emerald-400">R$ 120</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- HISTÓRICO -->
+        <section id="screen-historico" class="screen pt-2">
+          <div class="flex items-center gap-3 mb-4">
+            <button onclick="goTo('home')" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center">←</button>
+            <h2 class="text-lg font-bold text-white">Meus acessos</h2>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 mb-5">
+            <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-3 text-center">
+              <div class="text-xl font-bold text-white">18</div>
+              <div class="text-[10px] text-slate-400 uppercase">Este mês</div>
+            </div>
+            <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-3 text-center">
+              <div class="text-xl font-bold text-emerald-400">4</div>
+              <div class="text-[10px] text-slate-400 uppercase">Semana</div>
+            </div>
+            <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-3 text-center">
+              <div class="text-xl font-bold text-indigo-400">142</div>
+              <div class="text-[10px] text-slate-400 uppercase">Total</div>
+            </div>
+          </div>
+
+          <div class="space-y-2" id="historicoList"></div>
+        </section>
+
+        <!-- AGENDA -->
+        <section id="screen-agenda" class="screen pt-2">
+          <div class="flex items-center gap-3 mb-4">
+            <button onclick="goTo('home')" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center">←</button>
+            <h2 class="text-lg font-bold text-white">Aulas e horários</h2>
+          </div>
+
+          <div class="bg-gradient-to-r from-pink-600/30 to-purple-600/30 border border-pink-500/30 rounded-2xl p-4 mb-5">
+            <div class="text-xs text-pink-300 mb-1">PRÓXIMA AULA</div>
+            <div class="text-base font-bold text-white">Funcional · 18:00</div>
+            <div class="text-xs text-slate-300 mt-1">Prof. Ricardo · Sala 2</div>
+            <button class="mt-3 px-4 py-1.5 bg-white/10 backdrop-blur rounded-lg text-xs font-semibold">Cancelar reserva</button>
+          </div>
+
+          <h3 class="text-sm font-semibold text-white mb-3">Hoje</h3>
+          <div class="space-y-2 mb-5">
+            <div class="flex items-center gap-3 bg-slate-800/50 border border-slate-700/50 rounded-xl p-3">
+              <div class="text-center">
+                <div class="text-xs font-bold text-white">07:00</div>
+                <div class="text-[10px] text-slate-400">60 min</div>
+              </div>
+              <div class="flex-1 border-l border-slate-700 pl-3">
+                <p class="text-sm font-semibold text-white">Spinning</p>
+                <p class="text-[10px] text-slate-400">Prof. Marina · 8/15 vagas</p>
+              </div>
+              <button class="px-3 py-1 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 rounded-lg text-xs font-semibold">Reservar</button>
+            </div>
+            <div class="flex items-center gap-3 bg-slate-800/50 border border-pink-500/40 rounded-xl p-3">
+              <div class="text-center">
+                <div class="text-xs font-bold text-white">18:00</div>
+                <div class="text-[10px] text-slate-400">45 min</div>
+              </div>
+              <div class="flex-1 border-l border-slate-700 pl-3">
+                <p class="text-sm font-semibold text-white">Funcional ⭐</p>
+                <p class="text-[10px] text-slate-400">Prof. Ricardo · Reservada</p>
+              </div>
+              <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded-lg text-[10px] font-bold">RESERVADA</span>
+            </div>
+            <div class="flex items-center gap-3 bg-slate-800/50 border border-slate-700/50 rounded-xl p-3">
+              <div class="text-center">
+                <div class="text-xs font-bold text-white">19:30</div>
+                <div class="text-[10px] text-slate-400">60 min</div>
+              </div>
+              <div class="flex-1 border-l border-slate-700 pl-3">
+                <p class="text-sm font-semibold text-white">Yoga</p>
+                <p class="text-[10px] text-slate-400">Prof. Lucia · 14/15 vagas</p>
+              </div>
+              <button class="px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-lg text-xs font-semibold">1 vaga</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- PERFIL -->
+        <section id="screen-perfil" class="screen pt-2">
+          <h2 class="text-lg font-bold text-white mb-5">Meu perfil</h2>
+
+          <div class="flex flex-col items-center mb-6">
+            <div class="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-3xl font-bold text-white mb-3 shadow-xl shadow-indigo-500/30">AS</div>
+            <h3 class="text-lg font-bold text-white">Ana Silva</h3>
+            <p class="text-xs text-slate-400">Membro desde 03/2024</p>
+          </div>
+
+          <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-4 mb-4">
+            <h4 class="text-xs font-semibold text-slate-400 uppercase mb-3">Dados pessoais</h4>
+            <div class="space-y-3 text-sm">
+              <div class="flex justify-between"><span class="text-slate-400">CPF</span><span class="text-white">111.111.111-11</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Telefone</span><span class="text-white">(11) 98888-1111</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">E-mail</span><span class="text-white text-xs">ana@email.com</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Cidade</span><span class="text-white">São Paulo / SP</span></div>
+            </div>
+          </div>
+
+          <div class="space-y-2 mb-4">
+            <button class="w-full flex items-center justify-between bg-slate-800/50 border border-slate-700/50 rounded-xl p-3">
+              <div class="flex items-center gap-3"><span class="text-lg">🔒</span><span class="text-sm text-white">Alterar senha</span></div>
+              <span class="text-slate-400">›</span>
+            </button>
+            <button class="w-full flex items-center justify-between bg-slate-800/50 border border-slate-700/50 rounded-xl p-3">
+              <div class="flex items-center gap-3"><span class="text-lg">🔔</span><span class="text-sm text-white">Notificações</span></div>
+              <span class="text-slate-400">›</span>
+            </button>
+            <button class="w-full flex items-center justify-between bg-slate-800/50 border border-slate-700/50 rounded-xl p-3">
+              <div class="flex items-center gap-3"><span class="text-lg">❓</span><span class="text-sm text-white">Ajuda e suporte</span></div>
+              <span class="text-slate-400">›</span>
+            </button>
+            <button class="w-full flex items-center justify-between bg-slate-800/50 border border-slate-700/50 rounded-xl p-3">
+              <div class="flex items-center gap-3"><span class="text-lg">📄</span><span class="text-sm text-white">Termos de uso</span></div>
+              <span class="text-slate-400">›</span>
+            </button>
+          </div>
+
+          <button onclick="doLogout()" class="w-full bg-red-500/15 text-red-400 border border-red-500/30 font-semibold py-3 rounded-xl text-sm">Sair</button>
+
+          <p class="text-center text-[10px] text-slate-500 mt-4">Access Core v1.0.0</p>
+        </section>
+
+        <!-- NOTIFICAÇÕES -->
+        <section id="screen-notif" class="screen pt-2">
+          <div class="flex items-center gap-3 mb-4">
+            <button onclick="goTo('home')" class="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center">←</button>
+            <h2 class="text-lg font-bold text-white">Notificações</h2>
+          </div>
+          <div class="space-y-2">
+            <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-3">
+              <div class="flex gap-3">
+                <div class="w-9 h-9 rounded-full bg-indigo-500/20 flex items-center justify-center">💳</div>
+                <div class="flex-1">
+                  <p class="text-sm font-semibold text-white">Pagamento aprovado</p>
+                  <p class="text-[11px] text-slate-400 mt-0.5">Sua mensalidade de abril foi paga via PIX</p>
+                  <p class="text-[10px] text-slate-500 mt-1">há 2 dias</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3">
+              <div class="flex gap-3">
+                <div class="w-9 h-9 rounded-full bg-amber-500/20 flex items-center justify-center">🗓</div>
+                <div class="flex-1">
+                  <p class="text-sm font-semibold text-white">Aula confirmada</p>
+                  <p class="text-[11px] text-slate-400 mt-0.5">Funcional hoje às 18:00 com Prof. Ricardo</p>
+                  <p class="text-[10px] text-slate-500 mt-1">há 5 horas</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-3 opacity-70">
+              <div class="flex gap-3">
+                <div class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center">🎉</div>
+                <div class="flex-1">
+                  <p class="text-sm font-semibold text-white">Parabéns pela frequência!</p>
+                  <p class="text-[11px] text-slate-400 mt-0.5">Você bateu sua meta da semana passada</p>
+                  <p class="text-[10px] text-slate-500 mt-1">há 1 semana</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Bottom Nav -->
+      <nav class="bottom-nav">
+        <button class="nav-item active" data-screen="home" onclick="goTo('home')">
+          <span class="ico">🏠</span><span class="lbl">Início</span>
+        </button>
+        <button class="nav-item" data-screen="credencial" onclick="goTo('credencial')">
+          <span class="ico">📱</span><span class="lbl">Credencial</span>
+        </button>
+        <button class="nav-item" data-screen="historico" onclick="goTo('historico')">
+          <span class="ico">📋</span><span class="lbl">Histórico</span>
+        </button>
+        <button class="nav-item" data-screen="perfil" onclick="goTo('perfil')">
+          <span class="ico">👤</span><span class="lbl">Perfil</span>
+        </button>
+      </nav>
+    </div>
+
+  </div>
+</div>
+
+<div class="text-center mt-6 text-xs text-slate-500">
+  <a href="index.html" class="text-indigo-400 hover:underline">← Ver protótipo do painel admin</a>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+function doLogin() {
+  $('loginScreen').classList.add('hidden');
+  $('appScreen').classList.remove('hidden');
+}
+function doLogout() {
+  $('appScreen').classList.add('hidden');
+  $('loginScreen').classList.remove('hidden');
+}
+
+function goTo(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $('screen-' + screen).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const navBtn = document.querySelector(`.nav-item[data-screen="${screen}"]`);
+  if (navBtn) navBtn.classList.add('active');
+  $('appScreen').querySelector('.screen-content').scrollTop = 0;
+}
+
+// Histórico mock
+const historico = [
+  { data: '28/04/2026', hora: '07:23', resultado: 'liberado' },
+  { data: '27/04/2026', hora: '18:45', resultado: 'liberado' },
+  { data: '26/04/2026', hora: '07:15', resultado: 'liberado' },
+  { data: '25/04/2026', hora: '19:02', resultado: 'liberado' },
+  { data: '24/04/2026', hora: '08:10', resultado: 'liberado' },
+  { data: '23/04/2026', hora: '07:30', resultado: 'liberado' },
+  { data: '22/04/2026', hora: '12:15', resultado: 'negado' },
+  { data: '22/04/2026', hora: '12:18', resultado: 'liberado' },
+  { data: '21/04/2026', hora: '18:22', resultado: 'liberado' },
+];
+$('historicoList').innerHTML = historico.map(h => {
+  const ok = h.resultado === 'liberado';
+  return `<div class="flex items-center gap-3 bg-slate-800/30 rounded-xl p-3">
+    <div class="w-9 h-9 rounded-full ${ok ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'} flex items-center justify-center">${ok ? '✓' : '✕'}</div>
+    <div class="flex-1">
+      <p class="text-xs font-semibold text-white">${ok ? 'Acesso liberado' : 'Acesso negado'}</p>
+      <p class="text-[10px] text-slate-400">${h.data} · ${h.hora}</p>
+    </div>
+    <span class="text-[10px] ${ok ? 'text-emerald-400' : 'text-red-400'} font-semibold uppercase">${h.resultado}</span>
+  </div>`;
+}).join('');
+
+// Atualiza relógio
+function tick() {
+  const now = new Date();
+  $('statusTime').textContent = now.toTimeString().slice(0,5);
+}
+tick(); setInterval(tick, 30000);
+</script>
+
+</body>
+</html>

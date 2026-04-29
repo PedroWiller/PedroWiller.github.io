@@ -1,142 +1,1042 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="pt-BR">
 <head>
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
-    <script type="text/javascript" src="js/materialize.min.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Access Core — Protótipo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        colors: {
+          brand: {
+            50:  '#eef2ff',
+            100: '#e0e7ff',
+            500: '#6366f1',
+            600: '#4f46e5',
+            700: '#4338ca',
+          }
+        },
+        animation: {
+          'fade-in': 'fadeIn 0.3s ease-out',
+          'slide-up': 'slideUp 0.4s ease-out',
+          'pulse-glow': 'pulseGlow 2s infinite',
+        },
+        keyframes: {
+          fadeIn: { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
+          slideUp: { '0%': { opacity: 0, transform: 'translateY(20px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
+          pulseGlow: {
+            '0%, 100%': { boxShadow: '0 0 20px rgba(99,102,241,0.3)' },
+            '50%': { boxShadow: '0 0 40px rgba(99,102,241,0.6)' },
+          }
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .glass { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(12px); }
+  .gradient-bg {
+    background: radial-gradient(ellipse at top left, #1e1b4b 0%, #0f172a 50%, #020617 100%);
+  }
+  .gradient-text {
+    background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #1e293b; }
+  ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
 
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+  /* ===== LIGHT THEME OVERRIDES ===== */
+  body.light { color: #1e293b !important; }
+  body.light.gradient-bg {
+    background: radial-gradient(ellipse at top left, #eef2ff 0%, #f8fafc 50%, #f1f5f9 100%) !important;
+  }
+  body.light .glass {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(12px);
+  }
+  body.light .gradient-text {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  body.light ::-webkit-scrollbar-track { background: #e2e8f0; }
+  body.light ::-webkit-scrollbar-thumb { background: #94a3b8; }
 
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  /* Borders */
+  body.light .border-slate-700,
+  body.light .border-slate-700\/50 { border-color: rgba(203, 213, 225, 0.8) !important; }
+  body.light .divide-slate-700\/50 > * + * { border-color: rgba(203, 213, 225, 0.6) !important; }
 
+  /* Backgrounds */
+  body.light .bg-slate-800,
+  body.light .bg-slate-800\/30,
+  body.light .bg-slate-800\/50,
+  body.light .bg-slate-900\/50,
+  body.light .bg-slate-900\/70 { background-color: rgba(248, 250, 252, 0.9) !important; }
+  body.light .hover\:bg-slate-800\/30:hover { background-color: rgba(241, 245, 249, 0.8) !important; }
+  body.light .bg-slate-700\/50 { background-color: #e2e8f0 !important; }
+  body.light .hover\:bg-slate-700:hover,
+  body.light .hover\:bg-slate-700\/50:hover { background-color: #cbd5e1 !important; }
+  body.light thead.bg-slate-900\/50 { background-color: #f1f5f9 !important; }
+
+  /* Text colors */
+  body.light .text-white { color: #0f172a !important; }
+  body.light .text-slate-200 { color: #1e293b !important; }
+  body.light .text-slate-300 { color: #334155 !important; }
+  body.light .text-slate-400 { color: #475569 !important; }
+  body.light .text-slate-500 { color: #64748b !important; }
+
+  /* Inputs */
+  body.light input,
+  body.light select {
+    background: white !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+  }
+  body.light input::placeholder { color: #94a3b8 !important; }
+
+  /* Header sticky border */
+  body.light header.glass { border-color: rgba(203, 213, 225, 0.8) !important; }
+
+  /* Nav */
+  body.light .nav-btn { color: #475569; }
+  body.light .nav-btn:hover { background: rgba(99, 102, 241, 0.08); color: #0f172a; }
+  body.light .nav-btn.active {
+    background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(168,85,247,0.15));
+    color: #4338ca;
+    border: 1px solid rgba(99,102,241,0.3);
+  }
+
+  /* Catraca neutral */
+  body.light #catracaDisplay.bg-slate-900\/40 { background-color: #f1f5f9 !important; }
+</style>
 </head>
+<body class="gradient-bg text-slate-200 min-h-screen">
 
-<body>
-    <div class="row"></div>
-    <div class="row">
-        <div class="col s2"></div>
-        <div class="col s8">
-            <div class="card">
-                <div class="card-content">
-                    <div class="row">
-                        <div class="col s12">
-                            <form class="row">
-                                <div class="input-field col s3">
-                                    <input placeholder="" id="nota" type="text" class="validate" style="text-transform: uppercase">
-                                    <label for="first_name">Nota</label>
-                                </div>
-                                <div class="input-field col s2">
-                                    <button class="btn waves-effect waves-light" type="submit" id="btnCriarEscala">Criar Escala
-                                        <i class="material-icons right">send</i>
-                                    </button>
-                                </div>
-                                <div class="input-field col s7">
-                                    <p>
-                                        <label>
-                                            <input  class="with-gap" name="Modo" type="radio" value="1" id="maior" checked/>
-                                            <span>Maior</span>
-                                        </label>
-                                        <label>
-                                            <input class="with-gap" name="Modo" type="radio" value="1"/>
-                                            <span>Menor</span>
-                                        </label>
-                                    </p>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <table class="striped" style="display: none;" id="tabelaEscala">
-                        <thead>
-                            <tr>
-                                <th style="width: 20px;">1</th>
-                                <th style="width: 20px;">2</th>
-                                <th style="width: 20px;">3</th>
-                                <th style="width: 20px;">4</th>
-                                <th style="width: 20px;">5</th>
-                                <th style="width: 20px;">6</th>
-                                <th style="width: 20px;">7</th>
-                                <th style="width: 20px;">8</th>
-                            </tr>
-                        </thead>
-                        <tbody id="escala">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+<!-- ===== LOGIN ===== -->
+<div id="loginPage" class="min-h-screen flex items-center justify-center p-4 animate-fade-in">
+  <div class="w-full max-w-md">
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-brand-500 to-purple-600 mb-4 shadow-lg shadow-brand-500/30">
+        <span class="text-4xl">🏋️</span>
+      </div>
+      <h1 class="text-3xl font-bold gradient-text">Access Core</h1>
+      <p class="text-slate-400 mt-2 text-sm">Sistema de Controle de Acesso</p>
     </div>
 
-</body>
+    <div class="glass border border-slate-700/50 rounded-2xl p-8 shadow-2xl">
+      <h2 class="text-xl font-semibold text-white mb-1">Bem-vindo de volta</h2>
+      <p class="text-slate-400 text-sm mb-6">Entre com suas credenciais</p>
 
+      <form onsubmit="event.preventDefault(); doLogin();" class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1.5">E-mail</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">✉</span>
+            <input id="loginEmail" type="email" value="admin@academia.com"
+              class="w-full bg-slate-900/50 border border-slate-700 rounded-lg pl-10 pr-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"/>
+          </div>
+        </div>
 
-</html>
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1.5">Senha</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">🔒</span>
+            <input id="loginPwd" type="password" value="admin123"
+              class="w-full bg-slate-900/50 border border-slate-700 rounded-lg pl-10 pr-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"/>
+          </div>
+        </div>
 
-<script>
-    var notas = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-    document.getElementById("btnCriarEscala").onclick = (function(e) {
-        e.preventDefault();
+        <div class="flex items-center justify-between text-xs">
+          <label class="flex items-center gap-2 text-slate-400 cursor-pointer">
+            <input type="checkbox" class="rounded bg-slate-900 border-slate-700 text-brand-600"/>
+            Lembrar-me
+          </label>
+          <a href="#" class="text-brand-500 hover:text-brand-400">Esqueceu a senha?</a>
+        </div>
 
-        var tom = 2,
-            semiTom = 1;
+        <button type="submit" class="w-full bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-semibold py-2.5 rounded-lg shadow-lg shadow-brand-500/20 transition-all hover:scale-[1.02]">
+          Entrar →
+        </button>
 
-        var escalaMaior;
+        <div id="loginError" class="hidden text-center text-sm text-red-400 bg-red-500/10 border border-red-500/30 rounded-lg py-2"></div>
+      </form>
 
-        if (document.getElementById("maior").checked)
-            escalaMaior = [tom, tom, semiTom, tom, tom, tom, semiTom];
-        else
-            escalaMaior = [tom, semiTom, tom, tom, semiTom, tom, tom];
+      <div class="mt-6 pt-6 border-t border-slate-700/50 text-center text-xs text-slate-500">
+        Demo: <span class="text-slate-300">admin@academia.com</span> / <span class="text-slate-300">admin123</span>
+      </div>
+    </div>
+  </div>
+</div>
 
-        var tudo = ["C", "D", "E", "F", "G", "A", "B", "C"];
+<!-- ===== APP ===== -->
+<div id="appPage" class="hidden min-h-screen">
 
-        var nota = document.getElementById("nota").value,
-            body = document.getElementById("escala");
-        nota = nota.toUpperCase();
-        if (nota != "")
-            tudo = [nota];
+  <!-- Header -->
+  <header class="glass border-b border-slate-700/50 sticky top-0 z-40">
+    <div class="px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center">
+          <span class="text-lg">🏋️</span>
+        </div>
+        <div>
+          <h1 class="font-bold text-white text-lg leading-tight">Access Core</h1>
+          <p class="text-xs text-slate-400 leading-tight">Painel administrativo</p>
+        </div>
+      </div>
 
-        if (nota != "" && notas.findIndex(x => x == nota) == -1) {
-            M.toast({
-                html: 'Nota informada não existente!'
-            });
-            return;
-        }
-        var tbody = "";
-        for (var nota in tudo) {
-            tbody += "<tr>";
-            nota = tudo[nota];
-            tbody += "<td><p style='color: red'>" + nota + "</p></td>";
-            for (var i in escalaMaior) {
-                nota = buscaNotaEscala(nota, escalaMaior[i]);
-                if (i == 1 || i == 3 || i == 5)
-                    tbody += "<td><p style='color: red'>" + nota + "</p></td>";
-                else
-                    tbody += "<td>" + nota + "</td>";
-            }
-            tbody += "</tr>";
-        }
+      <div class="flex items-center gap-4">
+        <div class="hidden md:flex items-center gap-2 text-sm bg-slate-800/50 px-3 py-1.5 rounded-full border border-slate-700/50">
+          <span id="apiDot" class="w-2 h-2 rounded-full bg-emerald-500 shadow-emerald-500/50 shadow-md"></span>
+          <span id="apiStatus" class="text-slate-300">API Online</span>
+          <label class="ml-2 relative inline-flex items-center cursor-pointer" title="Simular API offline">
+            <input type="checkbox" id="apiToggle" checked class="sr-only peer"/>
+            <div class="w-9 h-5 bg-slate-700 rounded-full peer peer-checked:bg-emerald-500 transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:w-4 after:h-4 after:transition-transform peer-checked:after:translate-x-4"></div>
+          </label>
+        </div>
 
-        body.innerHTML = tbody;
-        document.getElementById("tabelaEscala").style.display = "";
-        return;
-    });
+        <button id="themeToggle" onclick="toggleTheme()" title="Alternar tema" class="w-9 h-9 rounded-full bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 flex items-center justify-center transition">
+          <span id="themeIcon">🌙</span>
+        </button>
 
-    function buscaNotaEscala(nota, tom) {
-        var batataStrikesBack = notas.findIndex(x => x == nota);
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center text-xs font-semibold">AD</div>
+          <button onclick="doLogout()" class="text-sm text-slate-400 hover:text-white transition">Sair</button>
+        </div>
+      </div>
+    </div>
+  </header>
 
-        tom += batataStrikesBack;
-        if (tom >= notas.length)
-            tom = (tom - (notas.length));
+  <div class="flex">
+    <!-- Sidebar -->
+    <nav class="w-64 min-h-[calc(100vh-65px)] glass border-r border-slate-700/50 p-4 sticky top-[65px] self-start">
+      <div class="space-y-1">
+        <button class="nav-btn w-full" data-page="catraca">
+          <span class="text-lg">🚪</span> <span>Catraca</span>
+          <span class="ml-auto text-[10px] bg-slate-700/50 px-1.5 py-0.5 rounded">US01/02</span>
+        </button>
+        <button class="nav-btn w-full" data-page="alunos">
+          <span class="text-lg">👥</span> <span>Alunos</span>
+          <span class="ml-auto text-[10px] bg-slate-700/50 px-1.5 py-0.5 rounded">US04</span>
+        </button>
+        <button class="nav-btn w-full" data-page="pagamentos">
+          <span class="text-lg">💳</span> <span>Pagamentos</span>
+          <span class="ml-auto text-[10px] bg-slate-700/50 px-1.5 py-0.5 rounded">US03</span>
+        </button>
+        <button class="nav-btn w-full" data-page="auditoria">
+          <span class="text-lg">📋</span> <span>Auditoria</span>
+          <span class="ml-auto text-[10px] bg-slate-700/50 px-1.5 py-0.5 rounded">US06</span>
+        </button>
+        <button class="nav-btn w-full" data-page="logs">
+          <span class="text-lg">📜</span> <span>Log de Acessos</span>
+          <span class="ml-auto text-[10px] bg-slate-700/50 px-1.5 py-0.5 rounded">US06</span>
+        </button>
+        <button class="nav-btn w-full" data-page="offline">
+          <span class="text-lg">📡</span> <span>Offline / Sync</span>
+          <span class="ml-auto text-[10px] bg-slate-700/50 px-1.5 py-0.5 rounded">US05</span>
+        </button>
+      </div>
 
-        return notas[tom];
-    }
-</script>
+      <div class="mt-8 p-4 rounded-xl bg-gradient-to-br from-brand-600/20 to-purple-600/20 border border-brand-500/30">
+        <p class="text-xs text-slate-300 font-medium">💡 Dica</p>
+        <p class="text-xs text-slate-400 mt-1">Use o toggle do header para simular API offline e testar o fallback de cache.</p>
+      </div>
+    </nav>
+
+    <!-- Main -->
+    <main class="flex-1 p-6 overflow-auto">
+
+      <!-- ===== CATRACA ===== -->
+      <section id="page-catraca" class="page animate-slide-up">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-white">Validação de Acesso</h2>
+          <p class="text-slate-400 text-sm">Simule a leitura de credencial na catraca</p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-6">
+          <div class="glass border border-slate-700/50 rounded-2xl p-6">
+            <h3 class="text-white font-semibold mb-4 flex items-center gap-2">
+              <span class="w-1 h-5 bg-brand-500 rounded-full"></span> Simular passagem
+            </h3>
+            <label class="block text-xs text-slate-400 mb-1.5">Aluno</label>
+            <select id="alunoSelect" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm mb-4 focus:outline-none focus:border-brand-500"></select>
+            <div class="flex gap-2">
+              <button onclick="validarAcesso()" class="flex-1 bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-semibold py-2.5 rounded-lg shadow-lg shadow-brand-500/20 transition">
+                ▶ Validar Acesso
+              </button>
+              <button onclick="resetCatraca()" class="px-4 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg text-sm transition">Reset</button>
+            </div>
+          </div>
+
+          <div class="glass border border-slate-700/50 rounded-2xl p-6">
+            <div id="catracaDisplay" class="rounded-xl p-10 text-center border-2 border-slate-700 bg-slate-900/40 transition-all">
+              <div id="catracaIcon" class="text-7xl mb-3">🚪</div>
+              <div id="catracaMsg" class="text-2xl font-bold text-white mb-1">Aguardando...</div>
+              <div id="catracaSub" class="text-sm text-slate-400">Aproxime sua credencial</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+          <div class="glass border border-slate-700/50 rounded-xl p-5">
+            <div class="text-slate-400 text-xs uppercase tracking-wide">Tentativas hoje</div>
+            <div class="text-3xl font-bold text-white mt-1" id="statTotal">0</div>
+          </div>
+          <div class="glass border border-emerald-500/30 rounded-xl p-5 bg-emerald-500/5">
+            <div class="text-emerald-400 text-xs uppercase tracking-wide">✅ Liberadas</div>
+            <div class="text-3xl font-bold text-emerald-400 mt-1" id="statLiberadas">0</div>
+          </div>
+          <div class="glass border border-red-500/30 rounded-xl p-5 bg-red-500/5">
+            <div class="text-red-400 text-xs uppercase tracking-wide">⛔ Negadas</div>
+            <div class="text-3xl font-bold text-red-400 mt-1" id="statNegadas">0</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ALUNOS ===== -->
+      <section id="page-alunos" class="page hidden animate-slide-up">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-white">Cadastro de Alunos</h2>
+          <p class="text-slate-400 text-sm">Gerencie matrículas e status de acesso</p>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl p-6 mb-6">
+          <h3 class="text-white font-semibold mb-4 flex items-center gap-2">
+            <span class="w-1 h-5 bg-brand-500 rounded-full"></span> Novo aluno
+          </h3>
+          <div class="grid md:grid-cols-3 gap-4 mb-4">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Nome completo *</label>
+              <input id="novoNome" placeholder="Ex: João Silva" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">CPF *</label>
+              <input id="novoCpf" placeholder="000.000.000-00" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Data de nascimento</label>
+              <input id="novoNasc" type="date" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">E-mail</label>
+              <input id="novoEmail" type="email" placeholder="aluno@email.com" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Telefone</label>
+              <input id="novoTel" placeholder="(00) 00000-0000" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Plano *</label>
+              <select id="novoPlano" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500">
+                <option>Mensal</option><option>Trimestral</option><option>Anual</option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-xs text-slate-400 mb-1.5">Endereço</label>
+              <input id="novoEnd" placeholder="Rua, número, bairro" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Cidade / UF</label>
+              <input id="novoCidade" placeholder="São Paulo / SP" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">CEP</label>
+              <input id="novoCep" placeholder="00000-000" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Contato de emergência</label>
+              <input id="novoEmerg" placeholder="Nome e telefone" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+          </div>
+          <button onclick="cadastrarAluno()" class="bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-brand-500/20 transition">
+            + Cadastrar
+          </button>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden">
+          <div class="p-6 border-b border-slate-700/50">
+            <h3 class="text-white font-semibold">Alunos cadastrados</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
+                <tr>
+                  <th class="text-left px-6 py-3">Aluno</th>
+                  <th class="text-left px-6 py-3">CPF</th>
+                  <th class="text-left px-6 py-3">Plano</th>
+                  <th class="text-left px-6 py-3">Vencimento</th>
+                  <th class="text-left px-6 py-3">Status</th>
+                  <th class="text-right px-6 py-3">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="alunosTable" class="divide-y divide-slate-700/50"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PAGAMENTOS ===== -->
+      <section id="page-pagamentos" class="page hidden animate-slide-up">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-white">Pagamentos</h2>
+          <p class="text-slate-400 text-sm">Registre pagamentos e atualize status dos alunos</p>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl p-6 mb-6">
+          <h3 class="text-white font-semibold mb-4 flex items-center gap-2">
+            <span class="w-1 h-5 bg-emerald-500 rounded-full"></span> Registrar pagamento
+          </h3>
+          <div class="grid md:grid-cols-3 gap-4 mb-4">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Aluno</label>
+              <select id="pagAluno" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"></select>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Valor (R$)</label>
+              <input id="pagValor" type="number" value="120" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Validade até</label>
+              <input id="pagValidade" type="date" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+          </div>
+          <button onclick="registrarPagamento()" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-emerald-500/20 transition">
+            💳 Registrar Pagamento
+          </button>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden">
+          <div class="p-6 border-b border-slate-700/50">
+            <h3 class="text-white font-semibold">Histórico</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
+                <tr>
+                  <th class="text-left px-6 py-3">Data</th>
+                  <th class="text-left px-6 py-3">Aluno</th>
+                  <th class="text-left px-6 py-3">Valor</th>
+                  <th class="text-left px-6 py-3">Validade</th>
+                  <th class="text-left px-6 py-3">Status</th>
+                </tr>
+              </thead>
+              <tbody id="pagamentosTable" class="divide-y divide-slate-700/50"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== AUDITORIA ===== -->
+      <section id="page-auditoria" class="page hidden animate-slide-up">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-white">Auditoria de Acessos</h2>
+          <p class="text-slate-400 text-sm">Histórico completo de tentativas de acesso</p>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl p-6 mb-6">
+          <div class="grid md:grid-cols-3 gap-4 items-end">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Filtrar por aluno</label>
+              <input id="filtroAluno" placeholder="Nome..." oninput="renderAuditoria()" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Resultado</label>
+              <select id="filtroResultado" onchange="renderAuditoria()" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500">
+                <option value="">Todos</option>
+                <option value="liberado">Liberado</option>
+                <option value="negado">Negado</option>
+              </select>
+            </div>
+            <button onclick="limparFiltros()" class="px-4 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg text-sm transition">
+              Limpar filtros
+            </button>
+          </div>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
+                <tr>
+                  <th class="text-left px-6 py-3">Data/Hora</th>
+                  <th class="text-left px-6 py-3">Aluno</th>
+                  <th class="text-left px-6 py-3">Resultado</th>
+                  <th class="text-left px-6 py-3">Motivo</th>
+                  <th class="text-left px-6 py-3">Origem</th>
+                </tr>
+              </thead>
+              <tbody id="auditoriaTable" class="divide-y divide-slate-700/50"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== LOG DE ACESSOS ===== -->
+      <section id="page-logs" class="page hidden animate-slide-up">
+        <div class="mb-6 flex items-center justify-between flex-wrap gap-3">
+          <div>
+            <h2 class="text-2xl font-bold text-white">Log de Acessos</h2>
+            <p class="text-slate-400 text-sm">Registro detalhado de cada passagem na catraca</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="exportarCSV()" class="px-4 py-2 bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 rounded-lg text-sm transition">⬇ Exportar CSV</button>
+            <button onclick="limparLogs()" class="px-4 py-2 bg-red-500/15 text-red-300 border border-red-500/30 hover:bg-red-500/25 rounded-lg text-sm transition">🗑 Limpar</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <div class="glass border border-slate-700/50 rounded-xl p-4">
+            <div class="text-xs text-slate-400 uppercase">Total registros</div>
+            <div class="text-2xl font-bold text-white mt-1" id="logTotal">0</div>
+          </div>
+          <div class="glass border border-emerald-500/30 rounded-xl p-4 bg-emerald-500/5">
+            <div class="text-xs text-emerald-400 uppercase">Liberados</div>
+            <div class="text-2xl font-bold text-emerald-400 mt-1" id="logLiberados">0</div>
+          </div>
+          <div class="glass border border-red-500/30 rounded-xl p-4 bg-red-500/5">
+            <div class="text-xs text-red-400 uppercase">Negados</div>
+            <div class="text-2xl font-bold text-red-400 mt-1" id="logNegados">0</div>
+          </div>
+          <div class="glass border border-amber-500/30 rounded-xl p-4 bg-amber-500/5">
+            <div class="text-xs text-amber-400 uppercase">Via cache</div>
+            <div class="text-2xl font-bold text-amber-400 mt-1" id="logCache">0</div>
+          </div>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl p-6 mb-6">
+          <div class="grid md:grid-cols-4 gap-4 items-end">
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Data inicial</label>
+              <input id="logDtInicio" type="date" oninput="renderLogs()" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Data final</label>
+              <input id="logDtFim" type="date" oninput="renderLogs()" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Aluno</label>
+              <input id="logFiltroAluno" placeholder="Buscar por nome..." oninput="renderLogs()" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1.5">Origem</label>
+              <select id="logFiltroOrigem" onchange="renderLogs()" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500">
+                <option value="">Todas</option>
+                <option value="API">API</option>
+                <option value="Cache Local">Cache Local</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
+                <tr>
+                  <th class="text-left px-6 py-3">#</th>
+                  <th class="text-left px-6 py-3">Data</th>
+                  <th class="text-left px-6 py-3">Hora</th>
+                  <th class="text-left px-6 py-3">Aluno</th>
+                  <th class="text-left px-6 py-3">CPF</th>
+                  <th class="text-left px-6 py-3">Resultado</th>
+                  <th class="text-left px-6 py-3">Motivo</th>
+                  <th class="text-left px-6 py-3">Origem</th>
+                </tr>
+              </thead>
+              <tbody id="logsTable" class="divide-y divide-slate-700/50"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== OFFLINE ===== -->
+      <section id="page-offline" class="page hidden animate-slide-up">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-white">Funcionamento Offline</h2>
+          <p class="text-slate-400 text-sm">Cache local e sincronização posterior</p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-6 mb-6">
+          <div class="glass border border-slate-700/50 rounded-2xl p-6">
+            <h3 class="text-white font-semibold mb-4 flex items-center gap-2">
+              <span class="w-1 h-5 bg-cyan-500 rounded-full"></span> Status da conexão
+            </h3>
+            <div class="flex items-center gap-3 text-lg mb-3">
+              <span id="connDot" class="w-3 h-3 rounded-full bg-emerald-500 shadow-emerald-500/50 shadow-md"></span>
+              <span id="connText" class="font-semibold">API Online</span>
+            </div>
+            <p class="text-sm text-slate-400">Quando offline, o sistema usa <b class="text-white">cache local</b> para validar acessos e armazena eventos para envio posterior.</p>
+          </div>
+
+          <div class="glass border border-slate-700/50 rounded-2xl p-6">
+            <h3 class="text-white font-semibold mb-4 flex items-center gap-2">
+              <span class="w-1 h-5 bg-amber-500 rounded-full"></span> Eventos pendentes
+            </h3>
+            <div class="text-4xl font-bold text-amber-400" id="pendCount">0</div>
+            <p class="text-xs text-slate-400 mt-1">aguardando sincronização</p>
+            <button onclick="sincronizar()" class="mt-4 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-semibold px-4 py-2 rounded-lg text-sm transition">
+              🔄 Sincronizar agora
+            </button>
+          </div>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden mb-6">
+          <div class="p-6 border-b border-slate-700/50">
+            <h3 class="text-white font-semibold">Cache local de alunos</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
+                <tr>
+                  <th class="text-left px-6 py-3">Aluno</th>
+                  <th class="text-left px-6 py-3">Status</th>
+                  <th class="text-left px-6 py-3">Última atualização</th>
+                </tr>
+              </thead>
+              <tbody id="cacheTable" class="divide-y divide-slate-700/50"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden">
+          <div class="p-6 border-b border-slate-700/50">
+            <h3 class="text-white font-semibold">Fila de eventos offline</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
+                <tr>
+                  <th class="text-left px-6 py-3">Data/Hora</th>
+                  <th class="text-left px-6 py-3">Aluno</th>
+                  <th class="text-left px-6 py-3">Resultado</th>
+                  <th class="text-left px-6 py-3">Status</th>
+                </tr>
+              </thead>
+              <tbody id="filaTable" class="divide-y divide-slate-700/50"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-6 right-6 px-5 py-3 rounded-xl border shadow-2xl backdrop-blur-md opacity-0 translate-y-4 transition-all z-50 pointer-events-none"></div>
 
 <style>
-    td {
-        width: 100px;
-    }
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: #cbd5e1;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    text-align: left;
+  }
+  .nav-btn:hover { background: rgba(99, 102, 241, 0.1); color: white; }
+  .nav-btn.active {
+    background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(168,85,247,0.2));
+    color: white;
+    border: 1px solid rgba(99,102,241,0.3);
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .badge.ativo, .badge.liberado { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
+  .badge.inadimplente, .badge.bloqueado, .badge.negado, .badge.vencido { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+  .badge.aguardando { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
 </style>
+
+<script>
+// ===== Mock Data =====
+let alunos = [
+  { id: 1, nome: 'Ana Silva',    cpf: '111.111.111-11', nasc: '1995-03-12', email: 'ana@email.com',    tel: '(11) 98888-1111', endereco: 'Rua das Flores, 100',  cidade: 'São Paulo / SP', cep: '01010-000', emergencia: 'Marcos (11) 97777-1111', plano: 'Mensal',     validade: '2026-05-15', status: 'ativo',        bloqueado: false },
+  { id: 2, nome: 'Bruno Costa',  cpf: '222.222.222-22', nasc: '1990-07-22', email: 'bruno@email.com',  tel: '(11) 98888-2222', endereco: 'Av. Brasil, 250',      cidade: 'São Paulo / SP', cep: '02020-000', emergencia: 'Júlia (11) 97777-2222',  plano: 'Trimestral', validade: '2026-03-10', status: 'inadimplente', bloqueado: false },
+  { id: 3, nome: 'Carla Mendes', cpf: '333.333.333-33', nasc: '1998-11-05', email: 'carla@email.com',  tel: '(11) 98888-3333', endereco: 'Rua do Sol, 78',       cidade: 'Campinas / SP',  cep: '13010-000', emergencia: 'Pedro (11) 97777-3333',  plano: 'Anual',      validade: '2026-12-30', status: 'ativo',        bloqueado: true  },
+  { id: 4, nome: 'Diego Lima',   cpf: '444.444.444-44', nasc: '1988-01-30', email: 'diego@email.com',  tel: '(11) 98888-4444', endereco: 'Praça Central, 12',    cidade: 'Santos / SP',    cep: '11010-000', emergencia: 'Ana (11) 97777-4444',    plano: 'Mensal',     validade: '2026-05-20', status: 'ativo',        bloqueado: false },
+];
+let pagamentos = [
+  { data: '2026-04-15', alunoId: 1, valor: 120, validade: '2026-05-15' },
+  { data: '2026-01-10', alunoId: 2, valor: 320, validade: '2026-03-10' },
+];
+let auditoria = [];
+let filaOffline = [];
+let apiOnline = true;
+let nextAlunoId = 5;
+
+const $ = id => document.getElementById(id);
+const fmtDate = d => new Date(d).toLocaleString('pt-BR');
+const getAluno = id => alunos.find(a => a.id == id);
+
+function toast(msg, type='success') {
+  const t = $('toast');
+  const colors = {
+    success: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-300',
+    error:   'bg-red-500/15 border-red-500/30 text-red-300',
+    info:    'bg-brand-500/15 border-brand-500/30 text-brand-300'
+  };
+  t.className = `fixed bottom-6 right-6 px-5 py-3 rounded-xl border shadow-2xl backdrop-blur-md transition-all z-50 ${colors[type]} opacity-100 translate-y-0`;
+  t.textContent = msg;
+  setTimeout(() => {
+    t.className = 'fixed bottom-6 right-6 px-5 py-3 rounded-xl border shadow-2xl backdrop-blur-md opacity-0 translate-y-4 transition-all z-50 pointer-events-none';
+  }, 2500);
+}
+
+function atualizarStatusAluno(a) {
+  const hoje = new Date().toISOString().slice(0,10);
+  if (a.validade < hoje) a.status = 'inadimplente';
+  else if (a.status === 'inadimplente') a.status = 'ativo';
+}
+
+// ===== Login =====
+function doLogin() {
+  const email = $('loginEmail').value;
+  const pwd = $('loginPwd').value;
+  const err = $('loginError');
+  if (email === 'admin@academia.com' && pwd === 'admin123') {
+    err.classList.add('hidden');
+    $('loginPage').classList.add('hidden');
+    $('appPage').classList.remove('hidden');
+    renderAll();
+  } else {
+    err.textContent = 'Credenciais inválidas';
+    err.classList.remove('hidden');
+  }
+}
+function doLogout() {
+  $('appPage').classList.add('hidden');
+  $('loginPage').classList.remove('hidden');
+}
+
+// ===== Nav =====
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+    btn.classList.add('active');
+    const page = $('page-' + btn.dataset.page);
+    page.classList.remove('hidden');
+    page.classList.remove('animate-slide-up');
+    void page.offsetWidth;
+    page.classList.add('animate-slide-up');
+    renderAll();
+  });
+});
+document.querySelector('.nav-btn').classList.add('active');
+
+// ===== API toggle =====
+$('apiToggle').addEventListener('change', e => {
+  apiOnline = e.target.checked;
+  const cls = apiOnline ? 'bg-emerald-500' : 'bg-red-500';
+  $('apiDot').className = `w-2 h-2 rounded-full shadow-md ${cls}`;
+  $('apiStatus').textContent = apiOnline ? 'API Online' : 'API Offline';
+  $('connDot').className = `w-3 h-3 rounded-full shadow-md ${cls}`;
+  $('connText').textContent = apiOnline ? 'API Online' : 'API Offline (usando cache local)';
+});
+
+// ===== US01/US02 =====
+function validarAcesso() {
+  const aluno = getAluno($('alunoSelect').value);
+  if (!aluno) return;
+  alunos.forEach(atualizarStatusAluno);
+
+  let liberado = true, motivo = 'OK — pagamento em dia';
+  if (aluno.bloqueado) { liberado = false; motivo = 'Aluno bloqueado manualmente'; }
+  else if (aluno.status === 'inadimplente') { liberado = false; motivo = 'Pagamento vencido'; }
+  else if (aluno.validade < new Date().toISOString().slice(0,10)) { liberado = false; motivo = 'Plano expirado'; }
+
+  const display = $('catracaDisplay');
+  if (liberado) {
+    display.className = 'rounded-xl p-10 text-center border-2 border-emerald-500 bg-emerald-500/10 transition-all shadow-lg shadow-emerald-500/30';
+    $('catracaIcon').textContent = '✅';
+    $('catracaMsg').textContent = 'ACESSO LIBERADO';
+    $('catracaMsg').className = 'text-2xl font-bold text-emerald-400 mb-1';
+  } else {
+    display.className = 'rounded-xl p-10 text-center border-2 border-red-500 bg-red-500/10 transition-all shadow-lg shadow-red-500/30';
+    $('catracaIcon').textContent = '⛔';
+    $('catracaMsg').textContent = 'ACESSO NEGADO';
+    $('catracaMsg').className = 'text-2xl font-bold text-red-400 mb-1';
+  }
+  $('catracaSub').textContent = `${aluno.nome} — ${motivo}`;
+
+  const evt = {
+    dataHora: new Date().toISOString(),
+    alunoId: aluno.id,
+    alunoNome: aluno.nome,
+    resultado: liberado ? 'liberado' : 'negado',
+    motivo,
+    origem: apiOnline ? 'API' : 'Cache Local'
+  };
+  auditoria.unshift(evt);
+  if (!apiOnline) filaOffline.push(evt);
+  renderAll();
+}
+function resetCatraca() {
+  $('catracaDisplay').className = 'rounded-xl p-10 text-center border-2 border-slate-700 bg-slate-900/40 transition-all';
+  $('catracaIcon').textContent = '🚪';
+  $('catracaMsg').textContent = 'Aguardando...';
+  $('catracaMsg').className = 'text-2xl font-bold text-white mb-1';
+  $('catracaSub').textContent = 'Aproxime sua credencial';
+}
+
+// ===== US04 =====
+function cadastrarAluno() {
+  const nome = $('novoNome').value.trim();
+  const cpf  = $('novoCpf').value.trim();
+  const plano = $('novoPlano').value;
+  if (!nome || !cpf) { toast('Nome e CPF são obrigatórios', 'error'); return; }
+  const v = new Date(); v.setMonth(v.getMonth() + (plano === 'Anual' ? 12 : plano === 'Trimestral' ? 3 : 1));
+  alunos.push({
+    id: nextAlunoId++, nome, cpf, plano,
+    nasc: $('novoNasc').value,
+    email: $('novoEmail').value.trim(),
+    tel: $('novoTel').value.trim(),
+    endereco: $('novoEnd').value.trim(),
+    cidade: $('novoCidade').value.trim(),
+    cep: $('novoCep').value.trim(),
+    emergencia: $('novoEmerg').value.trim(),
+    validade: v.toISOString().slice(0,10), status: 'ativo', bloqueado: false
+  });
+  ['novoNome','novoCpf','novoNasc','novoEmail','novoTel','novoEnd','novoCidade','novoCep','novoEmerg']
+    .forEach(id => $(id).value = '');
+  toast('Aluno cadastrado com status ativo');
+  renderAll();
+}
+function removerAluno(id) { alunos = alunos.filter(a => a.id !== id); renderAll(); }
+function toggleBloqueio(id) {
+  const a = getAluno(id);
+  a.bloqueado = !a.bloqueado;
+  toast(a.bloqueado ? 'Aluno bloqueado' : 'Aluno desbloqueado', 'info');
+  renderAll();
+}
+
+// ===== US03 =====
+function registrarPagamento() {
+  const id = parseInt($('pagAluno').value);
+  const aluno = getAluno(id);
+  const valor = parseFloat($('pagValor').value);
+  const validade = $('pagValidade').value;
+  if (!aluno || !valor || !validade) { toast('Preencha todos os campos', 'error'); return; }
+  pagamentos.unshift({ data: new Date().toISOString().slice(0,10), alunoId: id, valor, validade });
+  aluno.validade = validade;
+  aluno.status = 'ativo';
+  toast('Pagamento registrado — aluno ativo');
+  renderAll();
+}
+
+// ===== US05 =====
+function sincronizar() {
+  if (!apiOnline) { toast('API offline, não é possível sincronizar', 'error'); return; }
+  if (filaOffline.length === 0) { toast('Nenhum evento pendente', 'info'); return; }
+  const n = filaOffline.length;
+  filaOffline = [];
+  toast(`${n} evento(s) sincronizado(s) com a API`);
+  renderAll();
+}
+
+// ===== Filtros =====
+function limparFiltros() {
+  $('filtroAluno').value = '';
+  $('filtroResultado').value = '';
+  renderAuditoria();
+}
+
+// ===== Render =====
+function renderAlunoSelects() {
+  const opts = alunos.map(a => `<option value="${a.id}">${a.nome}</option>`).join('');
+  $('alunoSelect').innerHTML = opts;
+  $('pagAluno').innerHTML = opts;
+}
+function renderAlunos() {
+  alunos.forEach(atualizarStatusAluno);
+  $('alunosTable').innerHTML = alunos.map(a => {
+    const statusKey = a.bloqueado ? 'bloqueado' : a.status;
+    const initials = a.nome.split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase();
+    return `<tr class="hover:bg-slate-800/30 transition">
+      <td class="px-6 py-4">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center text-xs font-semibold text-white">${initials}</div>
+          <div>
+            <div class="font-medium text-white">${a.nome}</div>
+            <div class="text-xs text-slate-500">${a.email || '—'} ${a.tel ? '· ' + a.tel : ''}</div>
+          </div>
+        </div>
+      </td>
+      <td class="px-6 py-4 text-slate-400 text-sm">${a.cpf}</td>
+      <td class="px-6 py-4 text-sm">${a.plano}</td>
+      <td class="px-6 py-4 text-sm">${a.validade}</td>
+      <td class="px-6 py-4"><span class="badge ${statusKey}">${statusKey}</span></td>
+      <td class="px-6 py-4 text-right">
+        <button onclick="toggleBloqueio(${a.id})" class="px-3 py-1 text-xs rounded-md bg-amber-500/15 text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 transition mr-1">${a.bloqueado ? 'Desbloquear' : 'Bloquear'}</button>
+        <button onclick="removerAluno(${a.id})" class="px-3 py-1 text-xs rounded-md bg-red-500/15 text-red-300 border border-red-500/30 hover:bg-red-500/25 transition">Excluir</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+function renderPagamentos() {
+  const hoje = new Date().toISOString().slice(0,10);
+  $('pagamentosTable').innerHTML = pagamentos.map(p => {
+    const aluno = getAluno(p.alunoId);
+    const status = p.validade < hoje ? 'vencido' : 'ativo';
+    return `<tr class="hover:bg-slate-800/30 transition">
+      <td class="px-6 py-4 text-sm text-slate-400">${p.data}</td>
+      <td class="px-6 py-4 font-medium text-white">${aluno ? aluno.nome : '—'}</td>
+      <td class="px-6 py-4 text-emerald-400 font-semibold">R$ ${p.valor.toFixed(2)}</td>
+      <td class="px-6 py-4 text-sm">${p.validade}</td>
+      <td class="px-6 py-4"><span class="badge ${status}">${status}</span></td>
+    </tr>`;
+  }).join('');
+}
+function renderAuditoria() {
+  const fNome = ($('filtroAluno').value || '').toLowerCase();
+  const fRes = $('filtroResultado').value;
+  const filtrada = auditoria.filter(e =>
+    (!fNome || e.alunoNome.toLowerCase().includes(fNome)) &&
+    (!fRes || e.resultado === fRes)
+  );
+  $('auditoriaTable').innerHTML = filtrada.length ? filtrada.map(e => `
+    <tr class="hover:bg-slate-800/30 transition">
+      <td class="px-6 py-4 text-sm text-slate-400">${fmtDate(e.dataHora)}</td>
+      <td class="px-6 py-4 font-medium text-white">${e.alunoNome}</td>
+      <td class="px-6 py-4"><span class="badge ${e.resultado}">${e.resultado}</span></td>
+      <td class="px-6 py-4 text-sm text-slate-300">${e.motivo}</td>
+      <td class="px-6 py-4 text-sm">
+        <span class="px-2 py-0.5 rounded text-xs ${e.origem === 'API' ? 'bg-brand-500/15 text-brand-300' : 'bg-amber-500/15 text-amber-300'}">${e.origem}</span>
+      </td>
+    </tr>`).join('') : '<tr><td colspan="5" class="px-6 py-12 text-center text-slate-500">Nenhum acesso registrado</td></tr>';
+
+  $('statTotal').textContent = auditoria.length;
+  $('statLiberadas').textContent = auditoria.filter(e => e.resultado === 'liberado').length;
+  $('statNegadas').textContent = auditoria.filter(e => e.resultado === 'negado').length;
+}
+function renderOffline() {
+  $('pendCount').textContent = filaOffline.length;
+  $('cacheTable').innerHTML = alunos.map(a => `
+    <tr class="hover:bg-slate-800/30 transition">
+      <td class="px-6 py-4 font-medium text-white">${a.nome}</td>
+      <td class="px-6 py-4"><span class="badge ${a.bloqueado ? 'bloqueado' : a.status}">${a.bloqueado ? 'bloqueado' : a.status}</span></td>
+      <td class="px-6 py-4 text-sm text-slate-400">${new Date().toLocaleString('pt-BR')}</td>
+    </tr>`).join('');
+  $('filaTable').innerHTML = filaOffline.length ? filaOffline.map(e => `
+    <tr class="hover:bg-slate-800/30 transition">
+      <td class="px-6 py-4 text-sm text-slate-400">${fmtDate(e.dataHora)}</td>
+      <td class="px-6 py-4 font-medium text-white">${e.alunoNome}</td>
+      <td class="px-6 py-4"><span class="badge ${e.resultado}">${e.resultado}</span></td>
+      <td class="px-6 py-4"><span class="badge aguardando">aguardando</span></td>
+    </tr>`).join('') : '<tr><td colspan="4" class="px-6 py-12 text-center text-slate-500">Sem eventos pendentes</td></tr>';
+}
+function renderLogs() {
+  const dtIni = $('logDtInicio').value;
+  const dtFim = $('logDtFim').value;
+  const fNome = ($('logFiltroAluno').value || '').toLowerCase();
+  const fOri = $('logFiltroOrigem').value;
+  const filtrada = auditoria.filter(e => {
+    const d = e.dataHora.slice(0,10);
+    if (dtIni && d < dtIni) return false;
+    if (dtFim && d > dtFim) return false;
+    if (fNome && !e.alunoNome.toLowerCase().includes(fNome)) return false;
+    if (fOri && e.origem !== fOri) return false;
+    return true;
+  });
+  $('logTotal').textContent = auditoria.length;
+  $('logLiberados').textContent = auditoria.filter(e => e.resultado === 'liberado').length;
+  $('logNegados').textContent = auditoria.filter(e => e.resultado === 'negado').length;
+  $('logCache').textContent = auditoria.filter(e => e.origem === 'Cache Local').length;
+
+  $('logsTable').innerHTML = filtrada.length ? filtrada.map((e, i) => {
+    const aluno = getAluno(e.alunoId);
+    const dt = new Date(e.dataHora);
+    return `<tr class="hover:bg-slate-800/30 transition">
+      <td class="px-6 py-3 text-xs text-slate-500">#${(filtrada.length - i).toString().padStart(4,'0')}</td>
+      <td class="px-6 py-3 text-sm">${dt.toLocaleDateString('pt-BR')}</td>
+      <td class="px-6 py-3 text-sm font-mono">${dt.toLocaleTimeString('pt-BR')}</td>
+      <td class="px-6 py-3 font-medium text-white">${e.alunoNome}</td>
+      <td class="px-6 py-3 text-sm text-slate-400">${aluno ? aluno.cpf : '—'}</td>
+      <td class="px-6 py-3"><span class="badge ${e.resultado}">${e.resultado}</span></td>
+      <td class="px-6 py-3 text-sm text-slate-300">${e.motivo}</td>
+      <td class="px-6 py-3 text-sm">
+        <span class="px-2 py-0.5 rounded text-xs ${e.origem === 'API' ? 'bg-brand-500/15 text-brand-300' : 'bg-amber-500/15 text-amber-300'}">${e.origem}</span>
+      </td>
+    </tr>`;
+  }).join('') : '<tr><td colspan="8" class="px-6 py-12 text-center text-slate-500">Nenhum log encontrado</td></tr>';
+}
+function exportarCSV() {
+  if (!auditoria.length) { toast('Sem registros para exportar', 'error'); return; }
+  const header = 'Data;Hora;Aluno;CPF;Resultado;Motivo;Origem\n';
+  const rows = auditoria.map(e => {
+    const a = getAluno(e.alunoId);
+    const dt = new Date(e.dataHora);
+    return [dt.toLocaleDateString('pt-BR'), dt.toLocaleTimeString('pt-BR'), e.alunoNome, a ? a.cpf : '', e.resultado, e.motivo, e.origem].join(';');
+  }).join('\n');
+  const blob = new Blob([header + rows], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `acessos_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+  toast('CSV exportado');
+}
+function limparLogs() {
+  if (!auditoria.length) { toast('Sem logs para limpar', 'info'); return; }
+  if (!confirm('Tem certeza que deseja limpar todos os logs?')) return;
+  auditoria = [];
+  toast('Logs limpos');
+  renderAll();
+}
+
+function renderAll() {
+  renderAlunoSelects();
+  renderAlunos();
+  renderPagamentos();
+  renderAuditoria();
+  renderLogs();
+  renderOffline();
+}
+
+// ===== Tema =====
+function applyTheme(t) {
+  if (t === 'light') {
+    document.body.classList.add('light');
+    const icon = $('themeIcon'); if (icon) icon.textContent = '☀️';
+  } else {
+    document.body.classList.remove('light');
+    const icon = $('themeIcon'); if (icon) icon.textContent = '🌙';
+  }
+}
+function toggleTheme() {
+  const next = document.body.classList.contains('light') ? 'dark' : 'light';
+  localStorage.setItem('theme', next);
+  applyTheme(next);
+}
+applyTheme(localStorage.getItem('theme') || 'dark');
+
+// init
+$('pagValidade').value = new Date(Date.now() + 30*86400000).toISOString().slice(0,10);
+</script>
+
+</body>
+</html>
