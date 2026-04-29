@@ -183,34 +183,39 @@
 
   <!-- Header -->
   <header class="glass border-b border-slate-700/50 sticky top-0 z-40">
-    <div class="px-6 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center">
+    <div class="px-4 md:px-6 py-3 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center shrink-0">
           <span class="text-lg">🏋️</span>
         </div>
-        <div>
-          <h1 class="font-bold text-white text-lg leading-tight">Access Core</h1>
-          <p class="text-xs text-slate-400 leading-tight">Painel administrativo</p>
+        <div class="min-w-0">
+          <h1 class="font-bold text-white text-lg leading-tight truncate">Access Core</h1>
+          <p class="hidden md:block text-xs text-slate-400 leading-tight">Painel administrativo</p>
         </div>
       </div>
 
-      <div class="flex items-center gap-4">
-        <div class="hidden md:flex items-center gap-2 text-sm bg-slate-800/50 px-3 py-1.5 rounded-full border border-slate-700/50">
+      <div class="flex items-center gap-2 md:gap-4">
+        <div class="flex items-center gap-2 text-sm bg-slate-800/50 px-2 md:px-3 py-1.5 rounded-full border border-slate-700/50">
           <span id="apiDot" class="w-2 h-2 rounded-full bg-emerald-500 shadow-emerald-500/50 shadow-md"></span>
-          <span id="apiStatus" class="text-slate-300">API Online</span>
-          <label class="ml-2 relative inline-flex items-center cursor-pointer" title="Simular API offline">
+          <span id="apiStatus" class="hidden md:inline text-slate-300">API Online</span>
+          <label class="md:ml-2 relative inline-flex items-center cursor-pointer" title="Simular API offline">
             <input type="checkbox" id="apiToggle" checked class="sr-only peer"/>
             <div class="w-9 h-5 bg-slate-700 rounded-full peer peer-checked:bg-emerald-500 transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:w-4 after:h-4 after:transition-transform peer-checked:after:translate-x-4"></div>
           </label>
         </div>
 
-        <button id="themeToggle" onclick="toggleTheme()" title="Alternar tema" class="w-9 h-9 rounded-full bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 flex items-center justify-center transition">
+        <button id="themeToggle" onclick="toggleTheme()" title="Alternar tema" class="w-9 h-9 rounded-full bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 flex items-center justify-center transition shrink-0">
           <span id="themeIcon">🌙</span>
         </button>
 
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center text-xs font-semibold">AD</div>
-          <button onclick="doLogout()" class="text-sm text-slate-400 hover:text-white transition">Sair</button>
+        <div class="relative">
+          <button onclick="toggleUserMenu(event)" class="flex items-center gap-2 cursor-pointer">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center text-xs font-semibold text-white">AD</div>
+            <span class="hidden md:inline text-sm text-slate-400 hover:text-white transition">Sair ↓</span>
+          </button>
+          <div id="userMenu" class="hidden absolute right-0 mt-2 w-36 glass border border-slate-700/50 rounded-lg shadow-2xl py-1 z-50">
+            <button onclick="doLogout()" class="w-full text-left px-3 py-2 text-sm text-slate-300 hover:bg-slate-700/50 transition">Sair</button>
+          </div>
         </div>
       </div>
     </div>
@@ -218,7 +223,7 @@
 
   <div class="flex">
     <!-- Sidebar -->
-    <nav class="w-64 min-h-[calc(100vh-65px)] glass border-r border-slate-700/50 p-4 sticky top-[65px] self-start">
+    <nav class="hidden md:block w-64 min-h-[calc(100vh-65px)] glass border-r border-slate-700/50 p-4 sticky top-[65px] self-start">
       <div class="space-y-1">
         <button class="nav-btn w-full" data-page="catraca">
           <span class="text-lg">🚪</span> <span>Catraca</span>
@@ -253,12 +258,12 @@
     </nav>
 
     <!-- Main -->
-    <main class="flex-1 p-6 overflow-auto">
+    <main class="flex-1 p-4 md:p-6 pb-24 md:pb-6 overflow-auto min-w-0">
 
       <!-- ===== CATRACA ===== -->
       <section id="page-catraca" class="page animate-slide-up">
         <div class="mb-6">
-          <h2 class="text-2xl font-bold text-white">Validação de Acesso</h2>
+          <h2 class="text-xl md:text-2xl font-bold text-white">Validação de Acesso</h2>
           <p class="text-slate-400 text-sm">Simule a leitura de credencial na catraca</p>
         </div>
 
@@ -278,9 +283,9 @@
           </div>
 
           <div class="glass border border-slate-700/50 rounded-2xl p-6">
-            <div id="catracaDisplay" class="rounded-xl p-10 text-center border-2 border-slate-700 bg-slate-900/40 transition-all">
-              <div id="catracaIcon" class="text-7xl mb-3">🚪</div>
-              <div id="catracaMsg" class="text-2xl font-bold text-white mb-1">Aguardando...</div>
+            <div id="catracaDisplay" class="rounded-xl p-6 md:p-10 text-center border-2 border-slate-700 bg-slate-900/40 transition-all">
+              <div id="catracaIcon" class="text-5xl md:text-7xl mb-3">🚪</div>
+              <div id="catracaMsg" class="text-xl md:text-2xl font-bold text-white mb-1">Aguardando...</div>
               <div id="catracaSub" class="text-sm text-slate-400">Aproxime sua credencial</div>
             </div>
           </div>
@@ -305,7 +310,7 @@
       <!-- ===== ALUNOS ===== -->
       <section id="page-alunos" class="page hidden animate-slide-up">
         <div class="mb-6">
-          <h2 class="text-2xl font-bold text-white">Cadastro de Alunos</h2>
+          <h2 class="text-xl md:text-2xl font-bold text-white">Cadastro de Alunos</h2>
           <p class="text-slate-400 text-sm">Gerencie matrículas e status de acesso</p>
         </div>
 
@@ -357,16 +362,16 @@
               <input id="novoEmerg" placeholder="Nome e telefone" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
             </div>
           </div>
-          <button onclick="cadastrarAluno()" class="bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-brand-500/20 transition">
+          <button onclick="cadastrarAluno()" class="w-full md:w-auto bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-brand-500/20 transition">
             + Cadastrar
           </button>
         </div>
 
         <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden">
-          <div class="p-6 border-b border-slate-700/50">
+          <div class="p-4 md:p-6 border-b border-slate-700/50">
             <h3 class="text-white font-semibold">Alunos cadastrados</h3>
           </div>
-          <div class="overflow-x-auto">
+          <div class="hidden md:block overflow-x-auto">
             <table class="w-full">
               <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
                 <tr>
@@ -381,13 +386,14 @@
               <tbody id="alunosTable" class="divide-y divide-slate-700/50"></tbody>
             </table>
           </div>
+          <div id="alunosCards" class="md:hidden divide-y divide-slate-700/50"></div>
         </div>
       </section>
 
       <!-- ===== PAGAMENTOS ===== -->
       <section id="page-pagamentos" class="page hidden animate-slide-up">
         <div class="mb-6">
-          <h2 class="text-2xl font-bold text-white">Pagamentos</h2>
+          <h2 class="text-xl md:text-2xl font-bold text-white">Pagamentos</h2>
           <p class="text-slate-400 text-sm">Registre pagamentos e atualize status dos alunos</p>
         </div>
 
@@ -409,16 +415,16 @@
               <input id="pagValidade" type="date" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"/>
             </div>
           </div>
-          <button onclick="registrarPagamento()" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-emerald-500/20 transition">
+          <button onclick="registrarPagamento()" class="w-full md:w-auto bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg shadow-emerald-500/20 transition">
             💳 Registrar Pagamento
           </button>
         </div>
 
         <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden">
-          <div class="p-6 border-b border-slate-700/50">
+          <div class="p-4 md:p-6 border-b border-slate-700/50">
             <h3 class="text-white font-semibold">Histórico</h3>
           </div>
-          <div class="overflow-x-auto">
+          <div class="hidden md:block overflow-x-auto">
             <table class="w-full">
               <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
                 <tr>
@@ -432,13 +438,14 @@
               <tbody id="pagamentosTable" class="divide-y divide-slate-700/50"></tbody>
             </table>
           </div>
+          <div id="pagamentosCards" class="md:hidden divide-y divide-slate-700/50"></div>
         </div>
       </section>
 
       <!-- ===== AUDITORIA ===== -->
       <section id="page-auditoria" class="page hidden animate-slide-up">
         <div class="mb-6">
-          <h2 class="text-2xl font-bold text-white">Auditoria de Acessos</h2>
+          <h2 class="text-xl md:text-2xl font-bold text-white">Auditoria de Acessos</h2>
           <p class="text-slate-400 text-sm">Histórico completo de tentativas de acesso</p>
         </div>
 
@@ -463,7 +470,7 @@
         </div>
 
         <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden">
-          <div class="overflow-x-auto">
+          <div class="hidden md:block overflow-x-auto">
             <table class="w-full">
               <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
                 <tr>
@@ -477,6 +484,7 @@
               <tbody id="auditoriaTable" class="divide-y divide-slate-700/50"></tbody>
             </table>
           </div>
+          <div id="auditoriaCards" class="md:hidden divide-y divide-slate-700/50"></div>
         </div>
       </section>
 
@@ -484,7 +492,7 @@
       <section id="page-logs" class="page hidden animate-slide-up">
         <div class="mb-6 flex items-center justify-between flex-wrap gap-3">
           <div>
-            <h2 class="text-2xl font-bold text-white">Log de Acessos</h2>
+            <h2 class="text-xl md:text-2xl font-bold text-white">Log de Acessos</h2>
             <p class="text-slate-400 text-sm">Registro detalhado de cada passagem na catraca</p>
           </div>
           <div class="flex gap-2">
@@ -538,7 +546,7 @@
         </div>
 
         <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden">
-          <div class="overflow-x-auto">
+          <div class="hidden md:block overflow-x-auto">
             <table class="w-full">
               <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
                 <tr>
@@ -555,13 +563,14 @@
               <tbody id="logsTable" class="divide-y divide-slate-700/50"></tbody>
             </table>
           </div>
+          <div id="logsCards" class="md:hidden divide-y divide-slate-700/50"></div>
         </div>
       </section>
 
       <!-- ===== OFFLINE ===== -->
       <section id="page-offline" class="page hidden animate-slide-up">
         <div class="mb-6">
-          <h2 class="text-2xl font-bold text-white">Funcionamento Offline</h2>
+          <h2 class="text-xl md:text-2xl font-bold text-white">Funcionamento Offline</h2>
           <p class="text-slate-400 text-sm">Cache local e sincronização posterior</p>
         </div>
 
@@ -590,10 +599,10 @@
         </div>
 
         <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden mb-6">
-          <div class="p-6 border-b border-slate-700/50">
+          <div class="p-4 md:p-6 border-b border-slate-700/50">
             <h3 class="text-white font-semibold">Cache local de alunos</h3>
           </div>
-          <div class="overflow-x-auto">
+          <div class="hidden md:block overflow-x-auto">
             <table class="w-full">
               <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
                 <tr>
@@ -605,13 +614,14 @@
               <tbody id="cacheTable" class="divide-y divide-slate-700/50"></tbody>
             </table>
           </div>
+          <div id="cacheCards" class="md:hidden divide-y divide-slate-700/50"></div>
         </div>
 
         <div class="glass border border-slate-700/50 rounded-2xl overflow-hidden">
-          <div class="p-6 border-b border-slate-700/50">
+          <div class="p-4 md:p-6 border-b border-slate-700/50">
             <h3 class="text-white font-semibold">Fila de eventos offline</h3>
           </div>
-          <div class="overflow-x-auto">
+          <div class="hidden md:block overflow-x-auto">
             <table class="w-full">
               <thead class="bg-slate-900/50 text-xs uppercase text-slate-400">
                 <tr>
@@ -624,15 +634,38 @@
               <tbody id="filaTable" class="divide-y divide-slate-700/50"></tbody>
             </table>
           </div>
+          <div id="filaCards" class="md:hidden divide-y divide-slate-700/50"></div>
         </div>
       </section>
 
     </main>
   </div>
+
+  <!-- Bottom nav (mobile) -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 glass border-t border-slate-700/50 z-40 grid grid-cols-6">
+    <button class="bottom-nav-btn nav-btn" data-page="catraca">
+      <span class="text-lg">🚪</span><span>Catraca</span>
+    </button>
+    <button class="bottom-nav-btn nav-btn" data-page="alunos">
+      <span class="text-lg">👥</span><span>Alunos</span>
+    </button>
+    <button class="bottom-nav-btn nav-btn" data-page="pagamentos">
+      <span class="text-lg">💳</span><span>Pagar</span>
+    </button>
+    <button class="bottom-nav-btn nav-btn" data-page="auditoria">
+      <span class="text-lg">📋</span><span>Audit.</span>
+    </button>
+    <button class="bottom-nav-btn nav-btn" data-page="logs">
+      <span class="text-lg">📜</span><span>Logs</span>
+    </button>
+    <button class="bottom-nav-btn nav-btn" data-page="offline">
+      <span class="text-lg">📡</span><span>Sync</span>
+    </button>
+  </nav>
 </div>
 
 <!-- Toast -->
-<div id="toast" class="fixed bottom-6 right-6 px-5 py-3 rounded-xl border shadow-2xl backdrop-blur-md opacity-0 translate-y-4 transition-all z-50 pointer-events-none"></div>
+<div id="toast" class="fixed bottom-20 right-4 md:bottom-6 md:right-6 px-5 py-3 rounded-xl border shadow-2xl backdrop-blur-md opacity-0 translate-y-4 transition-all z-50 pointer-events-none"></div>
 
 <style>
   .nav-btn {
@@ -655,6 +688,23 @@
     background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(168,85,247,0.2));
     color: white;
     border: 1px solid rgba(99,102,241,0.3);
+  }
+  .bottom-nav-btn {
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 4px;
+    border-radius: 0;
+    font-size: 10px;
+    font-weight: 500;
+    text-align: center;
+    justify-content: center;
+    min-height: 56px;
+  }
+  .bottom-nav-btn.active {
+    background: linear-gradient(180deg, rgba(99,102,241,0.18), rgba(168,85,247,0.10));
+    border: none;
+    border-top: 2px solid #818cf8;
+    color: white;
   }
   .badge {
     display: inline-flex;
@@ -734,20 +784,28 @@ function doLogout() {
 }
 
 // ===== Nav =====
+function selectPage(pageKey) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll(`.nav-btn[data-page="${pageKey}"]`).forEach(b => b.classList.add('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+  const page = $('page-' + pageKey);
+  page.classList.remove('hidden');
+  page.classList.remove('animate-slide-up');
+  void page.offsetWidth;
+  page.classList.add('animate-slide-up');
+  renderAll();
+}
 document.querySelectorAll('.nav-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-    btn.classList.add('active');
-    const page = $('page-' + btn.dataset.page);
-    page.classList.remove('hidden');
-    page.classList.remove('animate-slide-up');
-    void page.offsetWidth;
-    page.classList.add('animate-slide-up');
-    renderAll();
-  });
+  btn.addEventListener('click', () => selectPage(btn.dataset.page));
 });
-document.querySelector('.nav-btn').classList.add('active');
+document.querySelectorAll('.nav-btn[data-page="catraca"]').forEach(b => b.classList.add('active'));
+
+// ===== User menu =====
+function toggleUserMenu(e) {
+  e.stopPropagation();
+  $('userMenu').classList.toggle('hidden');
+}
+document.addEventListener('click', () => $('userMenu')?.classList.add('hidden'));
 
 // ===== API toggle =====
 $('apiToggle').addEventListener('change', e => {
@@ -897,6 +955,28 @@ function renderAlunos() {
       </td>
     </tr>`;
   }).join('');
+
+  $('alunosCards').innerHTML = alunos.map(a => {
+    const statusKey = a.bloqueado ? 'bloqueado' : a.status;
+    const initials = a.nome.split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase();
+    return `<div class="p-4">
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center text-xs font-semibold text-white shrink-0">${initials}</div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between gap-2">
+            <div class="font-medium text-white truncate">${a.nome}</div>
+            <span class="badge ${statusKey} shrink-0">${statusKey}</span>
+          </div>
+          <div class="text-xs text-slate-500 mt-0.5 truncate">${a.cpf} · ${a.plano}</div>
+          <div class="text-xs text-slate-400 mt-1">Vence: ${a.validade}</div>
+          <div class="flex gap-2 mt-3">
+            <button onclick="toggleBloqueio(${a.id})" class="flex-1 px-3 py-1.5 text-xs rounded-md bg-amber-500/15 text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 transition">${a.bloqueado ? 'Desbloquear' : 'Bloquear'}</button>
+            <button onclick="removerAluno(${a.id})" class="flex-1 px-3 py-1.5 text-xs rounded-md bg-red-500/15 text-red-300 border border-red-500/30 hover:bg-red-500/25 transition">Excluir</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('') || '<div class="p-8 text-center text-slate-500 text-sm">Nenhum aluno cadastrado</div>';
 }
 function renderPagamentos() {
   const hoje = new Date().toISOString().slice(0,10);
@@ -911,6 +991,21 @@ function renderPagamentos() {
       <td class="px-6 py-4"><span class="badge ${status}">${status}</span></td>
     </tr>`;
   }).join('');
+
+  $('pagamentosCards').innerHTML = pagamentos.map(p => {
+    const aluno = getAluno(p.alunoId);
+    const status = p.validade < hoje ? 'vencido' : 'ativo';
+    return `<div class="p-4">
+      <div class="flex items-center justify-between gap-2 mb-1">
+        <div class="font-medium text-white truncate">${aluno ? aluno.nome : '—'}</div>
+        <span class="badge ${status} shrink-0">${status}</span>
+      </div>
+      <div class="flex items-center justify-between text-xs">
+        <span class="text-slate-500">${p.data} · vence ${p.validade}</span>
+        <span class="text-emerald-400 font-semibold">R$ ${p.valor.toFixed(2)}</span>
+      </div>
+    </div>`;
+  }).join('') || '<div class="p-8 text-center text-slate-500 text-sm">Nenhum pagamento</div>';
 }
 function renderAuditoria() {
   const fNome = ($('filtroAluno').value || '').toLowerCase();
@@ -930,18 +1025,41 @@ function renderAuditoria() {
       </td>
     </tr>`).join('') : '<tr><td colspan="5" class="px-6 py-12 text-center text-slate-500">Nenhum acesso registrado</td></tr>';
 
+  $('auditoriaCards').innerHTML = filtrada.length ? filtrada.map(e => `
+    <div class="p-4">
+      <div class="flex items-center justify-between gap-2 mb-1">
+        <div class="font-medium text-white truncate">${e.alunoNome}</div>
+        <span class="badge ${e.resultado} shrink-0">${e.resultado}</span>
+      </div>
+      <div class="text-xs text-slate-400 mb-1">${e.motivo}</div>
+      <div class="flex items-center justify-between text-xs text-slate-500">
+        <span>${fmtDate(e.dataHora)}</span>
+        <span class="px-2 py-0.5 rounded ${e.origem === 'API' ? 'bg-brand-500/15 text-brand-300' : 'bg-amber-500/15 text-amber-300'}">${e.origem}</span>
+      </div>
+    </div>`).join('') : '<div class="p-8 text-center text-slate-500 text-sm">Nenhum acesso registrado</div>';
+
   $('statTotal').textContent = auditoria.length;
   $('statLiberadas').textContent = auditoria.filter(e => e.resultado === 'liberado').length;
   $('statNegadas').textContent = auditoria.filter(e => e.resultado === 'negado').length;
 }
 function renderOffline() {
   $('pendCount').textContent = filaOffline.length;
+  const agora = new Date().toLocaleString('pt-BR');
   $('cacheTable').innerHTML = alunos.map(a => `
     <tr class="hover:bg-slate-800/30 transition">
       <td class="px-6 py-4 font-medium text-white">${a.nome}</td>
       <td class="px-6 py-4"><span class="badge ${a.bloqueado ? 'bloqueado' : a.status}">${a.bloqueado ? 'bloqueado' : a.status}</span></td>
-      <td class="px-6 py-4 text-sm text-slate-400">${new Date().toLocaleString('pt-BR')}</td>
+      <td class="px-6 py-4 text-sm text-slate-400">${agora}</td>
     </tr>`).join('');
+  $('cacheCards').innerHTML = alunos.map(a => `
+    <div class="p-4">
+      <div class="flex items-center justify-between gap-2">
+        <div class="font-medium text-white truncate">${a.nome}</div>
+        <span class="badge ${a.bloqueado ? 'bloqueado' : a.status} shrink-0">${a.bloqueado ? 'bloqueado' : a.status}</span>
+      </div>
+      <div class="text-xs text-slate-500 mt-1">Atualizado: ${agora}</div>
+    </div>`).join('');
+
   $('filaTable').innerHTML = filaOffline.length ? filaOffline.map(e => `
     <tr class="hover:bg-slate-800/30 transition">
       <td class="px-6 py-4 text-sm text-slate-400">${fmtDate(e.dataHora)}</td>
@@ -949,6 +1067,17 @@ function renderOffline() {
       <td class="px-6 py-4"><span class="badge ${e.resultado}">${e.resultado}</span></td>
       <td class="px-6 py-4"><span class="badge aguardando">aguardando</span></td>
     </tr>`).join('') : '<tr><td colspan="4" class="px-6 py-12 text-center text-slate-500">Sem eventos pendentes</td></tr>';
+  $('filaCards').innerHTML = filaOffline.length ? filaOffline.map(e => `
+    <div class="p-4">
+      <div class="flex items-center justify-between gap-2 mb-1">
+        <div class="font-medium text-white truncate">${e.alunoNome}</div>
+        <span class="badge aguardando shrink-0">aguardando</span>
+      </div>
+      <div class="flex items-center justify-between text-xs text-slate-500">
+        <span>${fmtDate(e.dataHora)}</span>
+        <span class="badge ${e.resultado}">${e.resultado}</span>
+      </div>
+    </div>`).join('') : '<div class="p-8 text-center text-slate-500 text-sm">Sem eventos pendentes</div>';
 }
 function renderLogs() {
   const dtIni = $('logDtInicio').value;
@@ -984,6 +1113,23 @@ function renderLogs() {
       </td>
     </tr>`;
   }).join('') : '<tr><td colspan="8" class="px-6 py-12 text-center text-slate-500">Nenhum log encontrado</td></tr>';
+
+  $('logsCards').innerHTML = filtrada.length ? filtrada.map((e, i) => {
+    const aluno = getAluno(e.alunoId);
+    const dt = new Date(e.dataHora);
+    return `<div class="p-4">
+      <div class="flex items-center justify-between gap-2 mb-1">
+        <div class="font-medium text-white truncate">#${(filtrada.length - i).toString().padStart(4,'0')} · ${e.alunoNome}</div>
+        <span class="badge ${e.resultado} shrink-0">${e.resultado}</span>
+      </div>
+      <div class="text-xs text-slate-400 mb-1">${e.motivo}</div>
+      <div class="flex items-center justify-between text-xs text-slate-500">
+        <span>${dt.toLocaleDateString('pt-BR')} ${dt.toLocaleTimeString('pt-BR')}</span>
+        <span class="px-2 py-0.5 rounded ${e.origem === 'API' ? 'bg-brand-500/15 text-brand-300' : 'bg-amber-500/15 text-amber-300'}">${e.origem}</span>
+      </div>
+      ${aluno ? `<div class="text-xs text-slate-500 mt-1">${aluno.cpf}</div>` : ''}
+    </div>`;
+  }).join('') : '<div class="p-8 text-center text-slate-500 text-sm">Nenhum log encontrado</div>';
 }
 function exportarCSV() {
   if (!auditoria.length) { toast('Sem registros para exportar', 'error'); return; }
