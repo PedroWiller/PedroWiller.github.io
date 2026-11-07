@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Torre de Hanói</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+  <style>
+    .niveis { display: flex; gap: 8px; justify-content: center; }
+    .niveis button { flex: 1; max-width: 64px; min-height: 48px; font: 12px 'Press Start 2P', monospace; cursor: pointer;
+      color: var(--text); background: #170f2e; border: 3px solid var(--edge); border-radius: 8px; }
+    .niveis button[aria-pressed="true"] { color: #1a1033; background: var(--accent); border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main class="game" style="width: min(440px, 100%)">
+    <header class="hud">
+      <h1>🗼 Hanói</h1>
+      <div class="stats">
+        <div class="stat"><span>Jogadas</span><b id="moves">0</b></div>
+        <div class="stat"><span>Mínimo</span><b id="min">7</b></div>
+        <div class="stat"><span>Recorde</span><b id="best">-</b></div>
+      </div>
+    </header>
+
+    <div class="board">
+      <canvas id="game" width="360" height="520" style="cursor: pointer"></canvas>
+      <div id="overlay" class="overlay" hidden>
+        <p id="overlay-title"></p>
+        <button id="restart">Jogar de novo</button>
+      </div>
+    </div>
+
+    <div class="niveis" id="niveis" aria-label="Quantidade de discos"></div>
+
+    <div class="chars" id="chars" aria-label="Escolha seu personagem"></div>
+
+    <footer class="controls">
+      <a class="back" href="../index.html">← Menu</a>
+      <span>Toque num pino e depois em outro</span>
+      <span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> pinos · <kbd>R</kbd> reiniciar</span>
+    </footer>
+  </main>
+  <script src="../shared/avatars.js"></script>
+  <script src="game.js"></script>
+  <script src="../shared/retro.js"></script>
+</body>
+</html>

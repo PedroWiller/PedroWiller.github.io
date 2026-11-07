@@ -3,46 +3,7 @@ const canvas = $('stage'), ctx = canvas.getContext('2d');
 const PRIZES = [1e3, 2e3, 3e3, 4e3, 5e3, 1e4, 2e4, 3e4, 4e4, 5e4, 1e5, 2e5, 3e5, 4e5, 5e5, 1e6];
 const TIME = 30, LETTERS = 'ABCD', API = 'https://opentdb.com/api.php?amount=50&type=multiple&encode=url3986';
 
-// banco local por nível: [pergunta, certa, erradas...]
-const LOCAL = [
-  [
-    ['Qual é a capital do Brasil?', 'Brasília', 'Rio de Janeiro', 'São Paulo', 'Salvador'],
-    ['Quantos dias tem um ano bissexto?', '366', '365', '364', '360'],
-    ['Qual planeta é conhecido como Planeta Vermelho?', 'Marte', 'Júpiter', 'Vênus', 'Saturno'],
-    ['Quantas patas tem uma aranha?', '8', '6', '10', '4'],
-    ['Qual é o maior oceano da Terra?', 'Pacífico', 'Atlântico', 'Índico', 'Ártico'],
-    ['Quem pintou a Mona Lisa?', 'Leonardo da Vinci', 'Michelangelo', 'Van Gogh', 'Picasso'],
-    ['Quanto é 7 x 8?', '56', '54', '48', '64'],
-    ['Em que continente fica o Egito?', 'África', 'Ásia', 'Europa', 'Oceania'],
-    ['Qual gás as plantas absorvem na fotossíntese?', 'Gás carbônico', 'Oxigênio', 'Hidrogênio', 'Nitrogênio'],
-    ['Quantas cores tem o arco-íris, tradicionalmente?', '7', '5', '6', '9'],
-  ],
-  [
-    ['Em que ano os portugueses chegaram ao Brasil?', '1500', '1492', '1530', '1822'],
-    ['Qual é o símbolo químico do ouro?', 'Au', 'Ag', 'Ou', 'Fe'],
-    ['Quem escreveu "Dom Casmurro"?', 'Machado de Assis', 'José de Alencar', 'Jorge Amado', 'Clarice Lispector'],
-    ['Qual é o segundo maior país da América do Sul em área?', 'Argentina', 'Peru', 'Colômbia', 'Bolívia'],
-    ['Quantos ossos tem o corpo humano adulto?', '206', '186', '216', '256'],
-    ['Qual é a capital da Austrália?', 'Camberra', 'Sydney', 'Melbourne', 'Perth'],
-    ['Qual é o maior planeta do Sistema Solar?', 'Júpiter', 'Saturno', 'Netuno', 'Urano'],
-    ['Em que ano foi proclamada a República no Brasil?', '1889', '1822', '1888', '1891'],
-    ['Qual a velocidade aproximada da luz no vácuo?', '300 mil km/s', '30 mil km/s', '3 mil km/s', '3 milhões de km/s'],
-    ['Qual é o idioma oficial do Suriname?', 'Holandês', 'Inglês', 'Espanhol', 'Francês'],
-  ],
-  [
-    ['Qual elemento químico tem número atômico 26?', 'Ferro', 'Cobre', 'Zinco', 'Níquel'],
-    ['Em que ano caiu o Muro de Berlim?', '1989', '1991', '1987', '1985'],
-    ['Qual é a montanha mais alta da África?', 'Kilimanjaro', 'Monte Quênia', 'Toubkal', 'Monte Stanley'],
-    ['Quem compôs as "Bachianas Brasileiras"?', 'Heitor Villa-Lobos', 'Tom Jobim', 'Carlos Gomes', 'Chiquinha Gonzaga'],
-    ['Qual é o menor osso do corpo humano?', 'Estribo', 'Bigorna', 'Martelo', 'Falange distal'],
-    ['Qual é a capital do Cazaquistão?', 'Astana', 'Almaty', 'Tashkent', 'Bishkek'],
-    ['Em que ano ocorreu a queda da Bastilha?', '1789', '1776', '1815', '1799'],
-    ['Andrew Wiles provou nos anos 1990 o último teorema de qual matemático?', 'Fermat', 'Euler', 'Gauss', 'Riemann'],
-    ['Qual é o rio mais longo da Europa?', 'Volga', 'Danúbio', 'Reno', 'Dniepre'],
-    ['Em qual planeta o dia dura mais que o próprio ano?', 'Vênus', 'Mercúrio', 'Marte', 'Netuno'],
-    ['Quem escreveu "Grande Sertão: Veredas"?', 'Guimarães Rosa', 'Graciliano Ramos', 'Euclides da Cunha', 'Rachel de Queiroz'],
-  ],
-];
+// banco local por nível (LOCAL) fica em perguntas.js
 
 const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const makeQ = (text, right, ...wrong) => { const answers = shuffle([right, ...wrong]); return { text, answers, correct: answers.indexOf(right) }; };
@@ -264,3 +225,7 @@ function draw(t) {
   requestAnimationFrame(draw);
 }
 requestAnimationFrame(draw);
+
+// auto-checagem do banco: 4 respostas diferentes e nenhuma pergunta repetida
+console.assert(LOCAL.flat().every(q => q.length === 5 && new Set(q.slice(1)).size === 4), 'pergunta com respostas inválidas');
+console.assert(new Set(LOCAL.flat().map(q => q[0])).size === LOCAL.flat().length, 'pergunta repetida');

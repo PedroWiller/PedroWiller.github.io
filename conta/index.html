@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Conta Rápida</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+  <main class="game" style="width: min(440px, 100%)">
+    <header class="hud">
+      <h1>➗ Conta Rápida</h1>
+      <div class="stats">
+        <div class="stat"><span>Pontos</span><b id="score">0</b></div>
+        <div class="stat"><span>Seguidas</span><b id="streak">0</b></div>
+        <div class="stat"><span>Tempo</span><b id="time">0</b></div>
+        <div class="stat"><span>Recorde</span><b id="best">0</b></div>
+      </div>
+    </header>
+
+    <div class="board">
+      <canvas id="game" width="360" height="520" style="cursor: pointer"></canvas>
+      <div id="overlay" class="overlay" hidden>
+        <p id="overlay-title"></p>
+        <button id="restart">Jogar de novo</button>
+      </div>
+    </div>
+
+    <div class="chars" id="chars" aria-label="Escolha seu personagem"></div>
+
+    <footer class="controls">
+      <a class="back" href="../index.html">← Menu</a>
+      <span>Toque na resposta certa</span>
+      <span><kbd>1</kbd>-<kbd>4</kbd> responder <kbd>R</kbd> reiniciar</span>
+    </footer>
+  </main>
+  <script src="../shared/avatars.js"></script>
+  <script src="game.js"></script>
+  <script src="../shared/retro.js"></script>
+</body>
+</html>

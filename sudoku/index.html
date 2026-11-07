@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sudoku</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+  <style>
+    .linha { display: flex; gap: 6px; justify-content: center; }
+    .linha button { flex: 1; min-width: 0; min-height: 48px; font: 12px 'Press Start 2P', monospace; cursor: pointer;
+      color: var(--text); background: #170f2e; border: 3px solid var(--edge); border-radius: 8px; }
+    #teclas { display: grid; grid-template-columns: repeat(5, 1fr); } /* 2 fileiras: 10 teclas numa só ficam finas demais em 360px */
+    #teclas button { font-size: 16px; }
+    #teclas button:disabled { opacity: .3; }
+    .linha button[aria-pressed="true"] { color: #1a1033; background: var(--accent); border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main class="game" style="width: min(440px, 100%)">
+    <header class="hud">
+      <h1>🔢 Sudoku</h1>
+      <div class="stats">
+        <div class="stat"><span>Erros</span><b id="errors">0</b></div>
+        <div class="stat"><span>Tempo</span><b id="time">0</b></div>
+        <div class="stat"><span>Recorde</span><b id="best">-</b></div>
+      </div>
+    </header>
+
+    <div class="board">
+      <canvas id="game" width="360" height="462" style="cursor: pointer"></canvas>
+      <div id="overlay" class="overlay" hidden>
+        <p id="overlay-title"></p>
+        <button id="restart">Novo jogo</button>
+      </div>
+    </div>
+
+    <div class="linha" id="teclas" aria-label="Números"></div>
+    <div class="linha" id="niveis" aria-label="Dificuldade"></div>
+
+    <div class="chars" id="chars" aria-label="Escolha seu personagem"></div>
+
+    <footer class="controls">
+      <a class="back" href="../index.html">← Menu</a>
+      <span>Toque numa casa e depois num número</span>
+      <span><kbd>1</kbd>-<kbd>9</kbd> número · <kbd>⌫</kbd> apagar · <kbd>R</kbd> novo</span>
+    </footer>
+  </main>
+  <script src="../shared/avatars.js"></script>
+  <script src="game.js"></script>
+  <script src="../shared/retro.js"></script>
+</body>
+</html>
