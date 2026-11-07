@@ -22,8 +22,9 @@
     .screen {
       position: fixed; inset: 0;
       display: flex; flex-direction: column; align-items: center;
-      padding: 8vh 16px 0;
+      padding: 8vh 16px 48px;
       text-align: center;
+      overflow-y: auto; /* com muitos jogos a lista passa da altura do celular */
     }
 
     .subtitle {
@@ -44,7 +45,7 @@
       background: none; border: 0; font-family: inherit; cursor: pointer;
     }
 
-    .menu { list-style: none; margin: 8vh 0 0; padding: 0; display: grid; gap: 22px; }
+    .menu { list-style: none; margin: 5vh 0 0; padding: 0; display: grid; gap: clamp(10px, 2.4vh, 22px); }
     .menu[hidden], .press[hidden] { display: none; }
     .menu a {
       position: relative;
@@ -98,6 +99,9 @@
       <li><a href="lanches/index.html">LANCHONETE<small>MONTE O LANCHE CERTO</small></a></li>
       <li><a href="velha/index.html">JOGO DA VELHA<small>VOCÊ CONTRA A CPU</small></a></li>
       <li><a href="blocos/index.html">BLOCOS<small>ENCAIXE E DANCE</small></a></li>
+      <li><a href="cobra/index.html">COBRINHA<small>COMA SEM SE MORDER</small></a></li>
+      <li><a href="memoria/index.html">MEMÓRIA<small>ACHE OS PARES</small></a></li>
+      <li><a href="torre/index.html">TORRE<small>EMPILHE ATÉ O CÉU</small></a></li>
     </ul>
   </main>
 

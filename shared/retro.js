@@ -39,6 +39,17 @@
   document.head.append(style);
   document.body.append(btn);
 
+  // botão de voltar fixo, espelhando o VISUAL; só nas páginas de jogo (as que têm o link .back pro menu)
+  const backLink = document.querySelector('.back');
+  if (backLink) {
+    const back = document.createElement('a');
+    back.className = 'retro-btn';
+    back.href = backLink.href;
+    back.textContent = '← VOLTAR';
+    back.style.cssText = 'left:12px;right:auto;text-decoration:none';
+    document.body.append(back);
+  }
+
   const label = () => { btn.textContent = 'VISUAL: ' + MODES[mode].name; };
   label();
   btn.addEventListener('click', () => {

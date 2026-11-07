@@ -100,3 +100,18 @@ function buildAvatarPicker(el, onPick) {
     el.append(btn);
   });
 }
+
+// avatar reagindo, pés em (x, ground), escala s. mood: 'idle' | 'happy' | 'sad' | 'worried' | 'meh'
+function drawMood(c, a, x, ground, s, mood, t, look = 0) {
+  let y = Math.sin(t / 400) * 1.5, dx = look, dy = 0, mouth = a.mouth;
+  if (mood === 'happy') { y = -Math.abs(Math.sin(t / 130)) * 10; mouth = 'smile'; dy = -1; }
+  if (mood === 'sad') { y = 2; mouth = 'sad'; dy = 1; dx = 0; }
+  if (mood === 'worried') { x += Math.sin(t / 35) * 1.2; mouth = 'open'; }
+  if (mood === 'meh') mouth = 'flat';
+  c.fillStyle = 'rgba(0,0,0,.3)';
+  c.beginPath(); c.ellipse(x, ground, 12 * s, 3 * s, 0, 0, Math.PI * 2); c.fill();
+  c.save(); c.translate(x, ground + y * s); c.scale(s, s);
+  drawAvatar(c, { ...a, mouth }, 0, -16, dx, dy, false);
+  if (mood === 'sad') { c.fillStyle = '#64b5f6'; for (const k of [-1, 1]) c.fillRect(k * 5 - 1, -18 + (t / 40 + (k > 0 ? 6 : 0)) % 14, 1.6, 2.6); }
+  c.restore();
+}
