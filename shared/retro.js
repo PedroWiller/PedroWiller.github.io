@@ -10,8 +10,9 @@
     // resolução cheia, relevo mais forte + correção de cor para um tom mais realista
     { name: 'PS2', w: 'full', levels: 256, relief: 2.5, shine: .3, bevel: 4,
       filter: 'saturate(.8) contrast(1.08) sepia(.18) brightness(1.02) blur(.4px)' }, // quente, suave, volume arredondado
-    { name: 'XBOX', w: 'full', levels: 256, relief: 3, shine: .8, bevel: 2.5,
-      filter: 'saturate(.75) contrast(1.2) brightness(.98) hue-rotate(-8deg)' },      // frio, "bump mapping" com brilho especular
+    // fotorrealista (o máximo que um filtro sobre desenho 2D alcança): sombra projetada, textura, bloom, grão de câmera
+    { name: 'XBOX', w: 'full', levels: 256, relief: 3, shine: .9, bevel: 2.5, photo: true,
+      filter: 'saturate(.85) contrast(1.15) brightness(1.02) hue-rotate(-6deg)' },
   ];
   const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
 
@@ -86,6 +87,15 @@
         lum = new Float32Array(w * h);
         for (let p = 0; p < lum.length; p++) lum[p] = hd[p * 4] * .3 + hd[p * 4 + 1] * .59 + hd[p * 4 + 2] * .11;
       }
+      let far;
+      if (m.photo) { // altura bem desfocada: o que está "em cima" projeta sombra macia pra baixo-direita
+        hctx.filter = 'blur(7px)';
+        hctx.clearRect(0, 0, w, h);
+        hctx.drawImage(src, 0, 0, w, h);
+        const fd = hctx.getImageData(0, 0, w, h).data;
+        far = new Float32Array(w * h);
+        for (let p = 0; p < far.length; p++) far[p] = fd[p * 4] * .3 + fd[p * 4 + 1] * .59 + fd[p * 4 + 2] * .11;
+      }
       for (let i = 0, p = 0; i < d.length; i += 4, p++) {
         const t = m.dither ? BAYER[((p / w | 0) & 3) * 4 + (p % w & 3)] / 16 - 0.5 : 0;
         let k = 1, s = 0;
@@ -95,6 +105,13 @@
           const gy = lum[p] - lum[Math.max(0, y - o) * w + x];
           k = Math.max(.45, Math.min(1.7, 1 + (gx + gy) / 160 * m.relief));
           if (m.shine) s = Math.max(0, gx + gy) * m.shine; // brilho branco nas bordas viradas pra luz
+        }
+        if (far) {
+          const x = p % w, y = p / w | 0;
+          const blocker = far[Math.max(0, y - 9) * w + Math.max(0, x - 9)] - far[p];
+          if (blocker > 0) k *= 1 - Math.min(.55, blocker / 90);           // sombra projetada
+          k *= .82 + .18 * Math.min(1, lum[p] / Math.max(1, far[p]));      // oclusão ambiente nos cantos
+          s += (Math.random() - .5) * 16;                                   // grão/textura de material
         }
         d[i] = Math.round((d[i] * k + s) / step + t) * step;
         d[i + 1] = Math.round((d[i + 1] * k + s) / step + t) * step;
@@ -107,6 +124,14 @@
         g.addColorStop(1, 'rgba(0,0,0,.55)');
         ctx.fillStyle = g;
         ctx.fillRect(0, 0, w, h);
+      }
+      if (m.photo) { // bloom: partes claras "vazam" luz como lente de câmera
+        hctx.filter = 'blur(10px) brightness(.9) contrast(1.6)';
+        hctx.clearRect(0, 0, w, h);
+        hctx.drawImage(out, 0, 0);
+        ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = .45;
+        ctx.drawImage(hmap, 0, 0);
+        ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
       }
     }
     requestAnimationFrame(frame);
