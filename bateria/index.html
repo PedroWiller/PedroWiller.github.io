@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bateria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+  <style>
+    .pads { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; touch-action: none; user-select: none; -webkit-user-select: none; }
+    .pads button { position: relative; aspect-ratio: 1; min-height: 72px; padding: 6px; cursor: pointer;
+      font: 9px/1.6 'Press Start 2P', monospace; color: var(--text); background: var(--pad, #3d2e73);
+      border: 0; border-radius: 14px; box-shadow: 0 6px 0 #120c26, inset 0 0 0 3px rgba(255,255,255,.15);
+      -webkit-tap-highlight-color: transparent; }
+    .pads button kbd { position: absolute; top: 6px; right: 8px; font-size: 8px; opacity: .6; }
+    .pads button.on { transform: translateY(4px); box-shadow: 0 2px 0 #120c26, 0 0 24px var(--pad); filter: brightness(1.5); }
+    @media (pointer: coarse) { .pads button kbd { display: none; } }
+  </style>
+</head>
+<body>
+  <main class="game" style="width: min(440px, 100%)">
+    <header class="hud">
+      <h1>🥁 Bateria</h1>
+      <div class="stats">
+        <div class="stat"><span>Batidas</span><b id="hits">0</b></div>
+        <div class="stat"><span>BPM</span><b id="bpm">-</b></div>
+      </div>
+    </header>
+
+    <div class="board">
+      <canvas id="game" width="360" height="170"></canvas>
+    </div>
+
+    <div class="pads" id="pads" aria-label="Peças da bateria"></div>
+
+    <div class="chars" id="chars" aria-label="Escolha seu personagem"></div>
+
+    <footer class="controls">
+      <a class="back" href="../index.html">← Menu</a>
+      <span>Toque nos pads (dá pra usar vários dedos)</span>
+      <span><kbd>Q</kbd><kbd>W</kbd><kbd>E</kbd> <kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> <kbd>Z</kbd><kbd>X</kbd><kbd>C</kbd> · <kbd>Espaço</kbd> bumbo</span>
+    </footer>
+  </main>
+  <script src="../shared/avatars.js"></script>
+  <script src="game.js"></script>
+  <script src="../shared/retro.js"></script>
+</body>
+</html>
