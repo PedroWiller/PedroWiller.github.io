@@ -1,6 +1,12 @@
 const $ = id => document.getElementById(id);
 const canvas = $('game'), ctx = canvas.getContext('2d');
-const W = 720, H = 480, COLS = 10, ROWS = 20, CELL = 22, BX = (W - COLS * CELL) / 2, BY = (H - ROWS * CELL) / 2;
+// celular em pé ganha um canvas vertical com tabuleiro maior e dançarinos menores nas laterais.
+// shortcut: o layout é escolhido ao abrir; girar a tela no meio do jogo só muda com recarregar.
+const PORTRAIT = innerHeight > innerWidth;
+const COLS = 10, ROWS = 20;
+const [W, H, CELL, DS] = PORTRAIT ? [400, 528, 24, 1.15] : [720, 480, 22, 2]; // DS = escala dos dançarinos
+const BX = (W - COLS * CELL) / 2, BY = (H - ROWS * CELL) / 2;
+canvas.width = W; canvas.height = H;
 const SHAPES = {
   I: [[0, 0, 0, 0], [1, 1, 1, 1]], O: [[1, 1], [1, 1]], T: [[0, 1, 0], [1, 1, 1]],
   S: [[0, 1, 1], [1, 1, 0]], Z: [[1, 1, 0], [0, 1, 1]], J: [[1, 0, 0], [1, 1, 1]], L: [[0, 0, 1], [1, 1, 1]],
@@ -8,7 +14,10 @@ const SHAPES = {
 const COLORS = { I: '#4fc3f7', O: '#ffcc33', T: '#ba68c8', S: '#66bb6a', Z: '#ef5350', J: '#5c6bc0', L: '#ff9800' };
 const POINTS = [0, 100, 300, 500, 800];
 // pistas de dança: x, y do chão e qual passo cada um faz
-const DANCERS = [[80, 190, 0], [185, 320, 1], [80, 450, 2], [640, 190, 3], [535, 320, 0], [640, 450, 1]];
+const DANCERS = PORTRAIT
+  ? [[40, 200, 0], [40, 350, 1], [40, 500, 2], [360, 200, 3], [360, 350, 0], [360, 500, 1]]
+  : [[80, 190, 0], [185, 320, 1], [80, 450, 2], [640, 190, 3], [535, 320, 0], [640, 450, 1]];
+const [NX, NY, NS] = PORTRAIT ? [360, 70, 10] : [535, 64, 16]; // centro e tamanho do quadro "próxima"
 
 let grid, piece, next, bag = [], score, lines, level, over, paused, dropAcc, last, mood, moodUntil, clearing;
 let best = 0;
@@ -136,15 +145,15 @@ function drawDancer(a, x, ground, step, i, t) {
   else { flip = Math.cos(ph / 2); y = -Math.abs(Math.sin(ph)) * 6; }           // giro
 
   ctx.fillStyle = 'rgba(0,0,0,.35)';
-  ctx.beginPath(); ctx.ellipse(sx, ground, 26, 6, 0, 0, Math.PI * 2); ctx.fill();
-  ctx.save(); ctx.translate(sx, ground + y); ctx.rotate(rot); ctx.scale(2 * flip, 2);
+  ctx.beginPath(); ctx.ellipse(sx, ground, 13 * DS, 3 * DS, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.save(); ctx.translate(sx, ground + y); ctx.rotate(rot); ctx.scale(DS * flip, DS);
   drawAvatar(ctx, { ...a, mouth }, 0, -16, dx, dy, false);
   ctx.restore();
   if (mood === 'sad') for (const s of [-1, 1]) {
     ctx.fillStyle = '#64b5f6';
-    ctx.fillRect(sx + s * 10 - 2, ground + y - 40 + (t / 12 + (s > 0 ? 15 : 0)) % 30, 3, 5);
+    ctx.fillRect(sx + s * 5 * DS - 2, ground + y - 20 * DS + (t / 12 + (s > 0 ? 15 : 0)) % (15 * DS), 3, 5);
   }
-  if (bubble) drawBubble(ctx, sx, ground + y - 92, bubble);
+  if (bubble) drawBubble(ctx, sx, ground + y - 46 * DS, bubble);
 }
 
 function draw(t) {
@@ -160,7 +169,7 @@ function draw(t) {
   const beatN = t / (speed() * 1.5) | 0;
   for (let i = 0; i < 6; i++) {
     ctx.fillStyle = `hsla(${(i * 60 + beatN * 40) % 360},80%,60%,${(beatN + i) % 2 ? .08 : .16})`;
-    ctx.beginPath(); ctx.moveTo(i * 144, 0); ctx.lineTo(i * 144 - 80, H); ctx.lineTo(i * 144 + 80, H); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(i * W / 5, 0); ctx.lineTo(i * W / 5 - 80, H); ctx.lineTo(i * W / 5 + 80, H); ctx.fill();
   }
 
   ctx.fillStyle = '#0b0b18'; ctx.fillRect(BX - 4, BY - 4, COLS * CELL + 8, ROWS * CELL + 8);
@@ -183,13 +192,13 @@ function draw(t) {
 
   // próxima peça
   ctx.font = '8px "Press Start 2P", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillStyle = '#a99fd1'; ctx.fillText('PRÓXIMA', 535, 24);
-  ctx.fillStyle = '#0b0b18'; ctx.fillRect(490, 34, 90, 60);
-  const nm = next.m, s = 16;
+  ctx.fillStyle = '#a99fd1'; ctx.fillText(PORTRAIT ? 'PRÓX' : 'PRÓXIMA', NX, NY - NS * 2.5);
+  ctx.fillStyle = '#0b0b18'; ctx.fillRect(NX - NS * 2.8, NY - NS * 1.9, NS * 5.6, NS * 3.8);
+  const nm = next.m, s = NS;
   nm.forEach((r, y) => r.forEach((v, x) => {
     if (!v) return;
-    const px = 535 - nm[0].length * s / 2 + x * s, py = 64 - nm.length * s / 2 + y * s;
-    ctx.fillStyle = COLORS[next.k]; ctx.fillRect(px, py, s - 2, s - 2);
+    const px = NX - nm[0].length * s / 2 + x * s, py = NY - nm.length * s / 2 + y * s;
+    ctx.fillStyle = COLORS[next.k]; ctx.fillRect(px, py, s - 1, s - 1);
   }));
 
   const me = AVATARS.indexOf(currentAvatar());

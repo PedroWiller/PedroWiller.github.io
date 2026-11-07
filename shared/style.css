@@ -159,3 +159,31 @@ kbd {
 
 .back { color: var(--accent); text-decoration: none; }
 .back:hover { text-decoration: underline; }
+
+/* ---------- celular / tablet ---------- */
+html { -webkit-text-size-adjust: 100%; }
+body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; } /* sem zoom de toque duplo */
+
+.pad { display: none; justify-content: space-between; align-items: center; gap: 12px; user-select: none; -webkit-user-select: none; }
+.pad > div { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.pad button {
+  min-width: 64px; min-height: 64px; padding: 0 10px; font-size: 18px;
+  color: var(--text); background: var(--panel); border: 3px solid var(--edge); box-shadow: 0 5px 0 #120c26;
+  touch-action: none;
+}
+.pad button.on { background: var(--accent); color: #1a1033; transform: translateY(3px); box-shadow: 0 2px 0 #120c26; }
+.pad .big { min-width: 84px; min-height: 84px; border-radius: 50%; font-size: 12px; }
+
+@media (max-width: 560px) {
+  body { padding: 8px; place-items: start center; }
+  .game { gap: 10px; }
+  .hud { padding: 10px 12px; }
+  h1 { font-size: 13px; }
+  .stat { min-width: 52px; padding: 6px 8px; }
+}
+
+/* toque: mostra o controle na tela e esconde a legenda de teclado */
+@media (pointer: coarse) {
+  .pad { display: flex; }
+  .controls span { display: none; }
+}

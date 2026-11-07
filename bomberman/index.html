@@ -31,6 +31,15 @@
       </div>
     </div>
 
+    <div class="pad">
+      <div style="display:grid;grid-template-columns:repeat(3,64px);gap:6px">
+        <span></span><button data-key="ArrowUp" aria-label="Cima">▲</button><span></span>
+        <button data-key="ArrowLeft" aria-label="Esquerda">◀</button><span></span><button data-key="ArrowRight" aria-label="Direita">▶</button>
+        <span></span><button data-key="ArrowDown" aria-label="Baixo">▼</button><span></span>
+      </div>
+      <div><button class="big" data-key=" ">💣</button></div>
+    </div>
+
     <footer class="controls">
       <a class="back" href="../index.html">← Menu</a>
       <span><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> / <kbd>WASD</kbd> mover</span>
@@ -40,6 +49,7 @@
   </main>
   <script src="../shared/avatars.js"></script>
   <script src="game.js"></script>
+  <script src="../shared/touch.js"></script>
   <script src="../shared/retro.js"></script>
 </body>
 </html>
