@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Violão</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+  <style>
+    .linha { display: flex; gap: 6px; }
+    .grade { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    .opcoes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .linha button, .grade button, .opcoes button, .painel select { flex: 1; min-width: 0; min-height: 48px; padding: 0 6px; cursor: pointer;
+      font: 10px 'Press Start 2P', monospace; color: var(--text); background: #170f2e; border: 3px solid var(--edge); border-radius: 8px; }
+    button[aria-pressed="true"] { color: #1a1033 !important; background: var(--accent) !important; border-color: var(--accent) !important; }
+    .opcoes button.certo { background: #2e7d32; border-color: #66bb6a; }
+    .opcoes button.errado { background: #b71c1c; border-color: #ef5350; }
+    .painel { display: flex; flex-direction: column; gap: 10px; }
+    .painel[hidden] { display: none; }
+    .dica { margin: 0; font-size: 8px; line-height: 2; color: var(--muted); }
+    .letra { max-height: 32vh; overflow-y: auto; padding: 10px; background: #170f2e; border: 3px solid var(--edge); border-radius: 8px;
+      font-size: 9px; line-height: 1; }
+    .letra p { margin: 0 0 14px; }
+    .seg { display: inline-block; vertical-align: bottom; padding-top: 16px; position: relative; white-space: pre; cursor: pointer; }
+    .seg b { position: absolute; top: 0; left: 0; color: var(--accent); }
+    .seg.atual { color: #1a1033; background: var(--accent); border-radius: 3px; }
+    .seg.atual b { color: var(--accent); }
+    #pergunta { margin: 0; text-align: center; font-size: 11px; line-height: 1.8; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main class="game" style="width: min(440px, 100%)">
+    <header class="hud">
+      <h1>🎸 Violão</h1>
+      <div class="stats">
+        <div class="stat"><span>Acertos</span><b id="score">0</b></div>
+        <div class="stat"><span>Seguidos</span><b id="streak">0</b></div>
+        <div class="stat"><span>Recorde</span><b id="best">0</b></div>
+      </div>
+    </header>
+
+    <div class="linha" id="abas">
+      <button data-modo="guia" aria-pressed="true">Acordes</button>
+      <button data-modo="musicas">Músicas</button>
+      <button data-modo="desafio">Desafio</button>
+    </div>
+
+    <div class="board">
+      <canvas id="game" width="360" height="470" style="cursor: pointer"></canvas>
+    </div>
+
+    <section class="painel" id="p-guia">
+      <div class="grade" id="acordes"></div>
+      <div class="linha"><button id="ouvir">🎵 Ouvir acorde</button></div>
+      <p class="dica">Números nas bolinhas = dedos: 1 indicador, 2 médio, 3 anelar, 4 mindinho. X = não toque a corda, O = corda solta.
+        Toque em qualquer casa do braço para ouvir a nota e ver o nome dela.</p>
+    </section>
+
+    <section class="painel" id="p-musicas" hidden>
+      <select id="musica" aria-label="Escolha a música"></select>
+      <div class="letra" id="letra"></div>
+      <div class="linha">
+        <button id="ant" aria-label="Acorde anterior">⏮</button>
+        <button id="play">▶ Tocar junto</button>
+        <button id="prox" aria-label="Próximo acorde">⏭</button>
+      </div>
+      <p class="dica">Troque de acorde quando a sílaba destacada chegar. No "Tocar junto" cada acorde dura 4 batidas: faça uma batida para baixo em cada uma. Toque numa sílaba para pular até ela.</p>
+    </section>
+
+    <section class="painel" id="p-desafio" hidden>
+      <p id="pergunta"></p>
+      <div class="opcoes" id="opcoes"></div>
+      <div class="linha"><button id="repetir">🔊 Ouvir de novo</button></div>
+    </section>
+
+    <div class="chars" id="chars" aria-label="Escolha seu personagem"></div>
+
+    <footer class="controls">
+      <a class="back" href="../index.html">← Menu</a>
+      <span>Toque no braço para ouvir as notas</span>
+      <span><kbd>←</kbd><kbd>→</kbd> acordes da música · <kbd>Espaço</kbd> tocar</span>
+    </footer>
+  </main>
+  <script src="../shared/avatars.js"></script>
+  <script src="game.js"></script>
+  <script src="../shared/retro.js"></script>
+</body>
+</html>
