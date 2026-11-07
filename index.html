@@ -1,520 +1,259 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="Política de Privacidade do PW Monitoramento — solução de monitoramento e gestão da utilização de aplicações em ambientes corporativos.">
-  <meta name="robots" content="index, follow">
-  <title>Política de Privacidade — PW Monitoramento</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arcade de Guerra</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #08080b;
-      --surface: #111116;
-      --surface-2: #18181f;
-      --border: #2a2a33;
-      --text: #e8e8ed;
-      --muted: #9b9ba8;
-      --heading: #f5f5f7;
-      --accent: #10b981;
-      --accent-soft: rgba(16, 185, 129, 0.12);
-      --accent-border: rgba(16, 185, 129, 0.28);
-      --radius: 16px;
-      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #0a0000; }
+    body { font-family: 'Press Start 2P', monospace; color: #fff; }
+
+    #bg { position: fixed; inset: 0; width: 100%; height: 100%; }
+
+    /* linhas de TV de tubo */
+    .scanlines {
+      position: fixed; inset: 0; pointer-events: none;
+      background: repeating-linear-gradient(to bottom, rgba(0,0,0,.22) 0 2px, transparent 2px 4px);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    .screen {
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 8vh 16px 0;
+      text-align: center;
     }
 
-    html {
-      scroll-behavior: smooth;
+    .subtitle {
+      margin: 22px 0 0;
+      font-size: clamp(9px, 1.8vw, 14px);
+      letter-spacing: .25em;
+      color: #ffb300;
+      text-shadow: 2px 2px 0 #6b0f00, 0 0 10px rgba(255, 120, 0, .8);
+      animation: fade-in .4s .7s both;
     }
 
-    body {
-      min-height: 100vh;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(16, 185, 129, 0.08), transparent 50%),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.7;
+    .press {
+      margin-top: 9vh;
+      font-size: clamp(12px, 2.4vw, 18px);
+      color: #fff;
+      text-shadow: 3px 3px 0 #b71c1c;
+      animation: blink 1s steps(1) infinite, fade-in .3s 1s both;
+      background: none; border: 0; font-family: inherit; cursor: pointer;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .wrap {
-      width: min(1120px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 40px 0 72px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--heading);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      text-decoration: none;
-    }
-
-    .logo:hover {
-      text-decoration: none;
-    }
-
-    .mark {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      background: #fafafa;
-      color: #0a0a0c;
-      font-size: 15px;
-      font-weight: 800;
-    }
-
-    .badge {
-      font-size: 12px;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      gap: 32px;
-      align-items: start;
-    }
-
-    .toc {
-      position: sticky;
-      top: 24px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .toc h2 {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-
-    .toc ol {
-      list-style: none;
-      display: grid;
-      gap: 6px;
-    }
-
-    .toc a {
-      display: block;
-      color: var(--text);
-      font-size: 13px;
-      line-height: 1.4;
-      padding: 6px 8px;
-      border-radius: 8px;
-    }
-
-    .toc a:hover {
-      background: var(--surface-2);
-      text-decoration: none;
-      color: var(--accent);
-    }
-
-    article {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 40px 44px 48px;
-      box-shadow: var(--shadow);
-    }
-
-    header.hero {
-      padding-bottom: 24px;
-      margin-bottom: 28px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    header.hero p.kicker {
+    .menu { list-style: none; margin: 8vh 0 0; padding: 0; display: grid; gap: 22px; }
+    .menu[hidden], .press[hidden] { display: none; }
+    .menu a {
+      position: relative;
       display: inline-block;
-      background: var(--accent-soft);
-      border: 1px solid var(--accent-border);
-      color: #6ee7b7;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 999px;
-      margin-bottom: 14px;
+      padding: 4px 8px 4px 40px;
+      font-size: clamp(13px, 2.6vw, 20px);
+      color: #cfd8dc;
+      text-decoration: none;
+      text-shadow: 3px 3px 0 #3a0000;
+    }
+    .menu a.active { color: #ffeb3b; }
+    .menu a.active::before {
+      content: '▶';
+      position: absolute; left: 6px;
+      color: #ff3d00;
+      animation: nudge .4s steps(2) infinite;
+    }
+    .menu small { display: block; margin-top: 8px; font-size: 8px; color: #ff9e80; letter-spacing: .15em; }
+
+    .footer {
+      position: fixed; bottom: 14px; left: 0; right: 0;
+      display: flex; justify-content: space-between; padding: 0 18px;
+      font-size: 9px; color: #ff8a65; text-shadow: 2px 2px 0 #300;
     }
 
-    h1 {
-      color: var(--heading);
-      font-size: clamp(1.75rem, 3vw, 2.25rem);
-      line-height: 1.2;
-      letter-spacing: -0.03em;
-      margin-bottom: 10px;
-    }
+    .flash { position: fixed; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+    .flash.on { animation: flash .7s ease-out; }
 
-    .updated {
-      color: var(--muted);
-      font-size: 14px;
-    }
+    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes fade-in { from { opacity: 0; } }
+    @keyframes nudge { 50% { transform: translateX(5px); } }
+    @keyframes flash { 0% { opacity: .95; } 100% { opacity: 0; } }
 
-    .lead {
-      margin-top: 18px;
-      color: #c9c9d4;
-    }
-
-    .lead strong {
-      color: var(--heading);
-    }
-
-    section {
-      margin-top: 32px;
-      scroll-margin-top: 24px;
-    }
-
-    h2 {
-      color: var(--heading);
-      font-size: 1.2rem;
-      letter-spacing: -0.02em;
-      margin-bottom: 12px;
-    }
-
-    p {
-      margin-bottom: 12px;
-    }
-
-    ul {
-      margin: 8px 0 16px 1.2rem;
-    }
-
-    li {
-      margin: 6px 0;
-    }
-
-    li::marker {
-      color: var(--accent);
-    }
-
-    footer.note {
-      margin-top: 40px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-    }
-
-    footer.note strong {
-      display: block;
-      color: var(--heading);
-      margin-bottom: 4px;
-    }
-
-    @media (max-width: 860px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .toc {
-        position: static;
-      }
-
-      article {
-        padding: 28px 20px 36px;
-      }
-
-      .brand {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
-    @media print {
-      body {
-        background: #fff;
-        color: #111;
-      }
-
-      .toc,
-      .brand .badge {
-        display: none;
-      }
-
-      article,
-      .toc {
-        box-shadow: none;
-        border: none;
-        background: #fff;
-      }
-
-      h1,
-      h2,
-      .lead strong,
-      footer.note strong,
-      .logo {
-        color: #111;
-      }
-
-      a {
-        color: #111;
-        text-decoration: none;
-      }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before { animation: none !important; }
     }
   </style>
 </head>
-
 <body>
-  <div class="wrap">
-    <div class="brand">
-      <a class="logo" href="./index.html">
-        <span class="mark">PW</span>
-        PW Monitoramento
-      </a>
-      <span class="badge">Política de Privacidade</span>
-    </div>
+  <canvas id="bg"></canvas>
 
-    <div class="layout">
-      <nav class="toc" aria-label="Sumário">
-        <h2>Sumário</h2>
-        <ol>
-          <li><a href="#informacoes-coletadas">1. Informações coletadas</a></li>
-          <li><a href="#informacoes-nao-coletadas">2. Informações que não são coletadas</a></li>
-          <li><a href="#finalidade">3. Finalidade do tratamento</a></li>
-          <li><a href="#ambiente-corporativo">4. Monitoramento em ambiente corporativo</a></li>
-          <li><a href="#base-legal">5. Base legal</a></li>
-          <li><a href="#compartilhamento">6. Compartilhamento de informações</a></li>
-          <li><a href="#armazenamento">7. Armazenamento e segurança</a></li>
-          <li><a href="#retencao">8. Retenção dos dados</a></li>
-          <li><a href="#direitos">9. Direitos dos titulares</a></li>
-          <li><a href="#responsabilidade">10. Responsabilidade da organização</a></li>
-          <li><a href="#alteracoes">11. Alterações desta Política</a></li>
-          <li><a href="#contato">12. Contato</a></li>
-        </ol>
-      </nav>
+  <main class="screen">
+    <p class="subtitle">★ AS GUERRAS DO ARCADE ★</p>
 
-      <article>
-        <header class="hero">
-          <p class="kicker">Documento oficial</p>
-          <h1>Política de Privacidade — PW Monitoramento</h1>
-          <p class="updated">Última atualização: 05 de setembro de 2026</p>
-          <p class="lead">
-            O <strong>PW Monitoramento</strong> é uma solução destinada ao monitoramento e acompanhamento do uso de
-            aplicações e recursos computacionais em ambientes corporativos, permitindo às organizações obter informações
-            sobre utilização de sistemas, produtividade, disponibilidade e utilização dos dispositivos.
-          </p>
-          <p class="lead">
-            Esta Política de Privacidade explica quais informações podem ser coletadas pela solução, como são
-            utilizadas, armazenadas e protegidas.
-          </p>
-        </header>
+    <button class="press" id="press">APERTE START</button>
 
-        <section id="informacoes-coletadas">
-          <h2>1. Informações coletadas</h2>
-          <p>Durante a utilização do PW Monitoramento, poderão ser coletadas informações relacionadas ao uso do
-            dispositivo e das aplicações, incluindo:</p>
-          <ul>
-            <li>Nome da aplicação ou processo em execução;</li>
-            <li>Caminho do executável da aplicação;</li>
-            <li>Data e horário de início e término da utilização;</li>
-            <li>Tempo de utilização da aplicação;</li>
-            <li>Identificação do dispositivo;</li>
-            <li>Informações técnicas do dispositivo necessárias para o funcionamento da solução;</li>
-            <li>Identificação do usuário ou colaborador, quando associada ao dispositivo pela organização;</li>
-            <li>Status de execução das aplicações monitoradas.</li>
-          </ul>
-          <p>O PW Monitoramento tem como objetivo coletar informações relacionadas à <strong>utilização das
-              aplicações</strong>, não ao conteúdo produzido pelo usuário.</p>
-        </section>
+    <ul class="menu" id="menu" hidden>
+      <li><a href="bomberman/index.html" class="active">BOMBER<small>BOMBAS NO LABIRINTO</small></a></li>
+      <li><a href="turbo/index.html">TURBO RUN<small>CORRIDA EM ALTA VELOCIDADE</small></a></li>
+      <li><a href="quiz/index.html">RUMO AO MILHÃO<small>QUIZ VALENDO 1 MILHÃO</small></a></li>
+      <li><a href="lanches/index.html">LANCHONETE<small>MONTE O LANCHE CERTO</small></a></li>
+      <li><a href="velha/index.html">JOGO DA VELHA<small>VOCÊ CONTRA A CPU</small></a></li>
+      <li><a href="blocos/index.html">BLOCOS<small>ENCAIXE E DANCE</small></a></li>
+    </ul>
+  </main>
 
-        <section id="informacoes-nao-coletadas">
-          <h2>2. Informações que não são coletadas</h2>
-          <p>O PW Monitoramento não coleta, como finalidade padrão:</p>
-          <ul>
-            <li>Senhas;</li>
-            <li>Conteúdo de mensagens privadas;</li>
-            <li>Conteúdo de e-mails;</li>
-            <li>Arquivos pessoais;</li>
-            <li>Conteúdo de documentos;</li>
-            <li>Dados bancários;</li>
-            <li>Dados de cartões de crédito;</li>
-            <li>Teclas digitadas pelo usuário (keylogging);</li>
-            <li>Capturas de tela;</li>
-            <li>Áudio ou vídeo;</li>
-            <li>Conteúdo das páginas acessadas.</li>
-          </ul>
-          <p>O monitoramento está direcionado principalmente à <strong>identificação das aplicações utilizadas e do
-              respectivo tempo de utilização</strong>.</p>
-        </section>
+  <div class="footer"><span>© 2026 ESTUDOS</span><span>CREDITOS 03</span></div>
+  <div class="scanlines"></div>
+  <div class="flash" id="flash"></div>
 
-        <section id="finalidade">
-          <h2>3. Finalidade do tratamento</h2>
-          <p>As informações coletadas poderão ser utilizadas para:</p>
-          <ul>
-            <li>Gerar indicadores de utilização de aplicações;</li>
-            <li>Identificar sistemas e ferramentas utilizados;</li>
-            <li>Medir o tempo de utilização das aplicações;</li>
-            <li>Apoiar análises de produtividade e eficiência operacional;</li>
-            <li>Identificar aplicações não autorizadas ou não homologadas;</li>
-            <li>Apoiar a gestão de licenças de software;</li>
-            <li>Identificar oportunidades de otimização de recursos tecnológicos;</li>
-            <li>Gerar relatórios e indicadores gerenciais;</li>
-            <li>Apoiar a segurança e governança do ambiente corporativo;</li>
-            <li>Auxiliar no diagnóstico de problemas técnicos relacionados às aplicações.</li>
-          </ul>
-          <p>Os dados não deverão ser utilizados para finalidades incompatíveis com aquelas informadas nesta Política.
-          </p>
-        </section>
+  <script src="shared/avatars.js"></script>
+  <script>
+    const cv = document.getElementById('bg'), ctx = cv.getContext('2d');
+    const press = document.getElementById('press'), menu = document.getElementById('menu'), flashEl = document.getElementById('flash');
+    const links = [...menu.querySelectorAll('a')];
+    let W, H, horizon, buildings, booms = [], sparks = [], shake = 0, t = 0, sel = 0;
 
-        <section id="ambiente-corporativo">
-          <h2>4. Monitoramento em ambiente corporativo</h2>
-          <p>O PW Monitoramento poderá ser instalado e utilizado em dispositivos pertencentes ou administrados por uma
-            organização.</p>
-          <p>A organização responsável pela implantação poderá definir quais dispositivos e aplicações serão
-            monitorados, bem como quais usuários terão acesso às informações coletadas.</p>
-          <p>A organização é responsável por comunicar aos seus colaboradores, quando aplicável, a existência do
-            monitoramento, suas finalidades e as condições de utilização da solução.</p>
-        </section>
+    // ruído determinístico para janelas acesas (não muda a cada frame)
+    const hash = n => { const s = Math.sin(n * 127.1) * 43758.5453; return s - Math.floor(s); };
 
-        <section id="base-legal">
-          <h2>5. Base legal</h2>
-          <p>O tratamento de dados pessoais realizado por meio do PW Monitoramento deverá observar a legislação
-            aplicável, incluindo a <strong>Lei Geral de Proteção de Dados Pessoais — LGPD (Lei nº 13.709/2018)</strong>,
-            quando aplicável.</p>
-          <p>A organização responsável pelo tratamento deverá determinar a base legal adequada para cada finalidade de
-            tratamento, considerando a natureza dos dados, a finalidade e o contexto da utilização.</p>
-        </section>
+    function resize() {
+      W = cv.width = innerWidth; H = cv.height = innerHeight;
+      horizon = H * 0.8;
+      buildings = [];
+      for (let x = -10, i = 0; x < W; i++) {
+        const w = 38 + hash(i) * 70, h = H * (0.12 + hash(i + 50) * 0.3);
+        buildings.push({ x, w, h, burning: hash(i + 99) > 0.6, id: i });
+        x += w + 3;
+      }
+    }
+    addEventListener('resize', resize);
+    resize();
 
-        <section id="compartilhamento">
-          <h2>6. Compartilhamento de informações</h2>
-          <p>As informações coletadas poderão ser disponibilizadas aos usuários autorizados pela organização responsável
-            pela implantação do PW Monitoramento.</p>
-          <p>Os dados não serão comercializados.</p>
-          <p>O compartilhamento com terceiros poderá ocorrer quando necessário para:</p>
-          <ul>
-            <li>Prestação de serviços relacionados à solução;</li>
-            <li>Operação e manutenção da infraestrutura;</li>
-            <li>Atendimento de obrigações legais ou regulatórias;</li>
-            <li>Cumprimento de determinações de autoridades competentes;</li>
-            <li>Proteção dos direitos, segurança e integridade da organização e da solução.</li>
-          </ul>
-          <p>Quando houver utilização de fornecedores ou operadores para processamento dos dados, deverão ser adotadas
-            medidas técnicas e contratuais adequadas para proteção das informações.</p>
-        </section>
+    function boom(x, y, size) {
+      booms.push({ x, y, r: 0, max: size, life: 1 });
+      for (let i = 0; i < 18; i++) {
+        const a = Math.random() * Math.PI * 2, s = 1 + Math.random() * 5;
+        sparks.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 2, life: 40 + Math.random() * 30, hot: true });
+      }
+      shake = Math.min(14, shake + size / 12);
+    }
 
-        <section id="armazenamento">
-          <h2>7. Armazenamento e segurança</h2>
-          <p>As informações coletadas deverão ser armazenadas em ambientes com mecanismos de segurança compatíveis com a
-            natureza dos dados tratados.</p>
-          <p>Poderão ser utilizados mecanismos como:</p>
-          <ul>
-            <li>Controle de acesso;</li>
-            <li>Autenticação;</li>
-            <li>Criptografia;</li>
-            <li>Registro de atividades;</li>
-            <li>Segregação de permissões;</li>
-            <li>Monitoramento da infraestrutura;</li>
-            <li>Cópias de segurança;</li>
-            <li>Proteção contra acesso não autorizado.</li>
-          </ul>
-          <p>O acesso às informações deverá ser limitado às pessoas e sistemas que efetivamente necessitem delas para
-            suas atividades.</p>
-        </section>
+    function draw() {
+      t++;
+      ctx.save();
+      if (shake > 0.3) { ctx.translate((Math.random() - .5) * shake, (Math.random() - .5) * shake); shake *= 0.88; }
 
-        <section id="retencao">
-          <h2>8. Retenção dos dados</h2>
-          <p>Os dados serão mantidos pelo período necessário para cumprir as finalidades descritas nesta Política,
-            observando as necessidades operacionais, contratuais e legais da organização.</p>
-          <p>Após o término do período de retenção aplicável, os dados poderão ser eliminados ou anonimizados,
-            observadas as obrigações legais de conservação.</p>
-        </section>
+      // céu em chamas
+      const sky = ctx.createLinearGradient(0, 0, 0, horizon);
+      sky.addColorStop(0, '#0d0000'); sky.addColorStop(.45, '#5a0d00'); sky.addColorStop(.8, '#c83a00'); sky.addColorStop(1, '#ff8a00');
+      ctx.fillStyle = sky; ctx.fillRect(-20, -20, W + 40, H + 40);
 
-        <section id="direitos">
-          <h2>9. Direitos dos titulares</h2>
-          <p>Quando aplicável, os titulares de dados pessoais poderão exercer os direitos previstos na LGPD, incluindo:
-          </p>
-          <ul>
-            <li>Confirmação da existência de tratamento;</li>
-            <li>Acesso aos dados;</li>
-            <li>Correção de dados incompletos, inexatos ou desatualizados;</li>
-            <li>Solicitação de informações sobre o tratamento;</li>
-            <li>Anonimização, bloqueio ou eliminação, quando aplicável;</li>
-            <li>Portabilidade, observadas as condições legais;</li>
-            <li>Informação sobre compartilhamento de dados;</li>
-            <li>Revogação do consentimento, quando essa for a base legal utilizada;</li>
-            <li>Oposição ao tratamento, quando aplicável.</li>
-          </ul>
-          <p>As solicitações deverão ser direcionadas à organização responsável pelo tratamento dos dados ou ao canal de
-            privacidade indicado pela organização.</p>
-        </section>
+      const glow = ctx.createRadialGradient(W / 2, H * .3, 10, W / 2, H * .3, W * .5);
+      glow.addColorStop(0, `rgba(255,120,0,${.25 + Math.sin(t / 30) * .05})`); glow.addColorStop(1, 'rgba(255,60,0,0)');
+      ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
 
-        <section id="responsabilidade">
-          <h2>10. Responsabilidade da organização</h2>
-          <p>Quando o PW Monitoramento for utilizado em ambiente corporativo, a organização responsável pela implantação
-            deverá definir e comunicar:</p>
-          <ul>
-            <li>A finalidade do monitoramento;</li>
-            <li>Os dispositivos abrangidos;</li>
-            <li>As aplicações monitoradas;</li>
-            <li>Os dados efetivamente coletados;</li>
-            <li>Quem poderá acessar os dados;</li>
-            <li>Os períodos de retenção;</li>
-            <li>Os procedimentos relacionados aos direitos dos titulares.</li>
-          </ul>
-          <p>A utilização da solução deverá observar as políticas internas da organização e a legislação aplicável.</p>
-        </section>
+      // holofotes
+      for (const [bx, sp, ph] of [[W * .18, 0.011, 0], [W * .82, 0.009, 2]]) {
+        const a = -Math.PI / 2 + Math.sin(t * sp + ph) * 0.6;
+        ctx.save(); ctx.translate(bx, horizon); ctx.rotate(a);
+        const g = ctx.createLinearGradient(0, 0, H, 0);
+        g.addColorStop(0, 'rgba(255,240,200,.22)'); g.addColorStop(1, 'rgba(255,240,200,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(H * 1.1, -60); ctx.lineTo(H * 1.1, 60); ctx.fill();
+        ctx.restore();
+      }
 
-        <section id="alteracoes">
-          <h2>11. Alterações desta Política</h2>
-          <p>Esta Política de Privacidade poderá ser atualizada periodicamente para refletir alterações na solução, nos
-            processos de tratamento de dados ou na legislação aplicável.</p>
-          <p>A versão mais recente estará disponível nos canais oficiais utilizados para distribuição do PW
-            Monitoramento.</p>
-        </section>
+      // prédios e janelas
+      for (const b of buildings) {
+        const top = horizon - b.h;
+        ctx.fillStyle = '#1a0503'; ctx.fillRect(b.x, top, b.w, b.h);
+        for (let wy = top + 10, j = 0; wy < horizon - 12; wy += 16) for (let wx = b.x + 7; wx < b.x + b.w - 10; wx += 13, j++) {
+          const lit = hash(b.id * 1000 + j);
+          if (lit > .62) {
+            ctx.fillStyle = lit > .95 && (t >> 3) % 2 ? '#3a0a00' : `rgba(255,${150 + (lit * 80 | 0)},40,.85)`;
+            ctx.fillRect(wx, wy, 6, 8);
+          }
+        }
+        if (b.burning && Math.random() < .5) {
+          sparks.push({ x: b.x + Math.random() * b.w, y: top, vx: (Math.random() - .5) * .6, vy: -1 - Math.random() * 1.5, life: 40 + Math.random() * 30 });
+        }
+      }
 
-        <section id="contato">
-          <h2>12. Contato</h2>
-          <p>Para dúvidas, solicitações relacionadas à privacidade ou exercício de direitos previstos na legislação
-            aplicável, entre em contato com a organização responsável pelo tratamento dos dados ou com o canal de
-            privacidade disponibilizado por ela.</p>
-        </section>
+      // explosões aleatórias na cidade
+      if (Math.random() < .018) {
+        const b = buildings[Math.floor(Math.random() * buildings.length)];
+        boom(b.x + b.w / 2, horizon - b.h * Math.random(), 40 + Math.random() * 60);
+      }
+      booms = booms.filter(o => {
+        o.r += (o.max - o.r) * .18; o.life -= .03;
+        const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+        g.addColorStop(0, `rgba(255,255,220,${o.life})`); g.addColorStop(.4, `rgba(255,170,0,${o.life * .9})`); g.addColorStop(1, 'rgba(200,30,0,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2); ctx.fill();
+        return o.life > 0;
+      });
 
-        <footer class="note">
-          <strong>PW Monitoramento</strong>
-          Solução de monitoramento e gestão da utilização de aplicações em ambientes corporativos.
-        </footer>
-      </article>
-    </div>
-  </div>
+      sparks = sparks.filter(s => {
+        s.x += s.vx; s.y += s.vy; if (s.hot) s.vy += .12;
+        const k = s.life / 70;
+        ctx.fillStyle = k > .5 ? '#ffd54f' : k > .25 ? '#ff6d00' : '#7a1a00';
+        ctx.fillRect(s.x, s.y, s.hot ? 3 : 2, s.hot ? 3 : 2);
+        return --s.life > 0;
+      });
+
+      // escombros em primeiro plano
+      ctx.fillStyle = '#0a0101';
+      ctx.beginPath(); ctx.moveTo(-20, H + 20); ctx.lineTo(-20, horizon + 10);
+      for (let x = 0; x <= W + 20; x += 24) ctx.lineTo(x, horizon + 10 + hash(x) * 22 - (Math.abs(x - W / 2) < W * .18 ? 26 : 0));
+      ctx.lineTo(W + 20, H + 20); ctx.fill();
+
+      // heróis em cima do monte
+      const s = Math.max(1.6, Math.min(3.2, H / 260));
+      AVATARS.forEach((a, i) => {
+        ctx.save();
+        ctx.translate(W / 2 + (i - 1) * 30 * s, horizon - 4 - (i === 1 ? 6 * s : 0));
+        ctx.scale(s, s);
+        drawAvatar(ctx, a, 0, -16, 0, 0);
+        ctx.restore();
+      });
+
+      ctx.restore();
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+    setTimeout(() => boom(W / 2, H * .3, 160), 450); // explosão de abertura
+
+    // ---------- start e menu ----------
+    function flash() { flashEl.classList.remove('on'); void flashEl.offsetWidth; flashEl.classList.add('on'); }
+
+    function start() {
+      if (!menu.hidden) return;
+      flash(); boom(W / 2, H * .55, 120);
+      press.hidden = true; menu.hidden = false;
+      links[sel].focus();
+    }
+
+    function select(i) {
+      sel = (i + links.length) % links.length;
+      links.forEach((a, j) => a.classList.toggle('active', j === sel));
+      links[sel].focus();
+    }
+
+    function go(i) {
+      flash(); boom(W / 2, H / 2, 220);
+      setTimeout(() => { location.href = links[i].href; }, 500);
+    }
+
+    press.addEventListener('click', start);
+    links.forEach((a, i) => {
+      a.addEventListener('mouseenter', () => select(i));
+      a.addEventListener('click', e => { e.preventDefault(); go(i); });
+    });
+    addEventListener('keydown', e => {
+      if (menu.hidden) { if (['Enter', ' '].includes(e.key)) { e.preventDefault(); start(); } return; }
+      if (e.key === 'ArrowDown' || e.key === 's') select(sel + 1);
+      if (e.key === 'ArrowUp' || e.key === 'w') select(sel - 1);
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(sel); }
+    });
+  </script>
+  <script src="shared/retro.js"></script>
 </body>
-
 </html>

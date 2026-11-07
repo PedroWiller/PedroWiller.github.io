@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bomber Teste</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+  <main class="game">
+    <header class="hud">
+      <h1>💣 Bomber</h1>
+      <div class="stats">
+        <div class="stat"><span>🔥 Alcance</span><b id="range">2</b></div>
+        <div class="stat"><span>💣 Bombas</span><b id="bombs">1</b></div>
+        <div class="stat"><span>⚡ Veloc.</span><b id="speed">1</b></div>
+        <div class="stat"><span>Inimigos</span><b id="enemies">4</b></div>
+        <div class="stat"><span>Tempo</span><b id="time">0</b></div>
+      </div>
+    </header>
+
+    <div class="chars" id="chars" aria-label="Escolha seu personagem"></div>
+
+    <div class="board">
+      <canvas id="game" width="600" height="520"></canvas>
+      <div id="overlay" class="overlay" hidden>
+        <p id="overlay-title"></p>
+        <button id="restart">Jogar de novo</button>
+      </div>
+    </div>
+
+    <footer class="controls">
+      <a class="back" href="../index.html">← Menu</a>
+      <span><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> / <kbd>WASD</kbd> mover</span>
+      <span><kbd>Espaço</kbd> bomba</span>
+      <span><kbd>R</kbd> reiniciar</span>
+    </footer>
+  </main>
+  <script src="../shared/avatars.js"></script>
+  <script src="game.js"></script>
+  <script src="../shared/retro.js"></script>
+</body>
+</html>

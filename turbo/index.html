@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turbo Run</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+  <main class="game" style="width: min(860px, 100%)">
+    <header class="hud">
+      <h1>🌀 Turbo Run</h1>
+      <div class="stats">
+        <div class="stat"><span>💍 Anéis</span><b id="rings">0</b></div>
+        <div class="stat"><span>⏱ Tempo</span><b id="time">0</b></div>
+        <div class="stat"><span>💨 km/h</span><b id="speed">0</b></div>
+      </div>
+    </header>
+
+    <div class="chars" id="chars" aria-label="Escolha seu personagem"></div>
+
+    <div class="board">
+      <canvas id="game" width="800" height="448"></canvas>
+      <div id="overlay" class="overlay" hidden>
+        <p id="overlay-title"></p>
+        <button id="restart">Jogar de novo</button>
+      </div>
+    </div>
+
+    <footer class="controls">
+      <a class="back" href="../index.html">← Menu</a>
+      <span><kbd>←</kbd><kbd>→</kbd> / <kbd>A</kbd><kbd>D</kbd> correr</span>
+      <span><kbd>Espaço</kbd> / <kbd>↑</kbd> pular</span>
+      <span><kbd>R</kbd> reiniciar</span>
+    </footer>
+  </main>
+  <script src="../shared/avatars.js"></script>
+  <script src="game.js"></script>
+  <script src="../shared/retro.js"></script>
+</body>
+</html>

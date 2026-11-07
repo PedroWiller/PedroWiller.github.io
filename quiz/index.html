@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rumo ao Milhão</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/style.css">
+  <style>
+    .panel { display: flex; flex-direction: column; gap: 14px; padding: 18px; background: var(--panel); border: 3px solid var(--edge); border-radius: 12px; box-shadow: 0 6px 0 #120c26; }
+    .panel[hidden] { display: none; }
+    #question { margin: 0; font-size: 13px; line-height: 1.8; }
+    .answers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 560px) { .answers { grid-template-columns: 1fr; } }
+    .ans { text-align: left; font-size: 10px; line-height: 1.6; color: var(--text); background: #170f2e; box-shadow: 0 5px 0 #0b0717; }
+    .ans:disabled { opacity: .25; cursor: default; }
+    .ans.sel { background: var(--accent); color: #1a1033; animation: blink .4s steps(1) infinite; }
+    .ans.right { background: #2e7d32; color: #fff; animation: none; opacity: 1; }
+    .ans.wrong { background: #c62828; color: #fff; animation: none; }
+    .helps { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .helps button { font-size: 9px; padding: 10px 12px; }
+    .helps button:disabled { opacity: .35; cursor: default; }
+    #stop { background: #ff7043; }
+    #msg { margin: 0; min-height: 1.6em; font-size: 9px; line-height: 1.6; color: var(--muted); text-align: center; white-space: pre-line; }
+    #menu-title { margin: 0; font-size: clamp(14px, 4vw, 22px); line-height: 1.6; text-align: center; color: var(--accent); text-shadow: 3px 3px 0 #b3471d; white-space: pre-line; }
+    .menu-btns { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .stat b { font-size: 11px; }
+    @keyframes blink { 50% { filter: brightness(1.4); } }
+  </style>
+</head>
+<body>
+  <main class="game" style="width: min(860px, 100%)">
+    <header class="hud">
+      <h1>🏆 Rumo ao Milhão</h1>
+      <div class="stats">
+        <div class="stat"><span>Pergunta</span><b id="num">-</b></div>
+        <div class="stat"><span>Errar</span><b id="errar">0</b></div>
+        <div class="stat"><span>Parar</span><b id="parar">0</b></div>
+        <div class="stat"><span>Acertar</span><b id="acertar">1 MIL</b></div>
+        <div class="stat"><span>⏱</span><b id="time">-</b></div>
+      </div>
+    </header>
+
+    <div class="board"><canvas id="stage" width="800" height="220"></canvas></div>
+
+    <section class="panel" id="menu">
+      <p id="menu-title">Responda 16 perguntas
+e ganhe 1 MILHÃO!</p>
+      <div class="menu-btns">
+        <button id="play-local">Jogar (português)</button>
+        <button id="play-online">Jogar online (inglês)</button>
+      </div>
+    </section>
+
+    <section class="panel" id="quiz" hidden>
+      <p id="question"></p>
+      <div class="answers" id="answers"></div>
+      <div class="helps">
+        <button id="skip"></button>
+        <button id="cards">🃏 Cartas</button>
+        <button id="univ">🎓 Universitários</button>
+        <button id="placas">📊 Placas</button>
+        <button id="stop">✋ Parar</button>
+      </div>
+    </section>
+
+    <p id="msg"></p>
+
+    <footer class="controls">
+      <a class="back" href="../index.html">← Menu</a>
+      <span><kbd>1</kbd>-<kbd>4</kbd> / <kbd>A</kbd>-<kbd>D</kbd> responder</span>
+      <span>Online: <a class="back" href="https://opentdb.com" target="_blank" rel="noopener">Open Trivia DB</a></span>
+    </footer>
+  </main>
+  <script src="../shared/avatars.js"></script>
+  <script src="game.js"></script>
+  <script src="../shared/retro.js"></script>
+</body>
+</html>
